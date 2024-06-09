@@ -85,6 +85,7 @@
     <Build Include="dbo\Tables\ProfileFile.sql" />
     <Build Include="dbo\Tables\Coupon.sql" />
     <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Tables\SubCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeploymentScripts\InsertContry.sql" />

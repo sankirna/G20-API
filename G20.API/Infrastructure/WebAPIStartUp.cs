@@ -5,6 +5,7 @@ using G20.API.Factories.Coupons;
 using G20.API.Factories.Media;
 using G20.API.Factories.Profiles;
 using G20.API.Factories.States;
+using G20.API.Factories.SubCategories;
 using G20.Core.DbContexts;
 using G20.Core.IndentityModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -110,6 +111,7 @@ namespace G20.API.Infrastructure
             services.AddScoped<IProfileFactoryModel, ProfileFactoryModel>();
             services.AddScoped<ICouponFactoryModel, CouponFactoryModel>();
             services.AddScoped<ICategoryFactoryModel, CategoryFactoryModel>();
+            services.AddScoped<ISubCategoryFactoryModel, SubCategoryFactoryModel>();
 
         }
 

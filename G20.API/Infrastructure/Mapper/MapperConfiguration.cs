@@ -12,6 +12,7 @@ using G20.API.Models.Families;
 using G20.API.Models.Occupations;
 using G20.API.Models.Profiles;
 using G20.API.Models.States;
+using G20.API.Models.SubCategories;
 using G20.Core;
 using G20.Core.Domain;
 using G20.Framework.Models;
@@ -36,6 +37,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateOccupationMap();
             CreateCouponMap();
             CreateCategoryMap();
+            CreateSubCategoryMap();
         }
 
         public virtual void CreateCommonMap()
@@ -107,6 +109,12 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateMap<Category, CategoryModel>().ReverseMap();
             CreateMap<Category, CategoryRequestModel>().ReverseMap();
+        }
+
+        public virtual void CreateSubCategoryMap()
+        {
+            CreateMap<SubCategory, SubCategoryModel>().ReverseMap();
+            CreateMap<SubCategory, SubCategoryRequestModel>().ReverseMap();
         }
 
         public int Order => 0;
