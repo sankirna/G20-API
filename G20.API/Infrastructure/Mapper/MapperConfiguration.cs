@@ -35,6 +35,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateFamilyMap();
             CreateOccupationMap();
             CreateCouponMap();
+            CreateCategoryMap();
         }
 
         public virtual void CreateCommonMap()
