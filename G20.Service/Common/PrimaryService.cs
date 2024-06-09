@@ -41,5 +41,10 @@ namespace G20.Service.Common
         {
             return EnumHelper.ListFor<FileTypeEnum>().ToList();
         }
+
+        public List<EnumClass> GetCouponCalculateTypes()
+        {
+            return EnumHelper.ListFor<CouponCalculateType>().ToList();
+        }
     }
 }

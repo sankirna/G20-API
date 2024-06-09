@@ -5,6 +5,7 @@ using G20.API.Models.Achivements;
 using G20.API.Models.Addresss;
 using G20.API.Models.Cities;
 using G20.API.Models.Countries;
+using G20.API.Models.Coupons;
 using G20.API.Models.Educations;
 using G20.API.Models.Families;
 using G20.API.Models.Occupations;
@@ -32,6 +33,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateEducationMap();
             CreateFamilyMap();
             CreateOccupationMap();
+            CreateCouponMap();
         }
 
         public virtual void CreateCommonMap()
@@ -91,6 +93,12 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateMap<Occupation, OccupationModel>().ReverseMap();
             CreateMap<Occupation, OccupationRequestModel>().ReverseMap();
+        }
+
+        public virtual void CreateCouponMap()
+        {
+            CreateMap<Coupon, CouponModel>().ReverseMap();
+            CreateMap<Coupon, CouponRequestModel>().ReverseMap();
         }
 
         public int Order => 0;

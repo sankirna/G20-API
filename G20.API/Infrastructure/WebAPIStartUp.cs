@@ -1,5 +1,6 @@
 ﻿using G20.API.Factories.Cities;
 using G20.API.Factories.Countries;
+using G20.API.Factories.Coupons;
 using G20.API.Factories.Media;
 using G20.API.Factories.Profiles;
 using G20.API.Factories.States;
@@ -106,6 +107,7 @@ namespace G20.API.Infrastructure
             services.AddScoped<IStateFactoryModel, StateFactoryModel>();
             services.AddScoped<ICityFactoryModel, CityFactoryModel>();
             services.AddScoped<IProfileFactoryModel, ProfileFactoryModel>();
+            services.AddScoped<ICouponFactoryModel, CouponFactoryModel>();
         }
 
         public void Configure(IApplicationBuilder application)
