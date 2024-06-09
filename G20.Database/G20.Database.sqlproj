@@ -6,7 +6,7 @@
     <Name>G20.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{6777090e-aeb6-4523-815c-7b2d1d1a0bba}</ProjectGuid>
+    <ProjectGuid>{a6cc1738-0e02-4a86-9e68-a245d2e61906}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
@@ -88,6 +88,6 @@
     <PostDeploy Include="PostDeploymentScripts\InsertContry.sql" />
   </ItemGroup>
   <ItemGroup>
-    <RefactorLog Include="Matrimony.Database.refactorlog" />
+    <RefactorLog Include="G20.Database.refactorlog" />
   </ItemGroup>
 </Project>

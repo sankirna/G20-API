@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Matrimony.Core\G20.Core.csproj" />
-    <ProjectReference Include="..\Matrimony.Data\G20.Data.csproj" />
-    <ProjectReference Include="..\Matrimony.Framework\G20.Framework.csproj" />
-    <ProjectReference Include="..\Matrimony.Service\G20.Service.csproj" />
+    <ProjectReference Include="..\G20.Core\G20.Core.csproj" />
+    <ProjectReference Include="..\G20.Data\G20.Data.csproj" />
+    <ProjectReference Include="..\G20.Framework\G20.Framework.csproj" />
+    <ProjectReference Include="..\G20.Service\G20.Service.csproj" />
   </ItemGroup>
 
 </Project>
