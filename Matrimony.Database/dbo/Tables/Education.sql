@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[Education] (
+    [Id]              INT            IDENTITY (1, 1) NOT NULL,
+    [ProfileId]       INT            NOT NULL,
+    [Name]            NVARCHAR (MAX) NOT NULL,
+    [StartYear]       INT            NOT NULL,
+    [StartMonth]      INT            NOT NULL,
+    [EndYear]         INT            NULL,
+    [EndMonth]        INT            NOT NULL,
+    [IsPresent]       BIT            CONSTRAINT [DF_Education_IsPresent] DEFAULT ((0)) NOT NULL,
+    [Grade]           NVARCHAR (MAX) NULL,
+    [Percentage]      INT            NULL,
+    [Degree]          NVARCHAR (MAX) NULL,
+    [Description]     NVARCHAR (MAX) NULL,
+    [CreatedBy]       INT            NULL,
+    [CreatedDateTime] DATETIME       NULL,
+    [UpdatedBy]       INT            NULL,
+    [UpdatedDateTime] DATETIME       NULL,
+    [IsDeleted]       BIT            NULL,
+    [DisplayOrder]    INT            NULL,
+    CONSTRAINT [PK_Education] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Education_AspNetUsers] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[AspNetUsers] ([Id]),
+    CONSTRAINT [FK_Education_AspNetUsers1] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[AspNetUsers] ([Id]),
+    CONSTRAINT [FK_Education_Profile] FOREIGN KEY ([ProfileId]) REFERENCES [dbo].[Profile] ([Id])
+);
+
