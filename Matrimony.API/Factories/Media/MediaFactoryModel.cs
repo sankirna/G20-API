@@ -1,12 +1,12 @@
-﻿using Matrimony.API.Models.Media;
-using Matrimony.API.Models.Profiles;
-using Matrimony.Core;
-using Matrimony.Service.Files;
+﻿using G20.API.Models.Media;
+using G20.API.Models.Profiles;
+using G20.Core;
+using G20.Service.Files;
 using Microsoft.AspNetCore.Hosting;
 using Nop.Core.Infrastructure;
-using File = Matrimony.Core.Domain.File;
+using File = G20.Core.Domain.File;
 
-namespace Matrimony.API.Factories.Media
+namespace G20.API.Factories.Media
 {
     public class MediaFactoryModel : IMediaFactoryModel
     {

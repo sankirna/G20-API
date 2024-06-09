@@ -1,5 +1,5 @@
 ﻿
-namespace Matrimony.Core.Domain
+namespace G20.Core.Domain
 {
     public partial class ProfileFile : BaseEntity
     {

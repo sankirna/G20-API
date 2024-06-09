@@ -1,11 +1,11 @@
-﻿using Matrimony.Core;
-using Matrimony.Framework.Models;
+﻿using G20.Core;
+using G20.Framework.Models;
 using Nop.Core;
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Infrastructure.Mapper.Extensions;
+namespace G20.API.Infrastructure.Mapper.Extensions;
 
 /// <summary>
 /// Represents the extensions to map entity to model and vise versa

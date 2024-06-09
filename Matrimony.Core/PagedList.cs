@@ -1,4 +1,4 @@
-﻿namespace Matrimony.Core;
+﻿namespace G20.Core;
 
 /// <summary>
 /// Paged list

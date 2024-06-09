@@ -1,4 +1,4 @@
-﻿using Matrimony.Core.Domain;
+﻿using G20.Core.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Nop.Data.Mapping.Builders;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentMigrator.Builders.Create.Table;
 
-namespace Matrimony.Data.Mapping.Cities
+namespace G20.Data.Mapping.Cities
 {
     public partial class CityBuilder : NopEntityBuilder<City>
     {

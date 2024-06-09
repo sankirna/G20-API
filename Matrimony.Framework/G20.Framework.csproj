@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Matrimony.Core\Matrimony.Core.csproj" />
-    <ProjectReference Include="..\Matrimony.Data\Matrimony.Data.csproj" />
-    <ProjectReference Include="..\Matrimony.Service\Matrimony.Service.csproj" />
+    <ProjectReference Include="..\Matrimony.Core\G20.Core.csproj" />
+    <ProjectReference Include="..\Matrimony.Data\G20.Data.csproj" />
+    <ProjectReference Include="..\Matrimony.Service\G20.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,14 +1,14 @@
-﻿using Matrimony.API.Factories.Countries;
-using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.Countries;
-using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Service;
-using Matrimony.Service.Countries;
+﻿using G20.API.Factories.Countries;
+using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Countries;
+using G20.Core;
+using G20.Core.Domain;
+using G20.Service;
+using G20.Service.Countries;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Framework.Models.Extensions;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     public class CountryController : BaseController
     {

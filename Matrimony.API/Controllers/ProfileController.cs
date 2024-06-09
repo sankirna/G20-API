@@ -1,31 +1,31 @@
 ﻿using AutoMapper;
-using Matrimony.API.Auth;
-using Matrimony.API.Factories.Countries;
-using Matrimony.API.Factories.Profiles;
-using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.Achivements;
-using Matrimony.API.Models.Addresss;
-using Matrimony.API.Models.Countries;
-using Matrimony.API.Models.Educations;
-using Matrimony.API.Models.Families;
-using Matrimony.API.Models.Occupations;
-using Matrimony.API.Models.Profiles;
-using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Core.IndentityModels;
-using Matrimony.Service.Account;
-using Matrimony.Service.Achivements;
-using Matrimony.Service.Addresss;
-using Matrimony.Service.Countries;
-using Matrimony.Service.Educations;
-using Matrimony.Service.Families;
-using Matrimony.Service.Occupations;
-using Matrimony.Service.Profiles;
+using G20.API.Auth;
+using G20.API.Factories.Countries;
+using G20.API.Factories.Profiles;
+using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Achivements;
+using G20.API.Models.Addresss;
+using G20.API.Models.Countries;
+using G20.API.Models.Educations;
+using G20.API.Models.Families;
+using G20.API.Models.Occupations;
+using G20.API.Models.Profiles;
+using G20.Core;
+using G20.Core.Domain;
+using G20.Core.IndentityModels;
+using G20.Service.Account;
+using G20.Service.Achivements;
+using G20.Service.Addresss;
+using G20.Service.Countries;
+using G20.Service.Educations;
+using G20.Service.Families;
+using G20.Service.Occupations;
+using G20.Service.Profiles;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Profile = Matrimony.Core.Domain.Profile;
+using Profile = G20.Core.Domain.Profile;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     public class ProfileController : BaseController
     {

@@ -1,6 +1,6 @@
 ﻿using FluentMigrator.Runner;
 using FluentMigrator.Runner.Conventions;
-using Matrimony.Data;
+using G20.Data;
 
 namespace Nop.Data.Migrations;
 

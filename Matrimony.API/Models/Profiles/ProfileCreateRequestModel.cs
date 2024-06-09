@@ -1,7 +1,7 @@
-﻿using Matrimony.API.Models.Media;
-using Matrimony.Framework.Models;
+﻿using G20.API.Models.Media;
+using G20.Framework.Models;
 
-namespace Matrimony.API.Models.Profiles
+namespace G20.API.Models.Profiles
 {
     public partial record ProfileCreateRequestModel: ProfileModel
     {

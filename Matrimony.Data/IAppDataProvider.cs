@@ -1,5 +1,5 @@
 ﻿using LinqToDB.Data;
-using Matrimony.Core;
+using G20.Core;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Data
+namespace G20.Data
 {
     public partial interface IAppDataProvider
     {

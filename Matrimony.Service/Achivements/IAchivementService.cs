@@ -1,7 +1,7 @@
-﻿using Matrimony.Core.Domain;
-using Matrimony.Core;
+﻿using G20.Core.Domain;
+using G20.Core;
 
-namespace Matrimony.Service.Achivements
+namespace G20.Service.Achivements
 {
     public interface IAchivementService
     {

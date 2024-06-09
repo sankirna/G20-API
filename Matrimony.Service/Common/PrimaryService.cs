@@ -1,12 +1,12 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Enums;
+﻿using G20.Core;
+using G20.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Service.Common
+namespace G20.Service.Common
 {
     public class PrimaryService: IPrimaryService
     {

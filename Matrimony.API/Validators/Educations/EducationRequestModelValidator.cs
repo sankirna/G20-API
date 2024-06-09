@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models.Educations;
-using Matrimony.API.Models.Profiles;
+using G20.API.Models.Educations;
+using G20.API.Models.Profiles;
 
-namespace Matrimony.API.Validators.Educations
+namespace G20.API.Validators.Educations
 {
     public class EducationRequestModelValidator : AbstractValidator<EducationRequestModel>
     {

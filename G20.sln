@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrimony.API", "Matrimony.API\Matrimony.API.csproj", "{C9F57F04-5699-440A-A407-A0F3FD0C2410}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G20.API", "Matrimony.API\G20.API.csproj", "{C9F57F04-5699-440A-A407-A0F3FD0C2410}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrimony.Core", "Matrimony.Core\Matrimony.Core.csproj", "{2BD89490-F2E5-4627-9F03-8C80E3817B88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G20.Core", "Matrimony.Core\G20.Core.csproj", "{2BD89490-F2E5-4627-9F03-8C80E3817B88}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrimony.Data", "Matrimony.Data\Matrimony.Data.csproj", "{3847498C-4A6B-4056-8E5C-C586AAD4E190}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G20.Data", "Matrimony.Data\G20.Data.csproj", "{3847498C-4A6B-4056-8E5C-C586AAD4E190}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrimony.Framework", "Matrimony.Framework\Matrimony.Framework.csproj", "{524162E5-2DEA-497C-BC70-A13953BA1C7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G20.Framework", "Matrimony.Framework\G20.Framework.csproj", "{524162E5-2DEA-497C-BC70-A13953BA1C7A}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Matrimony.Database", "Matrimony.Database\Matrimony.Database.sqlproj", "{6777090E-AEB6-4523-815C-7B2D1D1A0BBA}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "G20.Database", "Matrimony.Database\G20.Database.sqlproj", "{6777090E-AEB6-4523-815C-7B2D1D1A0BBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrimony.Service", "Matrimony.Service\Matrimony.Service.csproj", "{19F522C6-FD07-4DF4-8181-5510ACF7093F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "G20.Service", "Matrimony.Service\G20.Service.csproj", "{19F522C6-FD07-4DF4-8181-5510ACF7093F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{9F404FB3-03FF-42EA-864C-7D67973836F8}"
 EndProject

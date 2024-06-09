@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Core.Enums
+namespace G20.Core.Enums
 {
     public enum RoleEnum
     {

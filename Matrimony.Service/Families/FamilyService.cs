@@ -1,8 +1,8 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Data;
+﻿using G20.Core;
+using G20.Core.Domain;
+using G20.Data;
 
-namespace Matrimony.Service.Families
+namespace G20.Service.Families
 {
     public class FamilyService : IFamilyService
     {

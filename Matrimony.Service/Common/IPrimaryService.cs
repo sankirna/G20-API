@@ -1,11 +1,11 @@
-﻿using Matrimony.Core;
+﻿using G20.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Service.Common
+namespace G20.Service.Common
 {
     public interface IPrimaryService
     {

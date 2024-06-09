@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
-using Matrimony.API.Infrastructure;
+using G20.API.Infrastructure;
 using Nop.Core.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using Matrimony.Core;
-using Matrimony.API.Infrastructure;
+using G20.Core;
+using G20.API.Infrastructure;
 
-namespace Matrimony.Framework.Filters
+namespace G20.Framework.Filters
 {
     public class APIValidationFilter : ActionFilterAttribute
     {

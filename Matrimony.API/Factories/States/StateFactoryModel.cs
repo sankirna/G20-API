@@ -1,11 +1,11 @@
-﻿using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.States;
-using Matrimony.Service.States;
+﻿using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.States;
+using G20.Service.States;
 using Nop.Web.Framework.Models.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Matrimony.API.Factories.States
+namespace G20.API.Factories.States
 {
     public class StateFactoryModel : IStateFactoryModel
     {

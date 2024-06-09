@@ -1,6 +1,6 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Educations
+namespace G20.API.Models.Educations
 {
     public partial record EducationListModel : BasePagedListModel<EducationModel>
     {

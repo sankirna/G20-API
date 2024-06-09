@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models.Addresss;
+using G20.API.Models.Addresss;
 
-namespace Matrimony.API.Validators.Addresses
+namespace G20.API.Validators.Addresses
 {
     public class AddressRequestModelValidator : AbstractValidator<AddressRequestModel>
     {

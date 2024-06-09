@@ -1,4 +1,4 @@
-﻿namespace Matrimony.API.Models
+﻿namespace G20.API.Models
 {
     public class AuthResponse
     {

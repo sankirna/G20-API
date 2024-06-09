@@ -1,11 +1,11 @@
-﻿using Matrimony.API.Infrastructure;
-using Matrimony.Framework.Filters;
-using Matrimony.Framework.Models;
+﻿using G20.API.Infrastructure;
+using G20.Framework.Filters;
+using G20.Framework.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     //[Authorize]
     [Route("api/[controller]/[Action]")]

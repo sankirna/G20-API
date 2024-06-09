@@ -1,8 +1,8 @@
 ﻿using FluentMigrator.Builders.Create.Table;
-using Matrimony.Core.Domain;
+using G20.Core.Domain;
 using Nop.Data.Mapping.Builders;
 
-namespace Matrimony.Data.Mapping.Contries
+namespace G20.Data.Mapping.Contries
 {
     public partial class CountryBuilder : NopEntityBuilder<Country>
     {

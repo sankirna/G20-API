@@ -1,6 +1,6 @@
-﻿using Matrimony.Framework.Models;
+﻿using G20.Framework.Models;
 
-namespace Matrimony.API.Models
+namespace G20.API.Models
 {
     public partial record TestResponseModel : BaseNopEntityModel
     {

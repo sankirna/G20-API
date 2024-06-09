@@ -1,6 +1,6 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Data;
+﻿using G20.Core;
+using G20.Core.Domain;
+using G20.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Pipelines.Sockets.Unofficial.SocketConnection;
 
-namespace Matrimony.Service.Profiles
+namespace G20.Service.Profiles
 {
     public class ProfileService : IProfileService
     {

@@ -3,7 +3,7 @@ using System.Security.AccessControl;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Hosting;
-using Matrimony.Core;
+using G20.Core;
 
 namespace Nop.Core.Infrastructure;
 

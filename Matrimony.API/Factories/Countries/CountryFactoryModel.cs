@@ -1,9 +1,9 @@
-﻿using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.Countries;
-using Matrimony.Service.Countries;
+﻿using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Countries;
+using G20.Service.Countries;
 using Nop.Web.Framework.Models.Extensions;
 
-namespace Matrimony.API.Factories.Countries
+namespace G20.API.Factories.Countries
 {
     public class CountryFactoryModel: ICountryFactoryModel
     {

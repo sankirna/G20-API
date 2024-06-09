@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models.Profiles;
+using G20.API.Models.Profiles;
 
-namespace Matrimony.API.Validators.Profiles
+namespace G20.API.Validators.Profiles
 {
     public class ProfileCreateRequestValidator : AbstractValidator<ProfileCreateRequestModel>
     {

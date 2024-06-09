@@ -1,10 +1,10 @@
-﻿using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.Common;
-using Matrimony.Framework.Models;
-using Matrimony.Service.Common;
+﻿using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Common;
+using G20.Framework.Models;
+using G20.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     public class CommonController : BaseController
     {

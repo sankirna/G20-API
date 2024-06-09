@@ -1,6 +1,6 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Profiles
+namespace G20.API.Models.Profiles
 {
     public partial record ProfileSearchModel : BaseSearchModel
     {

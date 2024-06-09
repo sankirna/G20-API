@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Matrimony.API.Auth
+namespace G20.API.Auth
 {
     public class LoginModel
     {

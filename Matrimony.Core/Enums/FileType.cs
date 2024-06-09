@@ -1,5 +1,5 @@
 ﻿
-namespace Matrimony.Core.Enums
+namespace G20.Core.Enums
 {
     public enum FileTypeEnum
     {

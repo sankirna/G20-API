@@ -1,6 +1,6 @@
-﻿using Matrimony.API.Models.Media;
+﻿using G20.API.Models.Media;
 
-namespace Matrimony.API.Factories.Media
+namespace G20.API.Factories.Media
 {
     public interface IMediaFactoryModel
     {

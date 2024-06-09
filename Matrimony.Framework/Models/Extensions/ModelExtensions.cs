@@ -1,4 +1,4 @@
-﻿using Matrimony.Core;
+﻿using G20.Core;
 using Nop.Core;
 
 namespace Nop.Web.Framework.Models.Extensions;

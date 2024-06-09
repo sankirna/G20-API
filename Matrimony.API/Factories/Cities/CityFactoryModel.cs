@@ -1,9 +1,9 @@
-﻿using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.Cities;
-using Matrimony.Service.Cities;
+﻿using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Cities;
+using G20.Service.Cities;
 using Nop.Web.Framework.Models.Extensions;
 
-namespace Matrimony.API.Factories.Cities
+namespace G20.API.Factories.Cities
 {
     public class CityFactoryModel : ICityFactoryModel
     {

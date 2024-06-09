@@ -1,6 +1,6 @@
-﻿using Matrimony.API.Models.Families;
+﻿using G20.API.Models.Families;
 
-namespace Matrimony.API.Models.Families
+namespace G20.API.Models.Families
 {
     public partial record FamilyRequestModel : FamilyModel
     {

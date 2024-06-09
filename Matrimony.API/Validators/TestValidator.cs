@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models;
+using G20.API.Models;
 
-namespace Matrimony.API.Validators
+namespace G20.API.Validators
 {
     public class TestValidator : AbstractValidator<TestRequestModel>
     {

@@ -1,7 +1,7 @@
-﻿using Matrimony.API.Auth;
-using Matrimony.API.Models;
-using Matrimony.Core.IndentityModels;
-using Matrimony.Service.Account;
+﻿using G20.API.Auth;
+using G20.API.Models;
+using G20.Core.IndentityModels;
+using G20.Service.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -2,7 +2,7 @@
 using System.Threading.RateLimiting;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Matrimony.Framework.Filters;
+using G20.Framework.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -358,7 +358,7 @@ public static class ServiceCollectionExtensions
         ////register all available validators from Nop assemblies
         var assemblies = mvcWebAPIBuilder.PartManager.ApplicationParts
             .OfType<AssemblyPart>()
-            .Where(part => part.Name.StartsWith("Matrimony", StringComparison.InvariantCultureIgnoreCase))
+            .Where(part => part.Name.StartsWith("G20", StringComparison.InvariantCultureIgnoreCase))
             .Select(part => part.Assembly);
         services.AddValidatorsFromAssemblies(assemblies);
 

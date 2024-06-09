@@ -1,7 +1,7 @@
 ﻿using FluentMigrator.Expressions;
 using FluentMigrator.Model;
 using FluentMigrator.Runner.Conventions;
-using Matrimony.Data;
+using G20.Data;
 
 namespace Nop.Data.Migrations;
 

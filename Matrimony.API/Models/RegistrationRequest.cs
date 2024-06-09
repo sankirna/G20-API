@@ -1,7 +1,7 @@
-﻿using Matrimony.Core.Enums;
+﻿using G20.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Matrimony.API.Models
+namespace G20.API.Models
 {
     public class RegistrationRequest
     {

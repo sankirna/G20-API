@@ -1,22 +1,22 @@
 ﻿using AutoMapper;
-using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models;
-using Matrimony.API.Models.Achivements;
-using Matrimony.API.Models.Addresss;
-using Matrimony.API.Models.Cities;
-using Matrimony.API.Models.Countries;
-using Matrimony.API.Models.Educations;
-using Matrimony.API.Models.Families;
-using Matrimony.API.Models.Occupations;
-using Matrimony.API.Models.Profiles;
-using Matrimony.API.Models.States;
-using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Framework.Models;
+using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models;
+using G20.API.Models.Achivements;
+using G20.API.Models.Addresss;
+using G20.API.Models.Cities;
+using G20.API.Models.Countries;
+using G20.API.Models.Educations;
+using G20.API.Models.Families;
+using G20.API.Models.Occupations;
+using G20.API.Models.Profiles;
+using G20.API.Models.States;
+using G20.Core;
+using G20.Core.Domain;
+using G20.Framework.Models;
 using Nop.Core.Infrastructure.Mapper;
 using Profile = AutoMapper.Profile;
 
-namespace Matrimony.API.Infrastructure.Mapper
+namespace G20.API.Infrastructure.Mapper
 {
     public partial class MapperConfiguration : Profile, IOrderedMapperProfile
     {
@@ -59,8 +59,8 @@ namespace Matrimony.API.Infrastructure.Mapper
 
         public virtual void CreateProfileMap()
         {
-            CreateMap<Matrimony.Core.Domain.Profile, ProfileModel>().ReverseMap();
-            CreateMap<Matrimony.Core.Domain.Profile, ProfileCreateRequestModel>().ReverseMap();
+            CreateMap<G20.Core.Domain.Profile, ProfileModel>().ReverseMap();
+            CreateMap<G20.Core.Domain.Profile, ProfileCreateRequestModel>().ReverseMap();
         }
 
         public virtual void CreateAchivementMap()

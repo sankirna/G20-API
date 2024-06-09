@@ -1,7 +1,7 @@
-﻿using Matrimony.Framework.Models;
+﻿using G20.Framework.Models;
 using System.Net;
 
-namespace Matrimony.API.Infrastructure
+namespace G20.API.Infrastructure
 {
     public static class APIResponseHelper
     {

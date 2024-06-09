@@ -1,12 +1,12 @@
-﻿using Matrimony.API.Factories.Media;
-using Matrimony.API.Models.Countries;
-using Matrimony.API.Models.Media;
-using Matrimony.Service.Profiles;
+﻿using G20.API.Factories.Media;
+using G20.API.Models.Countries;
+using G20.API.Models.Media;
+using G20.Service.Profiles;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Infrastructure;
 using System.Text;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     public class MediaController : BaseController
     {

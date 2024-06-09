@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Framework.Models
+namespace G20.Framework.Models
 {
     public class BaseResponseModel<T>
     {

@@ -1,6 +1,6 @@
-﻿using Matrimony.Core.Enums;
+﻿using G20.Core.Enums;
 
-namespace Matrimony.API.Models.Media
+namespace G20.API.Models.Media
 {
     public class FileUploadRequestModel
     {

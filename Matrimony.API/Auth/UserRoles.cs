@@ -1,4 +1,4 @@
-﻿namespace Matrimony.API.Auth
+﻿namespace G20.API.Auth
 {
     public static class UserRoles
     {

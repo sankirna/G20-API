@@ -1,6 +1,6 @@
-﻿using Matrimony.API.Models.Cities;
+﻿using G20.API.Models.Cities;
 
-namespace Matrimony.API.Factories.Cities
+namespace G20.API.Factories.Cities
 {
     public interface ICityFactoryModel
     {

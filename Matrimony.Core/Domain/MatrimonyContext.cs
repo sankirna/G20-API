@@ -1,17 +1,17 @@
 ﻿//using System;
 //using System.Collections.Generic;
-//using Matrimony.Core.Domain;
+//using G20.Core.Domain;
 //using Microsoft.EntityFrameworkCore;
 
-//namespace Matrimony.Core.Domain;
+//namespace G20.Core.Domain;
 
-//public partial class MatrimonyContext : DbContext
+//public partial class G20Context : DbContext
 //{
-//    public MatrimonyContext()
+//    public G20Context()
 //    {
 //    }
 
-//    public MatrimonyContext(DbContextOptions<MatrimonyContext> options)
+//    public G20Context(DbContextOptions<G20Context> options)
 //        : base(options)
 //    {
 //    }

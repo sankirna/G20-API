@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Data
+namespace G20.Data
 {
     /// <summary>
     /// Represents temporary storage

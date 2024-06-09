@@ -1,6 +1,6 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Families
+namespace G20.API.Models.Families
 {
     public partial record FamilyListModel : BasePagedListModel<FamilyModel>
     {

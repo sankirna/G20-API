@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Matrimony.Core.Domain;
+namespace G20.Core.Domain;
 
 public partial class Address : BaseEntity
 {

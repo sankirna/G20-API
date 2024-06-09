@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models.Families;
-using Matrimony.API.Models.Media;
+using G20.API.Models.Families;
+using G20.API.Models.Media;
 
-namespace Matrimony.API.Validators.Media
+namespace G20.API.Validators.Media
 {
     public class FileUploadRequestModelValidator : AbstractValidator<FileUploadRequestModel>
     {

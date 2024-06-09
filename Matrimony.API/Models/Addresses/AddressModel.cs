@@ -1,7 +1,7 @@
-﻿using Matrimony.Framework.Models;
+﻿using G20.Framework.Models;
 using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Addresss
+namespace G20.API.Models.Addresss
 {
     public partial record AddressModel : BaseNopEntityModel
     {

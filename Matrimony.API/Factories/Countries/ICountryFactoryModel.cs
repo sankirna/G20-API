@@ -1,6 +1,6 @@
-﻿using Matrimony.API.Models.Countries;
+﻿using G20.API.Models.Countries;
 
-namespace Matrimony.API.Factories.Countries
+namespace G20.API.Factories.Countries
 {
     public interface ICountryFactoryModel
     {

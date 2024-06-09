@@ -1,8 +1,8 @@
-﻿using Matrimony.API.Models.States;
-using Matrimony.Framework.Models;
+﻿using G20.API.Models.States;
+using G20.Framework.Models;
 
 
-namespace Matrimony.API.Models.Cities
+namespace G20.API.Models.Cities
 {
     public partial record CityModel : BaseNopEntityModel
     {

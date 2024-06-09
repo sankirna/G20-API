@@ -1,6 +1,6 @@
-﻿using Matrimony.API.Models.Educations;
+﻿using G20.API.Models.Educations;
 
-namespace Matrimony.API.Models.Educations
+namespace G20.API.Models.Educations
 {
     public partial record EducationRequestModel : EducationModel
     {

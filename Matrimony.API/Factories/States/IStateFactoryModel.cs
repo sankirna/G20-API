@@ -1,7 +1,7 @@
-﻿using Matrimony.API.Models.States;
+﻿using G20.API.Models.States;
 using System.Threading.Tasks;
 
-namespace Matrimony.API.Factories.States
+namespace G20.API.Factories.States
 {
     public interface IStateFactoryModel
     {

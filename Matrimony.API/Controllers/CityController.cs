@@ -1,14 +1,14 @@
-﻿using Matrimony.API.Factories.Cities;
-using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.Cities;
-using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Service.Cities;
+﻿using G20.API.Factories.Cities;
+using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Cities;
+using G20.Core;
+using G20.Core.Domain;
+using G20.Service.Cities;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Framework.Models.Extensions;
 using System.Threading.Tasks;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     public class CityController : BaseController
     {

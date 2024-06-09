@@ -1,10 +1,10 @@
-﻿using Matrimony.API.Factories.Cities;
-using Matrimony.API.Factories.Countries;
-using Matrimony.API.Factories.Media;
-using Matrimony.API.Factories.Profiles;
-using Matrimony.API.Factories.States;
-using Matrimony.Core.DbContexts;
-using Matrimony.Core.IndentityModels;
+﻿using G20.API.Factories.Cities;
+using G20.API.Factories.Countries;
+using G20.API.Factories.Media;
+using G20.API.Factories.Profiles;
+using G20.API.Factories.States;
+using G20.Core.DbContexts;
+using G20.Core.IndentityModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ using Microsoft.OpenApi.Models;
 using Nop.Core.Infrastructure;
 using System.Text;
 
-namespace Matrimony.API.Infrastructure
+namespace G20.API.Infrastructure
 {
     public class WebAPIStartUp : INopStartup
     {

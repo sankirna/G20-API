@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 
-namespace Matrimony.Core
+namespace G20.Core
 {
     public static class EnumHelper
     {

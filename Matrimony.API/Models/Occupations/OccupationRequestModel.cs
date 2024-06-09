@@ -1,6 +1,6 @@
-﻿using Matrimony.API.Models.Occupations;
+﻿using G20.API.Models.Occupations;
 
-namespace Matrimony.API.Models.Occupations
+namespace G20.API.Models.Occupations
 {
     public partial record OccupationRequestModel : OccupationModel
     {

@@ -1,12 +1,12 @@
-﻿using Matrimony.API.Factories.States;
-using Matrimony.API.Infrastructure.Mapper.Extensions;
-using Matrimony.API.Models.States;
-using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Service.States;
+﻿using G20.API.Factories.States;
+using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.States;
+using G20.Core;
+using G20.Core.Domain;
+using G20.Service.States;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Matrimony.API.Controllers
+namespace G20.API.Controllers
 {
     public class StateController : BaseController
     {

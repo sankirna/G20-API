@@ -3,7 +3,7 @@ using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider;
 using LinqToDB.DataProvider.SqlServer;
-using Matrimony.Core;
+using G20.Core;
 using Microsoft.Data.SqlClient;
 using Nop.Data.Mapping;
 
@@ -12,7 +12,7 @@ namespace Nop.Data.DataProviders;
 /// <summary>
 /// Represents the MS SQL Server data provider
 /// </summary>
-public partial class MsSqlNopDataProvider : BaseDataProvider, Matrimony.Data.IAppDataProvider
+public partial class MsSqlNopDataProvider : BaseDataProvider, G20.Data.IAppDataProvider
 {
     #region Utilities
 

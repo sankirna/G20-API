@@ -1,12 +1,12 @@
-﻿using Matrimony.API.Models.Achivements;
-using Matrimony.API.Models.Addresss;
-using Matrimony.API.Models.Educations;
-using Matrimony.API.Models.Families;
-using Matrimony.API.Models.Occupations;
-using Matrimony.Core.Domain;
-using Matrimony.Framework.Models;
+﻿using G20.API.Models.Achivements;
+using G20.API.Models.Addresss;
+using G20.API.Models.Educations;
+using G20.API.Models.Families;
+using G20.API.Models.Occupations;
+using G20.Core.Domain;
+using G20.Framework.Models;
 
-namespace Matrimony.API.Models.Profiles
+namespace G20.API.Models.Profiles
 {
     public partial record ProfileEditRequestModel : BaseNopEntityModel
     {

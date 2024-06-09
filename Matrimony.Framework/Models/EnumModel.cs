@@ -1,4 +1,4 @@
-﻿namespace Matrimony.Framework.Models
+﻿namespace G20.Framework.Models
 {
     public partial record EnumModel : BaseNopEntityModel
     {

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>Matrimony.Database</Name>
+    <Name>G20.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{6777090e-aeb6-4523-815c-7b2d1d1a0bba}</ProjectGuid>
@@ -11,8 +11,8 @@
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>Matrimony.Database</RootNamespace>
-    <AssemblyName>Matrimony.Database</AssemblyName>
+    <RootNamespace>G20.Database</RootNamespace>
+    <AssemblyName>G20.Database</AssemblyName>
     <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>

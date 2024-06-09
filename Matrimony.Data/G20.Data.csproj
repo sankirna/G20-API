@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Matrimony.Core\Matrimony.Core.csproj" />
+    <ProjectReference Include="..\Matrimony.Core\G20.Core.csproj" />
   </ItemGroup>
 
 </Project>

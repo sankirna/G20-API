@@ -1,6 +1,6 @@
-﻿using Matrimony.Framework.Models;
+﻿using G20.Framework.Models;
 
-namespace Matrimony.API.Models.Common
+namespace G20.API.Models.Common
 {
     public class PrimaryDataModel
     {

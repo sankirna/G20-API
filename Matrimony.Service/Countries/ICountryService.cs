@@ -1,12 +1,12 @@
-﻿using Matrimony.Core.Domain;
-using Matrimony.Core;
+﻿using G20.Core.Domain;
+using G20.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Service.Countries
+namespace G20.Service.Countries
 {
     public interface ICountryService
     {

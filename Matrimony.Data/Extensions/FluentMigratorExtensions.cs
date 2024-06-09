@@ -7,7 +7,7 @@ using FluentMigrator.Builders.Create.Table;
 using FluentMigrator.Infrastructure.Extensions;
 using FluentMigrator.Model;
 using LinqToDB.Mapping;
-using Matrimony.Core;
+using G20.Core;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Data.Mapping;

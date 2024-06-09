@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Matrimony.Core.Migrations
+namespace G20.Core.Migrations
 {
     /// <inheritdoc />
     public partial class initial : Migration

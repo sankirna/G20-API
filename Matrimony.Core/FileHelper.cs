@@ -1,4 +1,4 @@
-﻿using Matrimony.Core.Enums;
+﻿using G20.Core.Enums;
 using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Core
+namespace G20.Core
 {
     public static class FileHelper
     {

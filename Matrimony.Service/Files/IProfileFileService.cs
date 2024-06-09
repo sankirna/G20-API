@@ -1,8 +1,8 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Domain;
+﻿using G20.Core;
+using G20.Core.Domain;
 using System.Threading.Tasks;
 
-namespace Matrimony.Service.ProfileFiles
+namespace G20.Service.ProfileFiles
 {
     public interface IProfileFileService
     {

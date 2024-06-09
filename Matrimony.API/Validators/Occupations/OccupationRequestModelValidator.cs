@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models.Occupations;
+using G20.API.Models.Occupations;
 
-namespace Matrimony.API.Validators.Occupations
+namespace G20.API.Validators.Occupations
 {
     public class OccupationRequestModelValidator : AbstractValidator<OccupationRequestModel>
     {

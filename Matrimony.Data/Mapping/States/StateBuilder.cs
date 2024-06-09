@@ -1,10 +1,10 @@
 ﻿using FluentMigrator.Builders.Create.Table;
-using Matrimony.Core.Domain;
+using G20.Core.Domain;
 using Nop.Data.Extensions;
 using Nop.Data.Mapping.Builders;
 using System.Data;
 
-namespace Matrimony.Data.Mapping.States
+namespace G20.Data.Mapping.States
 {
     public partial class StateBuilder : NopEntityBuilder<State>
     {

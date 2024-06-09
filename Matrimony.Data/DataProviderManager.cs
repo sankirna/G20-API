@@ -1,4 +1,4 @@
-﻿using Matrimony.Data;
+﻿using G20.Data;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Data.Configuration;

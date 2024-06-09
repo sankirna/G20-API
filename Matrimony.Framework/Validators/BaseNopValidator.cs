@@ -1,6 +1,6 @@
 ﻿using System.Linq.Dynamic.Core;
 using FluentValidation;
-using Matrimony.Core;
+using G20.Core;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Data.Mapping;

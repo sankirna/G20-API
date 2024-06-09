@@ -4,7 +4,7 @@ using System.Reflection;
 using LinqToDB;
 using LinqToDB.Mapping;
 using LinqToDB.Metadata;
-using Matrimony.Core;
+using G20.Core;
 using Nop.Core;
 
 namespace Nop.Data.Mapping;

@@ -2,11 +2,11 @@
 using Nop.Core;
 using System.Net;
 using System.Linq;
-using Matrimony.API.Infrastructure;
+using G20.API.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Matrimony.Framework.Filters
+namespace G20.Framework.Filters
 {
     public class APIExceptionFilter : IExceptionFilter
     {

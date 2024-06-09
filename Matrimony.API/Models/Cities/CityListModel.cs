@@ -1,6 +1,6 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Cities
+namespace G20.API.Models.Cities
 {
     public partial record CityListModel : BasePagedListModel<CityModel>
     {

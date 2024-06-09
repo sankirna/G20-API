@@ -1,7 +1,7 @@
-﻿using Matrimony.API.Models.Countries;
-using Matrimony.Framework.Models;
+﻿using G20.API.Models.Countries;
+using G20.Framework.Models;
 
-namespace Matrimony.API.Models.States
+namespace G20.API.Models.States
 {
     public partial record StateModel : BaseNopEntityModel
     {

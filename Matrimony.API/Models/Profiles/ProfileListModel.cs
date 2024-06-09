@@ -1,7 +1,7 @@
-﻿using Matrimony.API.Models.Countries;
+﻿using G20.API.Models.Countries;
 using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Profiles
+namespace G20.API.Models.Profiles
 {
     public partial record ProfileListModel : BasePagedListModel<ProfileModel>
     {

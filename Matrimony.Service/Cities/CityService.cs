@@ -1,9 +1,9 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Data;
+﻿using G20.Core;
+using G20.Core.Domain;
+using G20.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Matrimony.Service.Cities
+namespace G20.Service.Cities
 {
     public class CityService : ICityService
     {

@@ -1,10 +1,10 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Data;
+﻿using G20.Core;
+using G20.Core.Domain;
+using G20.Data;
 
-using File = Matrimony.Core.Domain.File;
+using File = G20.Core.Domain.File;
 
-namespace Matrimony.Service.Files
+namespace G20.Service.Files
 {
     public class FileService : IFileService
     {

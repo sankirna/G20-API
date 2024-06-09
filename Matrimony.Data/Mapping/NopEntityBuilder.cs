@@ -1,5 +1,5 @@
 ﻿using FluentMigrator.Builders.Create.Table;
-using Matrimony.Core;
+using G20.Core;
 using Nop.Core;
 
 namespace Nop.Data.Mapping.Builders;

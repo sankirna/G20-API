@@ -1,7 +1,7 @@
-﻿using Matrimony.Framework.Models;
+﻿using G20.Framework.Models;
 using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Educations
+namespace G20.API.Models.Educations
 {
     public partial record EducationModel : BaseNopEntityModel
     {

@@ -1,14 +1,8 @@
-﻿using Matrimony.Core;
+﻿using G20.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Matrimony.Framework
+namespace G20.Framework
 {
     public class WebAPIWorkContext : IWorkContext
     {

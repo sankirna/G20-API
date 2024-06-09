@@ -1,11 +1,11 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Data;
+﻿using G20.Core;
+using G20.Core.Domain;
+using G20.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Matrimony.Service.States
+namespace G20.Service.States
 {
     public class StateService : IStateService
     {

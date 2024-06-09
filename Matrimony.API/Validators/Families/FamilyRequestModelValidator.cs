@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models.Families;
-using Matrimony.API.Models.Profiles;
+using G20.API.Models.Families;
+using G20.API.Models.Profiles;
 
-namespace Matrimony.API.Validators.Families
+namespace G20.API.Validators.Families
 {
     public class FamilyRequestModelValidator : AbstractValidator<FamilyRequestModel>
     {

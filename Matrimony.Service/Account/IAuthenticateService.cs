@@ -1,11 +1,11 @@
-﻿using Matrimony.Core.IndentityModels;
+﻿using G20.Core.IndentityModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matrimony.Service.Account
+namespace G20.Service.Account
 {
     public interface IAuthenticateService
     {

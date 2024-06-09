@@ -1,7 +1,7 @@
-﻿using Matrimony.API.Models.Countries;
-using Matrimony.API.Models.Profiles;
+﻿using G20.API.Models.Countries;
+using G20.API.Models.Profiles;
 
-namespace Matrimony.API.Factories.Profiles
+namespace G20.API.Factories.Profiles
 {
     public interface IProfileFactoryModel
     {

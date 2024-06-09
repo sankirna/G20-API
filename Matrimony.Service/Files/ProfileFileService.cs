@@ -1,11 +1,11 @@
-﻿using Matrimony.Core;
-using Matrimony.Core.Domain;
-using Matrimony.Data;
+﻿using G20.Core;
+using G20.Core.Domain;
+using G20.Data;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Matrimony.Service.ProfileFiles
+namespace G20.Service.ProfileFiles
 {
     public class ProfileFileService : IProfileFileService
     {

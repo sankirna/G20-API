@@ -1,4 +1,4 @@
-﻿using Matrimony.Core.IndentityModels;
+﻿using G20.Core.IndentityModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Matrimony.Framework.Jwt
+namespace G20.Framework.Jwt
 {
     public class TokenService
     {

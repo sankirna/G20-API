@@ -1,8 +1,8 @@
-﻿using Matrimony.Core.IndentityModels;
-using Matrimony.Service.Account;
+﻿using G20.Core.IndentityModels;
+using G20.Service.Account;
 using Microsoft.AspNetCore.Identity;
 
-namespace Matrimony.Framework.Authenticate
+namespace G20.Framework.Authenticate
 {
     public class AspNetCoreIdentityAuthenticate : IAuthenticateService
     {

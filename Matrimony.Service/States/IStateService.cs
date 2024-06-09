@@ -1,8 +1,7 @@
-﻿using Matrimony.Core.Domain;
-using Matrimony.Core;
-using System.Threading.Tasks;
+﻿using G20.Core.Domain;
+using G20.Core;
 
-namespace Matrimony.Service.States
+namespace G20.Service.States
 {
     public interface IStateService
     {

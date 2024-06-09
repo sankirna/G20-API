@@ -1,6 +1,6 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Occupations
+namespace G20.API.Models.Occupations
 {
     public partial record OccupationSearchModel : BaseSearchModel
     {

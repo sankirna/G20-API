@@ -1,6 +1,6 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Matrimony.API.Models.Achivements
+namespace G20.API.Models.Achivements
 {
     public partial record AchivementSearchModel : BaseSearchModel
     {

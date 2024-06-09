@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using Matrimony.API.Models.Countries;
-using Matrimony.API.Models.Profiles;
+using G20.API.Models.Countries;
+using G20.API.Models.Profiles;
 
-namespace Matrimony.API.Validators.Profiles
+namespace G20.API.Validators.Profiles
 {
     public class CountryRequestModelValidator : AbstractValidator<CountryRequestModel>
     {

@@ -1,5 +1,5 @@
 ﻿using FluentMigrator.Runner.VersionTableInfo;
-using Matrimony.Core;
+using G20.Core;
 using Nop.Core;
 
 namespace Nop.Data.Migrations;

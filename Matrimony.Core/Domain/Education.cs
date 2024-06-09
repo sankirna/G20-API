@@ -1,8 +1,8 @@
-﻿using Matrimony.Core.Domain;
+﻿using G20.Core.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace Matrimony.Core.Domain;
+namespace G20.Core.Domain;
 
 public partial class Education : BaseEntity
 {

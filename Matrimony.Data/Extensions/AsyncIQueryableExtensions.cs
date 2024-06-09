@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using LinqToDB;
-using Matrimony.Core;
+using G20.Core;
 
 namespace System.Linq;
 

@@ -1,4 +1,4 @@
-﻿using Matrimony.Core;
+﻿using G20.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Matrimony.Data
+namespace G20.Data
 {
     public partial class EntityRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
