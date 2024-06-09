@@ -5,6 +5,7 @@ using G20.Service;
 using G20.Service.Account;
 using G20.Service.Achivements;
 using G20.Service.Addresss;
+using G20.Service.Categories;
 using G20.Service.Cities;
 using G20.Service.Common;
 using G20.Service.Countries;
@@ -60,6 +61,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IEducationService, EducationService>();
         services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<ICouponService, CouponService>();
+        services.AddScoped<ICategoryService, CategoryService>();
 
         //Files
         services.AddScoped<IFileService, FileService>();

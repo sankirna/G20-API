@@ -3,6 +3,7 @@ using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models;
 using G20.API.Models.Achivements;
 using G20.API.Models.Addresss;
+using G20.API.Models.Categories;
 using G20.API.Models.Cities;
 using G20.API.Models.Countries;
 using G20.API.Models.Coupons;
@@ -99,6 +100,12 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateMap<Coupon, CouponModel>().ReverseMap();
             CreateMap<Coupon, CouponRequestModel>().ReverseMap();
+        }
+
+        public virtual void CreateCategoryMap()
+        {
+            CreateMap<Category, CategoryModel>().ReverseMap();
+            CreateMap<Category, CategoryRequestModel>().ReverseMap();
         }
 
         public int Order => 0;

@@ -84,6 +84,7 @@
     <Build Include="dbo\Tables\MigrationVersionInfo.sql" />
     <Build Include="dbo\Tables\ProfileFile.sql" />
     <Build Include="dbo\Tables\Coupon.sql" />
+    <Build Include="dbo\Tables\Category.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeploymentScripts\InsertContry.sql" />
