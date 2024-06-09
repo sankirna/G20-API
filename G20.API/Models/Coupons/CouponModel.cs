@@ -7,9 +7,8 @@ namespace G20.API.Models.Coupons
     {
         public string Code { get; set; }
         public decimal Amount { get; set; }
-        public int TypeId { get; set; }
-        public CouponCalculateType Type { get; set; }
-        public string TypeValue { get { return Type.ToString(); } }
+        public CouponCalculateType TypeId { get; set; }
+        public string TypeValue { get { return TypeId.ToString(); } }
         public DateTime? ExpirationDate { get; set; }
 
     }
