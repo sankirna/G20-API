@@ -4,8 +4,10 @@ using G20.API.Factories.Countries;
 using G20.API.Factories.Coupons;
 using G20.API.Factories.Media;
 using G20.API.Factories.Profiles;
+using G20.API.Factories.Roles;
 using G20.API.Factories.States;
 using G20.API.Factories.SubCategories;
+using G20.API.Factories.Users;
 using G20.Core.DbContexts;
 using G20.Core.IndentityModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -113,6 +115,9 @@ namespace G20.API.Infrastructure
             services.AddScoped<ICategoryFactoryModel, CategoryFactoryModel>();
             services.AddScoped<ISubCategoryFactoryModel, SubCategoryFactoryModel>();
 
+            //User Management
+            services.AddScoped<IUserFactoryModel, UserFactoryModel>();
+            services.AddScoped<IRoleFactoryModel, RoleFactoryModel>();
         }
 
         public void Configure(IApplicationBuilder application)

@@ -86,8 +86,12 @@
     <Build Include="dbo\Tables\Coupon.sql" />
     <Build Include="dbo\Tables\Category.sql" />
     <Build Include="dbo\Tables\SubCategory.sql" />
+    <Build Include="dbo\Tables\Role.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\UserRole.sql" />
+    <PostDeploy Include="PostDeploymentScripts\InsertRoles.sql" />
   </ItemGroup>
   <ItemGroup>
-    <PostDeploy Include="PostDeploymentScripts\InsertContry.sql" />
+    <None Include="PostDeploymentScripts\InsertContry.sql" />
   </ItemGroup>
 </Project>

@@ -11,8 +11,10 @@ using G20.API.Models.Educations;
 using G20.API.Models.Families;
 using G20.API.Models.Occupations;
 using G20.API.Models.Profiles;
+using G20.API.Models.Roles;
 using G20.API.Models.States;
 using G20.API.Models.SubCategories;
+using G20.API.Models.Users;
 using G20.Core;
 using G20.Core.Domain;
 using G20.Framework.Models;
@@ -27,6 +29,8 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateCommonMap();
             CreateCountryMap();
+            CreateUserMap();
+            CreateRoleMap();
             CreateStateMap();
             CreateCityMap();
             CreateProfileMap();
@@ -43,6 +47,18 @@ namespace G20.API.Infrastructure.Mapper
         public virtual void CreateCommonMap()
         {
             CreateMap<EnumClass, EnumModel>();
+        }
+
+        public virtual void CreateUserMap()
+        {
+            CreateMap<User, UserModel>();
+            CreateMap<UserModel, User>();
+        }
+
+        public virtual void CreateRoleMap()
+        {
+            CreateMap<Role, RoleModel>();
+            CreateMap<RoleModel, Role>();
         }
 
         public virtual void CreateCountryMap()

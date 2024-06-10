@@ -16,8 +16,11 @@ using G20.Service.Files;
 using G20.Service.Occupations;
 using G20.Service.ProfileFiles;
 using G20.Service.Profiles;
+using G20.Service.Roles;
 using G20.Service.States;
 using G20.Service.SubCategories;
+using G20.Service.UserRoles;
+using G20.Service.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -64,6 +67,11 @@ public partial class NopStartup : INopStartup
         services.AddScoped<ICouponService, CouponService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ISubCategoryService, SubCategoryService>();
+
+        //User Management
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IUserRoleService, UserRoleService>();
 
         //Files
         services.AddScoped<IFileService, FileService>();
