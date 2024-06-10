@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace G20.Core.Domain;
 
-public partial class State : BaseEntity
+public partial class State : BaseEntityWithTacking
 {
     public int Id { get; set; }
 

@@ -8,6 +8,8 @@
     [UpdatedDateTime] DATETIME       NULL,
     [IsDeleted]       BIT            NULL,
     CONSTRAINT [PK__City__3214EC0713C8B88C] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK__City__StateId__06CD04F7] FOREIGN KEY ([StateId]) REFERENCES [dbo].[State] ([Id])
+    CONSTRAINT [FK__City__StateId__06CD04F7] FOREIGN KEY ([StateId]) REFERENCES [dbo].[State] ([Id]),
+    CONSTRAINT [FK_City_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[User] ([Id]),
+    CONSTRAINT [FK_City_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[User] ([Id])
 );
 

@@ -8,6 +8,8 @@
     [UpdatedDateTime] DATETIME       NULL,
     [IsDeleted]       BIT            NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
-    FOREIGN KEY ([CountryID]) REFERENCES [dbo].[Country] ([Id])
+    FOREIGN KEY ([CountryID]) REFERENCES [dbo].[Country] ([Id]),
+    CONSTRAINT [FK_State_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[User] ([Id]),
+    CONSTRAINT [FK_State_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[User] ([Id])
 );
 

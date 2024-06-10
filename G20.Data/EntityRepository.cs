@@ -15,15 +15,18 @@ namespace G20.Data
         #region Fields
 
         protected readonly IAppDataProvider _dataProvider;
+        protected readonly IWorkContext _workContext;
+
 
         #endregion
 
         #region Ctor
 
         public EntityRepository(
-            IAppDataProvider dataProvider)
+            IAppDataProvider dataProvider, IWorkContext workContext)
         {
             _dataProvider = dataProvider;
+            _workContext = workContext;
         }
 
         #endregion

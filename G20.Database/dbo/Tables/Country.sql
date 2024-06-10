@@ -6,6 +6,8 @@
     [UpdatedBy]       INT            NULL,
     [UpdatedDateTime] DATETIME       NULL,
     [IsDeleted]       BIT            NULL
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Country_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[User] ([Id]),
+    CONSTRAINT [FK_Country_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[User] ([Id])
 );
 

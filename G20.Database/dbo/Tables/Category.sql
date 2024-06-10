@@ -9,6 +9,6 @@
     [UpdatedBy]        INT            NULL,
     [UpdatedDateTime]  DATETIME       NULL,
     [IsDeleted]        BIT            NOT NULL DEFAULT 0,
-    CONSTRAINT [FK_Category_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[AspNetUsers] ([Id]),
-    CONSTRAINT [FK_Category_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[AspNetUsers] ([Id])
+    CONSTRAINT [FK_Category_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[User] ([Id]),
+    CONSTRAINT [FK_Category_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[User] ([Id])
 )
