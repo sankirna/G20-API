@@ -48,6 +48,14 @@ namespace G20.Service.UserRoles
             await _entityRepository.InsertAsync(entity);
         }
 
+        public virtual async Task InsertByUserANDRoleIdAsync(int userId, int roleId)
+        {
+            UserRole entity = new UserRole();
+            entity.UserId = userId;
+            entity.RoleId = roleId;
+            await _entityRepository.InsertAsync(entity);
+        }
+
         public virtual async Task UpdateAsync(UserRole entity)
         {
             await _entityRepository.UpdateAsync(entity);
@@ -58,6 +66,17 @@ namespace G20.Service.UserRoles
             ArgumentNullException.ThrowIfNull(entity);
 
             await _entityRepository.DeleteAsync(entity);
+        }
+
+        public virtual async Task DeleteByUserANDRoleIdAsync(int userId,int roleId)
+        {
+            var userRoles = await _entityRepository.Table.Where(x => x.UserId == userId && x.RoleId == roleId).ToListAsync();
+
+            foreach (var userRole in userRoles)
+            {
+                await DeleteAsync(userRole);
+            }
+
         }
 
         public virtual async Task DeleteByUserIdAsync(int userId)

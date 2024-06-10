@@ -9,8 +9,10 @@ namespace G20.Service.UserRoles
         Task<List<Role>> GetRoleByUserIdAsync(int userId);
         Task<UserRole> GetByIdAsync(int id);
         Task InsertAsync(UserRole entity);
+        Task InsertByUserANDRoleIdAsync(int userId, int roleId);
         Task UpdateAsync(UserRole entity);
         Task DeleteAsync(UserRole entity);
+        Task DeleteByUserANDRoleIdAsync(int userId, int roleId);
         Task DeleteByUserIdAsync(int userId);
     }
 }
