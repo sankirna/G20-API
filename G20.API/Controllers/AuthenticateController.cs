@@ -2,6 +2,8 @@
 using G20.API.Models;
 using G20.Core.IndentityModels;
 using G20.Service.Account;
+using G20.Service.UserRoles;
+using G20.Service.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,24 +20,63 @@ namespace G20.API.Controllers
     public class AuthenticateController : ControllerBase
     {
         private readonly IAuthenticateService _authenticateService;
+        private readonly IUserService _userService;
+        private readonly IUserRoleService _userRoleService;
         private readonly IConfiguration _configuration;
 
         public AuthenticateController(
             IAuthenticateService authenticateService,
+            IUserService userService,
+            IUserRoleService userRoleService,
             IConfiguration configuration)
         {
             _authenticateService = authenticateService;
+            _userService = userService;
+            _userRoleService = userRoleService;
             _configuration = configuration;
         }
+
+        //[HttpPost]
+        //[Route("login")]
+        //public async Task<IActionResult> Login([FromBody] LoginModel model)
+        //{
+        //    var user = await _authenticateService.FindByNameAsync(model.Email);
+        //    if (user != null && await _authenticateService.CheckPasswordAsync(user, model.Password))
+        //    {
+        //        var userRoles = await _authenticateService.GetRolesAsync(user);
+
+        //        var authClaims = new List<Claim>
+        //        {
+        //            new Claim(ClaimTypes.Name, user.UserName),
+        //            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        //            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //        };
+
+        //        foreach (var userRole in userRoles)
+        //        {
+        //            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+        //        }
+
+        //        var token = GetToken(authClaims);
+
+        //        return Ok(new
+        //        {
+        //            token = new JwtSecurityTokenHandler().WriteToken(token),
+        //            expiration = token.ValidTo
+        //        });
+        //    }
+        //    return Unauthorized();
+        //}
+
 
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _authenticateService.FindByNameAsync(model.Email);
-            if (user != null && await _authenticateService.CheckPasswordAsync(user, model.Password))
+            var user = await _userService.GetByEmailAndPasswordAsync(model.Email, model.Password);
+            if (user != null)
             {
-                var userRoles = await _authenticateService.GetRolesAsync(user);
+                var userRoles = await _userRoleService.GetRoleByUserIdAsync(user.Id);
 
                 var authClaims = new List<Claim>
                 {
@@ -46,7 +87,7 @@ namespace G20.API.Controllers
 
                 foreach (var userRole in userRoles)
                 {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    authClaims.Add(new Claim(ClaimTypes.Role, userRole.Name));
                 }
 
                 var token = GetToken(authClaims);

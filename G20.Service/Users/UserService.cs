@@ -42,6 +42,11 @@ namespace G20.Service.Users
             return await _entityRepository.GetByIdAsync(id);
         }
 
+        public virtual async Task<User> GetByEmailAndPasswordAsync(string email, string password)
+        {
+            return await _entityRepository.Table.FirstOrDefaultAsync(x=>x.Email== email && x.Password==password);
+        }
+
         public virtual async Task InsertAsync(User entity)
         {
             await _entityRepository.InsertAsync(entity);

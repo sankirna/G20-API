@@ -9,6 +9,7 @@ namespace G20.Service.Users
         Task<IPagedList<User>> GetUsersAsync(string name, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
         Task<bool> CheckDuplicateAsync(int id, string email);
         Task<User> GetByIdAsync(int id);
+        Task<User> GetByEmailAndPasswordAsync(string email, string password);
         Task InsertAsync(User entity);
         Task UpdateAsync(User entity);
         Task DeleteAsync(User entity);
