@@ -78,7 +78,7 @@ namespace G20.API.Controllers
                 return Error("not found");
             var model = user.ToModel<UserModel>();
             model.RoleIds = (await _userRoleService.GetRoleByUserIdAsync(user.Id)).Select(x => x.Id).ToList();
-            return Success(user.ToModel<UserModel>());
+            return Success(model);
         }
 
         [HttpPost]

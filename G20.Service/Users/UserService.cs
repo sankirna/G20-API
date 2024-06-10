@@ -19,7 +19,7 @@ namespace G20.Service.Users
             var users = await _entityRepository.GetAllPagedAsync(query =>
             {
                 if (!string.IsNullOrWhiteSpace(name))
-                    query = query.Where(u => u.Name.Contains(name));
+                    query = query.Where(u => u.UserName.Contains(name));
 
                 return query;
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
