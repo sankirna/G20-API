@@ -21,6 +21,7 @@ using G20.Service.States;
 using G20.Service.SubCategories;
 using G20.Service.UserRoles;
 using G20.Service.Users;
+using G20.Service.Venue;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -67,6 +68,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<ICouponService, CouponService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ISubCategoryService, SubCategoryService>();
+        services.AddScoped<IVenueService, VenueService>();
 
         //User Management
         services.AddScoped<IUserService, UserService>();

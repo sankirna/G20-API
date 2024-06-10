@@ -6,14 +6,14 @@ namespace G20.Service.Venue
 {
     public class VenueService : IVenueService
     {
-        protected readonly IRepository<Venues> _entityRepository;
+        protected readonly IRepository<Core.Domain.Venue> _entityRepository;
 
-        public VenueService(IRepository<Venues> entityRepository)
+        public VenueService(IRepository<Core.Domain.Venue> entityRepository)
         {
             _entityRepository = entityRepository;
         }
 
-        public virtual async Task<IPagedList<Venues>> GetVenueAsync(string name, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public virtual async Task<IPagedList<Core.Domain.Venue>> GetVenueAsync(string name, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var categories = await _entityRepository.GetAllPagedAsync(query =>
             {
@@ -26,22 +26,22 @@ namespace G20.Service.Venue
             return categories;
         }
 
-        public virtual async Task<Venues> GetByIdAsync(int id)
+        public virtual async Task<Core.Domain.Venue> GetByIdAsync(int id)
         {
             return await _entityRepository.GetByIdAsync(id);
         }
 
-        public virtual async Task InsertAsync(Venues entity)
+        public virtual async Task InsertAsync(Core.Domain.Venue entity)
         {
             await _entityRepository.InsertAsync(entity);
         }
 
-        public virtual async Task UpdateAsync(Venues entity)
+        public virtual async Task UpdateAsync(Core.Domain.Venue entity)
         {
             await _entityRepository.UpdateAsync(entity);
         }
 
-        public virtual async Task DeleteAsync(Venues entity)
+        public virtual async Task DeleteAsync(Core.Domain.Venue entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
             await _entityRepository.DeleteAsync(entity);

@@ -136,8 +136,8 @@ namespace G20.API.Infrastructure.Mapper
         }
         public virtual void CreateVenueMap()
         {
-            CreateMap<Venues, VenueModel>().ReverseMap();
-            CreateMap<Venues, VenueRequestModel>().ReverseMap();
+            CreateMap<Venue, VenueModel>().ReverseMap();
+            CreateMap<Venue, VenueRequestModel>().ReverseMap();
         }
         public int Order => 0;
     }

@@ -41,7 +41,7 @@ namespace G20.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Create(VenueModel model)
         {
-            var venue = model.ToEntity<Venues>();
+            var venue = model.ToEntity<Venue>();
             await _venueService.InsertAsync(venue);
             return Success(venue.ToModel<VenueModel>());
         }
