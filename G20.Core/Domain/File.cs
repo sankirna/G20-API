@@ -23,9 +23,6 @@ public partial class File : BaseEntity
 
     public virtual AspNetUser? CreatedByNavigation { get; set; }
 
-    public virtual ICollection<ProfileFile> ProfileFiles { get; set; } = new List<ProfileFile>();
-
-    public virtual ICollection<Profile> Profiles { get; set; } = new List<Profile>();
 
     public virtual AspNetUser? UpdatedByNavigation { get; set; }
 }

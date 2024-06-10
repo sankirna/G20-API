@@ -3,19 +3,12 @@ using G20.Framework;
 using G20.Framework.Authenticate;
 using G20.Service;
 using G20.Service.Account;
-using G20.Service.Achivements;
-using G20.Service.Addresss;
 using G20.Service.Categories;
 using G20.Service.Cities;
 using G20.Service.Common;
 using G20.Service.Countries;
 using G20.Service.Coupons;
-using G20.Service.Educations;
-using G20.Service.Families;
 using G20.Service.Files;
-using G20.Service.Occupations;
-using G20.Service.ProfileFiles;
-using G20.Service.Profiles;
 using G20.Service.Roles;
 using G20.Service.States;
 using G20.Service.SubCategories;
@@ -59,12 +52,6 @@ public partial class NopStartup : INopStartup
         services.AddScoped<ICountryService, CountryService>();
         services.AddScoped<IStateService, StateService>();
         services.AddScoped<ICityService, CityService>();
-        services.AddScoped<IAddressService, AddressService>();
-        services.AddScoped<IFamilyService, FamilyService>();
-        services.AddScoped<IOccupationService, OccupationService>();
-        services.AddScoped<IAchivementService, AchivementService>();
-        services.AddScoped<IEducationService, EducationService>();
-        services.AddScoped<IProfileService, ProfileService>();
         services.AddScoped<ICouponService, CouponService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ISubCategoryService, SubCategoryService>();
@@ -77,7 +64,6 @@ public partial class NopStartup : INopStartup
 
         //Files
         services.AddScoped<IFileService, FileService>();
-        services.AddScoped<IProfileFileService, ProfileFileService>();
 
         //web helper
         //services.AddScoped<IWebHelper, WebHelper>();

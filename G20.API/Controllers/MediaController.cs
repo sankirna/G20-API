@@ -1,7 +1,6 @@
 ﻿using G20.API.Factories.Media;
 using G20.API.Models.Countries;
 using G20.API.Models.Media;
-using G20.Service.Profiles;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Infrastructure;
 using System.Text;

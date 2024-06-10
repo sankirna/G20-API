@@ -72,17 +72,10 @@
     <Build Include="dbo\Tables\AspNetRoleClaims.sql" />
     <Build Include="dbo\Tables\AspNetUserClaims.sql" />
     <Build Include="dbo\Tables\AspNetUserLogins.sql" />
-    <Build Include="dbo\Tables\Achivement.sql" />
     <Build Include="dbo\Tables\AspNetUserRoles.sql" />
-    <Build Include="dbo\Tables\Occupation.sql" />
     <Build Include="dbo\Tables\AspNetUserTokens.sql" />
-    <Build Include="dbo\Tables\Family.sql" />
-    <Build Include="dbo\Tables\Education.sql" />
-    <Build Include="dbo\Tables\Profile.sql" />
-    <Build Include="dbo\Tables\Address.sql" />
     <Build Include="dbo\Tables\File.sql" />
     <Build Include="dbo\Tables\MigrationVersionInfo.sql" />
-    <Build Include="dbo\Tables\ProfileFile.sql" />
     <Build Include="dbo\Tables\Coupon.sql" />
     <Build Include="dbo\Tables\Category.sql" />
     <Build Include="dbo\Tables\SubCategory.sql" />

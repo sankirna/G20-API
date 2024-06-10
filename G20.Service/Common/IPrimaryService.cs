@@ -9,11 +9,7 @@ namespace G20.Service.Common
 {
     public interface IPrimaryService
     {
-        List<EnumClass> GetAddressTypes();
-        List<EnumClass> GetOccupationTypes();
-        List<EnumClass> GetRelationTypes();
         List<EnumClass> GetRoles();
-        List<EnumClass> GetGenderTypes();
         List<EnumClass> GetFileTypes();
         List<EnumClass> GetCouponCalculateTypes();
 

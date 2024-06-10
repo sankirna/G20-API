@@ -1,5 +1,4 @@
 ﻿using G20.API.Models.Media;
-using G20.API.Models.Profiles;
 using G20.Core;
 using G20.Service.Files;
 using Microsoft.AspNetCore.Hosting;

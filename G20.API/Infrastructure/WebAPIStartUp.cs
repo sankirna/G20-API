@@ -3,7 +3,6 @@ using G20.API.Factories.Cities;
 using G20.API.Factories.Countries;
 using G20.API.Factories.Coupons;
 using G20.API.Factories.Media;
-using G20.API.Factories.Profiles;
 using G20.API.Factories.Roles;
 using G20.API.Factories.States;
 using G20.API.Factories.SubCategories;
@@ -111,7 +110,6 @@ namespace G20.API.Infrastructure
             services.AddScoped<ICountryFactoryModel, CountryFactoryModel>();
             services.AddScoped<IStateFactoryModel, StateFactoryModel>();
             services.AddScoped<ICityFactoryModel, CityFactoryModel>();
-            services.AddScoped<IProfileFactoryModel, ProfileFactoryModel>();
             services.AddScoped<ICouponFactoryModel, CouponFactoryModel>();
             services.AddScoped<ICategoryFactoryModel, CategoryFactoryModel>();
             services.AddScoped<ISubCategoryFactoryModel, SubCategoryFactoryModel>();
