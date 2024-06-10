@@ -100,6 +100,26 @@ namespace G20.Data
             await _dataProvider.UpdateEntitiesAsync(entities);
         }
 
+        protected virtual async Task AddTrackingFields(TEntity entity)
+        {
+            if (entity is BaseEntityWithTacking)
+            {
+                var baseEntity = entity as BaseEntityWithTacking;
+                baseEntity.CreatedBy = _workContext.GetCurrentUserId();
+                baseEntity.CreatedDateTime = DateTimeHelper.GetCurrentUTCDataTime();
+            }
+        }
+
+        protected virtual async Task UpdateTrackingFields(TEntity entity)
+        {
+            if (entity is BaseEntityWithTacking)
+            {
+                var baseEntity = entity as BaseEntityWithTacking;
+                baseEntity.UpdatedBy = _workContext.GetCurrentUserId();
+                baseEntity.UpdatedDateTime = DateTimeHelper.GetCurrentUTCDataTime();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -315,6 +335,8 @@ namespace G20.Data
         {
             ArgumentNullException.ThrowIfNull(entity);
 
+            await AddTrackingFields(entity);
+
             await _dataProvider.InsertEntityAsync(entity);
 
         }
@@ -390,6 +412,8 @@ namespace G20.Data
         public virtual async Task UpdateAsync(TEntity entity, bool publishEvent = true)
         {
             ArgumentNullException.ThrowIfNull(entity);
+
+            await UpdateTrackingFields(entity);
 
             await _dataProvider.UpdateEntityAsync(entity);
 

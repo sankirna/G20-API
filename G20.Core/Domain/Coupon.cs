@@ -11,6 +11,7 @@ namespace G20.Core.Domain
         public string Code { get; set; }
         public decimal Amount { get; set; }
         public int TypeId { get; set; }
+        public DateTime? ExpirationDate { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

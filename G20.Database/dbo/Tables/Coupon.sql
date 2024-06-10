@@ -4,7 +4,7 @@
     [Code] NVARCHAR(500) NOT NULL, 
     [TypeId] INT NOT NULL, 
     [Amount] DECIMAL NOT NULL,
-    [ExpirationDate ] DATETIME NULL, 
+    [ExpirationDate] DATETIME NULL, 
     [CreatedBy]        INT            NULL,
     [CreatedDateTime]  DATETIME       NULL,
     [UpdatedBy]        INT            NULL,
