@@ -12,6 +12,7 @@ using G20.Service.Files;
 using G20.Service.Roles;
 using G20.Service.States;
 using G20.Service.SubCategories;
+using G20.Service.Teams;
 using G20.Service.UserRoles;
 using G20.Service.Users;
 using G20.Service.Venue;
@@ -56,6 +57,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ISubCategoryService, SubCategoryService>();
         services.AddScoped<IVenueService, VenueService>();
+        services.AddScoped<ITeamService, TeamService>();
 
         //User Management
         services.AddScoped<IUserService, UserService>();

@@ -105,7 +105,8 @@ namespace G20.Data
             if (entity is BaseEntityWithTacking)
             {
                 var baseEntity = entity as BaseEntityWithTacking;
-                baseEntity.CreatedBy = _workContext.GetCurrentUserId();
+                if (_workContext.GetCurrentUserId() > 0)
+                    baseEntity.CreatedBy = _workContext.GetCurrentUserId();
                 baseEntity.CreatedDateTime = DateTimeHelper.GetCurrentUTCDataTime();
             }
         }
@@ -115,6 +116,7 @@ namespace G20.Data
             if (entity is BaseEntityWithTacking)
             {
                 var baseEntity = entity as BaseEntityWithTacking;
+                if (_workContext.GetCurrentUserId() > 0)
                 baseEntity.UpdatedBy = _workContext.GetCurrentUserId();
                 baseEntity.UpdatedDateTime = DateTimeHelper.GetCurrentUTCDataTime();
             }

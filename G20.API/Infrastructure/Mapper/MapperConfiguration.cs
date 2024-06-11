@@ -8,6 +8,7 @@ using G20.API.Models.Coupons;
 using G20.API.Models.Roles;
 using G20.API.Models.States;
 using G20.API.Models.SubCategories;
+using G20.API.Models.Teams;
 using G20.API.Models.Users;
 using G20.API.Models.Venue;
 using G20.Core;
@@ -32,6 +33,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateCategoryMap();
             CreateSubCategoryMap();
             CreateVenueMap();
+            CreateTeamMap();
         }
 
         public virtual void CreateCommonMap()
@@ -91,6 +93,13 @@ namespace G20.API.Infrastructure.Mapper
             CreateMap<Venue, VenueModel>().ReverseMap();
             CreateMap<Venue, VenueRequestModel>().ReverseMap();
         }
+
+        public virtual void CreateTeamMap()
+        {
+            CreateMap<Team, TeamModel>().ReverseMap();
+            CreateMap<Team, TeamRequestModel>().ReverseMap();
+        }
+
         public int Order => 0;
     }
 }

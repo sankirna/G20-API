@@ -6,6 +6,7 @@ using G20.API.Factories.Media;
 using G20.API.Factories.Roles;
 using G20.API.Factories.States;
 using G20.API.Factories.SubCategories;
+using G20.API.Factories.Teams;
 using G20.API.Factories.Users;
 using G20.API.Factories.Venue;
 using G20.Core.DbContexts;
@@ -114,6 +115,7 @@ namespace G20.API.Infrastructure
             services.AddScoped<ICategoryFactoryModel, CategoryFactoryModel>();
             services.AddScoped<ISubCategoryFactoryModel, SubCategoryFactoryModel>();
             services.AddScoped<IVenueFactoryModel, VenueFactoryModel>();
+            services.AddScoped<ITeamFactoryModel, TeamFactoryModel>();
             //User Management
             services.AddScoped<IUserFactoryModel, UserFactoryModel>();
             services.AddScoped<IRoleFactoryModel, RoleFactoryModel>();
