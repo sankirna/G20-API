@@ -14,4 +14,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="LogoId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="42d1a9a4-3417-4396-84f6-0b62b2419c7c" ChangeDateTime="06/11/2024 18:06:43">
+    <Property Name="ElementName" Value="[dbo].[StandCategory].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StandCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StandName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3fa2142d-4f40-4b2f-a227-8d0ec09d8c85" ChangeDateTime="06/11/2024 18:07:01">
+    <Property Name="ElementName" Value="[dbo].[StandCategory].[Description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StandCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VenueId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f8ee5517-6825-48db-8c17-9d45b56d451f" ChangeDateTime="06/11/2024 18:07:25">
+    <Property Name="ElementName" Value="[dbo].[StandCategory].[ExpirationDate ]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[StandCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Capacity" />
+  </Operation>
 </Operations>

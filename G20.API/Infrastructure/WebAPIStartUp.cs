@@ -4,6 +4,7 @@ using G20.API.Factories.Countries;
 using G20.API.Factories.Coupons;
 using G20.API.Factories.Media;
 using G20.API.Factories.Roles;
+using G20.API.Factories.StandCategory;
 using G20.API.Factories.States;
 using G20.API.Factories.SubCategories;
 using G20.API.Factories.Teams;
@@ -116,6 +117,7 @@ namespace G20.API.Infrastructure
             services.AddScoped<ISubCategoryFactoryModel, SubCategoryFactoryModel>();
             services.AddScoped<IVenueFactoryModel, VenueFactoryModel>();
             services.AddScoped<ITeamFactoryModel, TeamFactoryModel>();
+            services.AddScoped<IStandCategoryFactoryModel, StandCategoryFactoryModel>();
             //User Management
             services.AddScoped<IUserFactoryModel, UserFactoryModel>();
             services.AddScoped<IRoleFactoryModel, RoleFactoryModel>();
