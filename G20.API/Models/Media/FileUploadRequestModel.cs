@@ -4,7 +4,7 @@ namespace G20.API.Models.Media
 {
     public class FileUploadRequestModel
     {
-        //public byte[] FileData { get; set; }
+        public int Id { get; set; }
         public string FileName { get; set; }
         public string FileSize { get; set; }
         public string FileAsBase64 { get; set; }

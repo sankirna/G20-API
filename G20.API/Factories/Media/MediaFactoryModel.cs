@@ -44,6 +44,7 @@ namespace G20.API.Factories.Media
             };
 
             await _fileService.InsertAsync(file);
+            model.Id = file.Id;
             return model;
         }
     }
