@@ -32,7 +32,8 @@ namespace G20.API.Factories.Media
                 var entity = await _fileService.GetByIdAsync(fileId.Value);
                 var fileType = (FileTypeEnum)entity.TypeId;
                 model.FileName = entity.OriginalName;
-                model.Url = string.Format("{0}{1}", model.FileType.ToGetUrlFolderPath(), entity.Name);
+                model.FileType = fileType;
+                model.Url = string.Format("{0}{1}", fileType.ToGetUrlFolderPath(), entity.Name);
             }
             return model;
 

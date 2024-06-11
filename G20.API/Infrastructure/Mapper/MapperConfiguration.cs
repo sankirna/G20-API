@@ -73,7 +73,8 @@ namespace G20.API.Infrastructure.Mapper
 
         public virtual void CreateCouponMap()
         {
-            CreateMap<Coupon, CouponModel>().ReverseMap();
+            CreateMap<CouponModel, Coupon>().AfterMap((src, dest) => dest.ExpirationDate = dest.ExpirationDate.ToUTCDataTime());
+            CreateMap<Coupon, CouponModel>().AfterMap((src, dest) => dest.ExpirationDate = dest.ExpirationDate.ToLocalDataTime());
             CreateMap<Coupon, CouponRequestModel>().ReverseMap();
         }
 
