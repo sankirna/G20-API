@@ -85,6 +85,7 @@
     <PostDeploy Include="PostDeploymentScripts\InsertRoles.sql" />
     <Build Include="dbo\Tables\Venue.sql" />
     <Build Include="dbo\Tables\Team.sql" />
+    <Build Include="dbo\Tables\StandCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostDeploymentScripts\InsertContry.sql" />
