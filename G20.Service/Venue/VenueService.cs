@@ -18,7 +18,7 @@ namespace G20.Service.Venue
             var categories = await _entityRepository.GetAllPagedAsync(query =>
             {
                 if (!string.IsNullOrWhiteSpace(name))
-                    query = query.Where(c => c.StadiumName.Contains(name));
+                    query = query.Where(c => c.StadiumName.Contains(name) || c.Location.Contains(name) || c.Capacity.Contains(name));
 
                 return query;
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
