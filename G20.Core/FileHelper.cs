@@ -33,5 +33,10 @@ namespace G20.Core
                                Path.GetExtension(fileName);
             return filePathName;
         }
+
+        public static string ToGetUrlFolderPath(this FileTypeEnum fileType)
+        {
+            return string.Format("{0}/{1}/", "https://localhost:7050/StaticFiles", fileType.ToString());
+        }
     }
 }
