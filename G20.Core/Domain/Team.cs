@@ -7,6 +7,7 @@
         public int CountryId { get; set; }
         public int? StateId { get; set; }
         public int? CityId { get; set; }
+        public string Color { get; set; }
         public int? LogoId { get; set; }
         public virtual Country Country { get; set; }
         public virtual State? State { get; set; }

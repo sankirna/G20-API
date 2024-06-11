@@ -10,6 +10,7 @@ namespace G20.API.Models.Teams
         public int CountryId { get; set; }
         public int? StateId { get; set; }
         public int? CityId { get; set; }
+        public string Color { get; set; }
         public int? logoId { get; set; }
         public FileUploadRequestModel? Logo { get; set; }
     }

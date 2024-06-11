@@ -1,5 +1,6 @@
 ﻿using G20.API.Models.Media;
 using G20.Core;
+using G20.Core.Enums;
 using G20.Service.Files;
 using Microsoft.AspNetCore.Hosting;
 using Nop.Core.Infrastructure;
@@ -21,6 +22,20 @@ namespace G20.API.Factories.Media
             _webHostEnvironment = webHostEnvironment;
             _fileProvider = fileProvider;
             _fileService = fileService;
+        }
+
+        public virtual async Task<FileUploadRequestModel> GetRequestModelAsync(int? fileId)
+        {
+            FileUploadRequestModel model = new FileUploadRequestModel();
+            if (fileId.HasValue && fileId.Value > 0)
+            {
+                var entity = await _fileService.GetByIdAsync(fileId.Value);
+                var fileType = (FileTypeEnum)entity.TypeId;
+                model.FileName = entity.OriginalName;
+                model.Url = string.Format("{0}{1}", model.FileType.ToGetUrlFolderPath(), entity.Name);
+            }
+            return model;
+
         }
 
         public virtual async Task<FileUploadRequestModel> UploadRequestModelAsync(FileUploadRequestModel model)

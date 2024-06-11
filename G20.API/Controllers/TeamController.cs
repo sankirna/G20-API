@@ -4,8 +4,6 @@ using G20.Core;
 using G20.Core.Domain;
 using G20.Service.Teams;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Web.Framework.Models.Extensions;
-using System.Threading.Tasks;
 using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Media;
 using G20.API.Factories.Media;
@@ -32,13 +30,18 @@ namespace G20.API.Controllers
 
         #region Private Methods
 
-        private  async Task<int?> AddUpdateLogo(FileUploadRequestModel fileUploadRequestModel)
+        private async Task<int?> AddUpdateLogo(FileUploadRequestModel fileUploadRequestModel)
         {
             if (fileUploadRequestModel != null
                && !string.IsNullOrEmpty(fileUploadRequestModel.FileName)
-               && !string.IsNullOrEmpty(fileUploadRequestModel.FileAsBase64))
+               && !string.IsNullOrEmpty(fileUploadRequestModel.FileAsBase64)
+               && fileUploadRequestModel.Id <= 0)
             {
                 fileUploadRequestModel = await _mediaFactoryModel.UploadRequestModelAsync(fileUploadRequestModel);
+                return fileUploadRequestModel.Id;
+            }
+            else if (fileUploadRequestModel != null && fileUploadRequestModel.Id > 0)
+            {
                 return fileUploadRequestModel.Id;
             }
             else
@@ -62,7 +65,9 @@ namespace G20.API.Controllers
             var team = await _teamService.GetByIdAsync(id);
             if (team == null)
                 return Error("not found");
-            return Success(team.ToModel<TeamModel>());
+            var model = team.ToModel<TeamModel>();
+            model.Logo =  await _mediaFactoryModel.GetRequestModelAsync(model.logoId);
+            return Success(model);
         }
 
         [HttpPost]
@@ -71,7 +76,7 @@ namespace G20.API.Controllers
             var fileId = await AddUpdateLogo(model.Logo);
 
             var team = model.ToEntity<Team>();
-            team.LogoId= fileId;
+            team.LogoId = fileId;
             await _teamService.InsertAsync(team);
 
             return Success(team.ToModel<TeamModel>());
@@ -85,7 +90,7 @@ namespace G20.API.Controllers
                 return Error("not found");
             var fileId = await AddUpdateLogo(model.Logo);
             team = model.ToEntity(team);
-            team.LogoId= fileId;
+            team.LogoId = fileId;
             await _teamService.UpdateAsync(team);
             return Success(team.ToModel<TeamModel>());
         }

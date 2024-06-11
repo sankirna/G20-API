@@ -9,7 +9,7 @@
     [FoundedYear] INT NULL, 
     [ManagerName] NVARCHAR(MAX) NULL, 
     [LogoId] INT NULL, 
-    [Colors] NVARCHAR(50) NULL,
+    [Color] NVARCHAR(50) NULL,
     [IsDeleted]        BIT            NOT NULL DEFAULT 0,
     [CreatedBy]        INT            NULL,
     [CreatedDateTime]  DATETIME       NULL,

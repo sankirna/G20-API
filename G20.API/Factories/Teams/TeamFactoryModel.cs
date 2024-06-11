@@ -1,4 +1,5 @@
-﻿using G20.API.Infrastructure.Mapper.Extensions;
+﻿using G20.API.Factories.Media;
+using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Teams;
 using G20.Service.Teams;
 using Nop.Web.Framework.Models.Extensions;
@@ -10,9 +11,14 @@ namespace G20.API.Factories.Teams
     public class TeamFactoryModel : ITeamFactoryModel
     {
         protected readonly ITeamService _teamService;
-        public TeamFactoryModel(ITeamService teamService)
+        protected readonly IMediaFactoryModel _mediaFactoryModel;
+
+        public TeamFactoryModel(ITeamService teamService,
+            IMediaFactoryModel mediaFactoryModel
+            )
         {
             _teamService = teamService;
+            _mediaFactoryModel = mediaFactoryModel;
         }
 
         public virtual async Task<TeamListModel> PrepareTeamListModelAsync(TeamSearchModel searchModel)
@@ -27,6 +33,7 @@ namespace G20.API.Factories.Teams
                 return teams.SelectAwait(async team =>
                 {
                     var teamModel = team.ToModel<TeamModel>();
+                    teamModel.Logo = await _mediaFactoryModel.GetRequestModelAsync(teamModel.logoId);
                     return teamModel;
                 });
             });

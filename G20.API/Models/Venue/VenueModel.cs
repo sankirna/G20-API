@@ -8,6 +8,7 @@ namespace G20.API.Models.Venue
         public string StadiumName { get; set; }
         public string Location { get; set; }
         public int CountryId { get; set; }
-        public string Capacity { get; set; }
+        public string CountryName { get; set; }
+        public int Capacity { get; set; }
     }
 }
