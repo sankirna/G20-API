@@ -4,8 +4,6 @@ using G20.Core;
 using G20.Core.Domain;
 using G20.Service.Teams;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Web.Framework.Models.Extensions;
-using System.Threading.Tasks;
 using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Media;
 using G20.API.Factories.Media;
