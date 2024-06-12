@@ -10,6 +10,7 @@ using G20.Service.Countries;
 using G20.Service.Coupons;
 using G20.Service.Files;
 using G20.Service.Roles;
+using G20.Service.StandCategories;
 using G20.Service.States;
 using G20.Service.SubCategories;
 using G20.Service.Teams;
@@ -58,7 +59,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<ISubCategoryService, SubCategoryService>();
         services.AddScoped<IVenueService, VenueService>();
         services.AddScoped<ITeamService, TeamService>();
-
+        services.AddScoped<IStandCategoryService, StandCategoryService>();
         //User Management
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
