@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,26 @@ namespace G20.Core
 
         public static DateTime GetCurrentUTCDataTime()
         {
-            return GetCurrentDataTime().ToUniversalTime();
+            return GetCurrentDataTime().ToUTCDataTime();
+        }
+        public static DateTime ToUTCDataTime(this DateTime dt)
+        {
+            return dt.ToUniversalTime();
         }
 
+        public static DateTime? ToUTCDataTime(this DateTime? dt)
+        {
+            return dt.HasValue ? dt.Value.ToUTCDataTime() : dt;
+        }
+
+        public static DateTime ToLocalDataTime(this DateTime dt)
+        {
+            return dt.ToLocalTime();
+        }
+
+        public static DateTime? ToLocalDataTime(this DateTime? dt)
+        {
+            return dt.HasValue ? dt.Value.ToLocalDataTime() : dt;
+        }
     }
 }

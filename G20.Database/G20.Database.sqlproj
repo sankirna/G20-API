@@ -82,15 +82,18 @@
     <Build Include="dbo\Tables\Role.sql" />
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\UserRole.sql" />
-    <PostDeploy Include="PostDeploymentScripts\InsertRoles.sql" />
+    <PostDeploy Include="PostDeploymentScripts\1.InsertRoles.sql" />
     <Build Include="dbo\Tables\Venue.sql" />
     <Build Include="dbo\Tables\Team.sql" />
     <Build Include="dbo\Tables\StandCategory.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PostDeploymentScripts\InsertContry.sql" />
+    <None Include="PostDeploymentScripts\3.InsertContry.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="G20.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PostDeploymentScripts\2.InsertAdminUser.sql" />
   </ItemGroup>
 </Project>
