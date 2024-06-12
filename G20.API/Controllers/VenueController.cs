@@ -128,9 +128,9 @@ namespace G20.API.Controllers
         {
             var venue = model.ToEntity<Venue>();
             await _venueService.InsertAsync(venue);
-            model = venue.ToModel<VenueModel>();
-            await AddUpdateVenueTicketCategoryMapModels(model.Id, model.VenueTicketCategories);
-            return Success(model);
+            var entityUpdatedmodel = venue.ToModel<VenueModel>();
+            await AddUpdateVenueTicketCategoryMapModels(entityUpdatedmodel.Id, model.VenueTicketCategories);
+            return Success(entityUpdatedmodel);
         }
 
         [HttpPost]
