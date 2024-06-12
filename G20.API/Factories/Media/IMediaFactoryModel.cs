@@ -6,5 +6,7 @@ namespace G20.API.Factories.Media
     {
         Task<FileUploadRequestModel> GetRequestModelAsync(int? fileId);
         Task<FileUploadRequestModel> UploadRequestModelAsync(FileUploadRequestModel model);
+
+        Task<int?> AddUpdateFile(FileUploadRequestModel fileUploadRequestModel);
     }
 }

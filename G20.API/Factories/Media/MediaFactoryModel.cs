@@ -63,5 +63,25 @@ namespace G20.API.Factories.Media
             model.Id = file.Id;
             return model;
         }
+
+        public virtual async Task<int?> AddUpdateFile(FileUploadRequestModel fileUploadRequestModel)
+        {
+            if (fileUploadRequestModel != null
+               && !string.IsNullOrEmpty(fileUploadRequestModel.FileName)
+               && !string.IsNullOrEmpty(fileUploadRequestModel.FileAsBase64)
+               && fileUploadRequestModel.Id <= 0)
+            {
+                fileUploadRequestModel = await UploadRequestModelAsync(fileUploadRequestModel);
+                return fileUploadRequestModel.Id;
+            }
+            else if (fileUploadRequestModel != null && fileUploadRequestModel.Id > 0)
+            {
+                return fileUploadRequestModel.Id;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

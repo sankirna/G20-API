@@ -28,30 +28,6 @@ namespace G20.API.Controllers
             _teamService = teamService;
         }
 
-        #region Private Methods
-
-        private async Task<int?> AddUpdateLogo(FileUploadRequestModel fileUploadRequestModel)
-        {
-            if (fileUploadRequestModel != null
-               && !string.IsNullOrEmpty(fileUploadRequestModel.FileName)
-               && !string.IsNullOrEmpty(fileUploadRequestModel.FileAsBase64)
-               && fileUploadRequestModel.Id <= 0)
-            {
-                fileUploadRequestModel = await _mediaFactoryModel.UploadRequestModelAsync(fileUploadRequestModel);
-                return fileUploadRequestModel.Id;
-            }
-            else if (fileUploadRequestModel != null && fileUploadRequestModel.Id > 0)
-            {
-                return fileUploadRequestModel.Id;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        #endregion
-
         [HttpPost]
         public virtual async Task<IActionResult> List(TeamSearchModel searchModel)
         {
@@ -66,14 +42,14 @@ namespace G20.API.Controllers
             if (team == null)
                 return Error("not found");
             var model = team.ToModel<TeamModel>();
-            model.Logo =  await _mediaFactoryModel.GetRequestModelAsync(model.logoId);
+            model.Logo = await _mediaFactoryModel.GetRequestModelAsync(model.logoId);
             return Success(model);
         }
 
         [HttpPost]
         public virtual async Task<IActionResult> Create(TeamModel model)
         {
-            var fileId = await AddUpdateLogo(model.Logo);
+            var fileId = await _mediaFactoryModel.AddUpdateFile(model.Logo);
 
             var team = model.ToEntity<Team>();
             team.LogoId = fileId;
@@ -88,7 +64,7 @@ namespace G20.API.Controllers
             var team = await _teamService.GetByIdAsync(model.Id);
             if (team == null)
                 return Error("not found");
-            var fileId = await AddUpdateLogo(model.Logo);
+            var fileId = await _mediaFactoryModel.AddUpdateFile(model.Logo);
             team = model.ToEntity(team);
             team.LogoId = fileId;
             await _teamService.UpdateAsync(team);

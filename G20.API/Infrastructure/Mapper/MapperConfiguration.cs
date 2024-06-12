@@ -6,7 +6,7 @@ using G20.API.Models.Cities;
 using G20.API.Models.Countries;
 using G20.API.Models.Coupons;
 using G20.API.Models.Roles;
-using G20.API.Models.StandCategories;
+using G20.API.Models.TicketCategories;
 using G20.API.Models.States;
 using G20.API.Models.SubCategories;
 using G20.API.Models.Teams;
@@ -35,7 +35,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateSubCategoryMap();
             CreateVenueMap();
             CreateTeamMap();
-            CreateStandCategoryMap();
+            CreateTicketCategoryMap();
         }
 
         public virtual void CreateCommonMap()
@@ -103,10 +103,10 @@ namespace G20.API.Infrastructure.Mapper
             CreateMap<Team, TeamRequestModel>().ReverseMap();
         }
 
-        public virtual void CreateStandCategoryMap()
+        public virtual void CreateTicketCategoryMap()
         {
-            CreateMap<StandCategory, StandCategoryModel>().ReverseMap();
-            CreateMap<StandCategory, StandCategoryRequestModel>().ReverseMap();
+            CreateMap<TicketCategory, TicketCategoryModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore()); 
+            CreateMap<TicketCategory, TicketCategoryRequestModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore());
         }
 
         public int Order => 0;
