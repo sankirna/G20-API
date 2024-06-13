@@ -28,4 +28,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Name" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="8d462f8a-2951-4340-967f-5a1135bcba1c" ChangeDateTime="06/12/2024 18:41:28">
+    <Property Name="ElementName" Value="[dbo].[Tickets].[Remain]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tickets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NoOfTickets" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f864dd20-71dc-4080-8b4e-3d693779b512" ChangeDateTime="06/12/2024 18:41:42">
+    <Property Name="ElementName" Value="[dbo].[Tickets].[NoOfTickets]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Tickets]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NoOfTicketsIssue" />
+  </Operation>
 </Operations>

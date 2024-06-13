@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Nop.Core.Infrastructure;
 using System.Text;
+using G20.API.Factories.Products;
 
 namespace G20.API.Infrastructure
 {
@@ -118,6 +119,7 @@ namespace G20.API.Infrastructure
             services.AddScoped<IVenueFactoryModel, VenueFactoryModel>();
             services.AddScoped<ITeamFactoryModel, TeamFactoryModel>();
             services.AddScoped<ITicketCategoryFactoryModel, TicketCategoryFactoryModel>();
+            services.AddScoped<IProductFactoryModel, ProductFactoryModel>();
             //User Management
             services.AddScoped<IUserFactoryModel, UserFactoryModel>();
             services.AddScoped<IRoleFactoryModel, RoleFactoryModel>();
