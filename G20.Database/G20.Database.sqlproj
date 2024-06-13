@@ -86,6 +86,7 @@
     <Build Include="dbo\Tables\Venue.sql" />
     <Build Include="dbo\Tables\Team.sql" />
     <Build Include="dbo\Tables\TicketCategory.sql" />
+    <Build Include="dbo\Tables\VenueTicketCategoryMap.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\Tickets.sql" />
   </ItemGroup>

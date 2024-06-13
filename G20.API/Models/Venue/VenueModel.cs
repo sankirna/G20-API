@@ -1,4 +1,5 @@
-﻿using G20.Framework.Models;
+﻿using G20.API.Models.VenueTicketCategoriesMap;
+using G20.Framework.Models;
 using Nop.Web.Framework.Models;
 
 namespace G20.API.Models.Venue
@@ -10,5 +11,6 @@ namespace G20.API.Models.Venue
         public int CountryId { get; set; }
         public string CountryName { get; set; }
         public int Capacity { get; set; }
+        public List<VenueTicketCategoryMapModel> VenueTicketCategories { get; set; }
     }
 }

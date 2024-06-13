@@ -23,6 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
 using Nop.Web.Framework.Infrastructure.Extensions;
+using G20.Service.VenueTicketCategoriesMap;
 using G20.Service.Products;
 using G20.Service.Tickets;
 
@@ -62,6 +63,8 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IVenueService, VenueService>();
         services.AddScoped<ITeamService, TeamService>();
         services.AddScoped<ITicketCategoryService, TicketCategoryService>();
+        services.AddScoped<IVenueTicketCategoryMapService, VenueTicketCategoryMapService>();
+
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ITicketService, TicketService>();
         //User Management
