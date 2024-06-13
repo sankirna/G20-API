@@ -1,5 +1,7 @@
 ﻿using G20.API.Models.Media;
+using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.Tickets;
+using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Core.Enums;
 using G20.Framework.Models;
 
@@ -19,5 +21,7 @@ namespace G20.API.Models.Products
         public string Description { get; set; }
         public int? FileId { get; set; }
         public FileUploadRequestModel? File { get; set; }
+        public List<ProductTicketCategoryMapModel> ProductTicketCategories { get; set; }
+
     }
 }

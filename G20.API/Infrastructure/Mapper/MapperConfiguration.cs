@@ -19,6 +19,7 @@ using Nop.Core.Infrastructure.Mapper;
 using Profile = AutoMapper.Profile;
 using G20.API.Models.VenueTicketCategoriesMap;
 using G20.API.Models.Products;
+using G20.API.Models.ProductTicketCategoriesMap;
 
 namespace G20.API.Infrastructure.Mapper
 {
@@ -38,8 +39,9 @@ namespace G20.API.Infrastructure.Mapper
             CreateVenueMap();
             CreateTeamMap();
             CreateTicketCategoryMap();
-            CreateVanueTicketCategoryMap();
+            CreateVenueTicketCategoryMap();
             CreateProductMap();
+            CreateProductTicketCategoryMap();
         }
 
         public virtual void CreateCommonMap()
@@ -137,11 +139,20 @@ namespace G20.API.Infrastructure.Mapper
                 .AfterMap((src, dest) => dest.ScheduleDateTime = dest.ScheduleDateTime.ToLocalDataTime());
         }
 
-
-        public virtual void CreateVanueTicketCategoryMap()
+        public virtual void CreateVenueTicketCategoryMap()
         {
             CreateMap<VenueTicketCategoryMap, VenueTicketCategoryMapModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore());
             CreateMap<VenueTicketCategoryMap, VenueTicketCategoryMapRequestModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore());
+        }
+
+        public virtual void CreateProductTicketCategoryMap()
+        {
+            CreateMap<ProductTicketCategoryMap, ProductTicketCategoryMapModel>().ReverseMap()
+                .ForMember(x => x.TicketCategory, opt => opt.Ignore())
+                .ForMember(x => x.Product, opt => opt.Ignore()); 
+            CreateMap<ProductTicketCategoryMap, ProductTicketCategoryMapRequestModel>().ReverseMap()
+                .ForMember(x => x.TicketCategory, opt => opt.Ignore())
+                .ForMember(x => x.Product, opt => opt.Ignore());
         }
 
         public int Order => 0;

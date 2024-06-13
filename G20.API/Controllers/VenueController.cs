@@ -42,7 +42,6 @@ namespace G20.API.Controllers
 
         #region Private Method
 
-
         private async Task AddUpdateVenueTicketCategoryMapModels(int venueId, List<VenueTicketCategoryMapModel> venueTicketCategoryMapsModel)
         {
             if (venueTicketCategoryMapsModel != null)
@@ -81,6 +80,7 @@ namespace G20.API.Controllers
                 }
             }
         }
+
         #endregion
 
         [HttpPost]
@@ -106,9 +106,9 @@ namespace G20.API.Controllers
         {
             var venue = model.ToEntity<Venue>();
             await _venueService.InsertAsync(venue);
-            var entityUpdatedmodel = venue.ToModel<VenueModel>();
-            await AddUpdateVenueTicketCategoryMapModels(entityUpdatedmodel.Id, model.VenueTicketCategories);
-            return Success(entityUpdatedmodel);
+            var entityUpdatedModel = venue.ToModel<VenueModel>();
+            await AddUpdateVenueTicketCategoryMapModels(entityUpdatedModel.Id, model.VenueTicketCategories);
+            return Success(entityUpdatedModel);
         }
 
         [HttpPost]

@@ -2,12 +2,17 @@
 using G20.API.Factories.Products;
 using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Products;
+using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.Tickets;
+using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Core;
 using G20.Core.Domain;
 using G20.Service.Products;
+using G20.Service.ProductTicketCategoriesMap;
 using G20.Service.Tickets;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using Nop.Core;
 
 namespace G20.API.Controllers
 {
@@ -18,23 +23,63 @@ namespace G20.API.Controllers
         protected readonly IProductService _productService;
         protected readonly ITicketService _ticketService;
         protected readonly IMediaFactoryModel _mediaFactoryModel;
+        protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
 
         public ProductController(IWorkContext workContext
             , IProductFactoryModel productFactoryModel
             , IMediaFactoryModel mediaFactoryModel
             , IProductService productService
-            ,ITicketService ticketService)
+            , ITicketService ticketService
+            , IProductTicketCategoryMapService productTicketCategoryMapService)
         {
             _workContext = workContext;
             _productFactoryModel = productFactoryModel;
             _productService = productService;
             _mediaFactoryModel = mediaFactoryModel;
             _ticketService = ticketService;
+            _productTicketCategoryMapService = productTicketCategoryMapService;
         }
 
-        #region Private Methods
+        #region Private Method
 
+        private async Task AddUpdateProductTicketCategoryMapModels(int productId, List<ProductTicketCategoryMapModel> productTicketCategoryMapsModel)
+        {
+            if (productTicketCategoryMapsModel != null)
+            {
+                productTicketCategoryMapsModel.ForEach(x => { x.ProductId = productId; });
+                var productTicketCategoryMaps = await _productTicketCategoryMapService.GetProductTicketCategoryMapsByProductIdAsync(productId);
+                var existingIds = productTicketCategoryMaps.Select(x => x.Id);
+                var requestIds = productTicketCategoryMapsModel.Select(x => x.Id);
+                var updateIds = requestIds.Intersect(existingIds);
+                var deleteIds = existingIds.Except(requestIds);
+                var addedIds = requestIds.Except(existingIds);
 
+                var deleteProductTicketCategoryMaps = productTicketCategoryMaps.Where(x => deleteIds.Contains(x.Id));
+                foreach (var productTicketCategoryMap in deleteProductTicketCategoryMaps)
+                {
+                    await _productTicketCategoryMapService.DeleteAsync(productTicketCategoryMap);
+                }
+
+                var updateProductTicketCategoryMaps = productTicketCategoryMapsModel.Where(x => updateIds.Contains(x.Id));
+                foreach (var productTicketCategoryMapRequest in updateProductTicketCategoryMaps)
+                {
+                    var productTicketCategoryMap = productTicketCategoryMaps.FirstOrDefault(x => x.Id == productTicketCategoryMapRequest.Id);
+                    if (productTicketCategoryMap == null)
+                        throw new NopException("product ticket Category Map not found");
+                    productTicketCategoryMapRequest.ProductId = productId;
+                    productTicketCategoryMap = productTicketCategoryMapRequest.ToEntity(productTicketCategoryMap);
+                    await _productTicketCategoryMapService.UpdateAsync(productTicketCategoryMap);
+                }
+
+                var addProductTicketCategoryMaps = productTicketCategoryMapsModel.Where(x => addedIds.Contains(x.Id));
+                foreach (var productTicketCategoryMapRequest in addProductTicketCategoryMaps)
+                {
+                    productTicketCategoryMapRequest.ProductId = productId;
+                    var productTicketCategoryMap = productTicketCategoryMapRequest.ToEntity<ProductTicketCategoryMap>();
+                    await _productTicketCategoryMapService.InsertAsync(productTicketCategoryMap);
+                }
+            }
+        }
 
         #endregion
 
@@ -53,6 +98,11 @@ namespace G20.API.Controllers
                 return Error("not found");
             var model = product.ToModel<ProductRequestModel>();
             model.File = await _mediaFactoryModel.GetRequestModelAsync(model.FileId);
+            if (product.VenueId.HasValue)
+            {
+                model.ProductTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListModelAsync(id, product.VenueId.Value);
+            }
+
             return Success(model);
         }
 
@@ -63,13 +113,9 @@ namespace G20.API.Controllers
             var product = model.ToEntity<Product>();
             product.FileId = fileId;
             await _productService.InsertAsync(product);
-            //foreach (TicketsModel item in model.ListTickets)
-            //{
-            //    item.Product = model;
-            //    var ticket = item.ToEntity<Ticket>();
-            //    await _ticketService.InsertAsync(ticket);
-            //}
-            
+          
+            var entityUpdatedModel  = product.ToModel<ProductRequestModel>();
+            await AddUpdateProductTicketCategoryMapModels(entityUpdatedModel.Id, model.ProductTicketCategories);
             return Success(product.ToModel<ProductRequestModel>());
         }
 
@@ -83,7 +129,9 @@ namespace G20.API.Controllers
             product = model.ToEntity(product);
             product.FileId = fileId;
             await _productService.UpdateAsync(product);
-            return Success(product.ToModel<ProductRequestModel>());
+            var entityUpdatedModel = product.ToModel<ProductRequestModel>();
+            await AddUpdateProductTicketCategoryMapModels(model.Id, model.ProductTicketCategories);
+            return Success(entityUpdatedModel);
         }
 
         [HttpPost]

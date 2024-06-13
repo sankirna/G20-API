@@ -26,6 +26,7 @@ using Nop.Web.Framework.Infrastructure.Extensions;
 using G20.Service.VenueTicketCategoriesMap;
 using G20.Service.Products;
 using G20.Service.Tickets;
+using G20.Service.ProductTicketCategoriesMap;
 
 namespace Nop.Web.Framework.Infrastructure;
 
@@ -60,13 +61,15 @@ public partial class NopStartup : INopStartup
         services.AddScoped<ICouponService, CouponService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ISubCategoryService, SubCategoryService>();
-        services.AddScoped<IVenueService, VenueService>();
         services.AddScoped<ITeamService, TeamService>();
+        services.AddScoped<ITicketService, TicketService>();
         services.AddScoped<ITicketCategoryService, TicketCategoryService>();
+        services.AddScoped<IVenueService, VenueService>();
         services.AddScoped<IVenueTicketCategoryMapService, VenueTicketCategoryMapService>();
 
         services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<ITicketService, TicketService>();
+        services.AddScoped<IProductTicketCategoryMapService, ProductTicketCategoryMapService>();
+
         //User Management
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
