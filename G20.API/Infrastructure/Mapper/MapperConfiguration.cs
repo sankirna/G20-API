@@ -18,6 +18,7 @@ using G20.Framework.Models;
 using Nop.Core.Infrastructure.Mapper;
 using Profile = AutoMapper.Profile;
 using G20.API.Models.VenueTicketCategoriesMap;
+using G20.API.Models.Products;
 
 namespace G20.API.Infrastructure.Mapper
 {
@@ -38,6 +39,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateTeamMap();
             CreateTicketCategoryMap();
             CreateVanueTicketCategoryMap();
+            CreateProductMap();
         }
 
         public virtual void CreateCommonMap()
@@ -109,6 +111,11 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateMap<TicketCategory, TicketCategoryModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore()); 
             CreateMap<TicketCategory, TicketCategoryRequestModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore());
+        }
+        public virtual void CreateProductMap()
+        {
+            CreateMap<Product, ProductModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore()); 
+            CreateMap<Product, ProductRequestModel>().ReverseMap().ForMember(x => x.File, opt => opt.Ignore());
         }
 
 
