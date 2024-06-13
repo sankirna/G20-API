@@ -21,6 +21,7 @@ namespace G20.API.Controllers
             model.Roles = _primaryService.GetRoles().Select(x => x.ToModel<EnumModel>()).ToList();
             model.FileTypes = _primaryService.GetFileTypes().Select(x => x.ToModel<EnumModel>()).ToList();
             model.CouponCalculateTypes = _primaryService.GetCouponCalculateTypes().Select(x => x.ToModel<EnumModel>()).ToList();
+            model.ProductTypes = _primaryService.GetProductTypes().Select(x => x.ToModel<EnumModel>()).ToList();
             return Success(model);
         }
     }

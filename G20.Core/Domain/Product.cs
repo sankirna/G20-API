@@ -8,17 +8,20 @@ namespace G20.Core.Domain
 {
     public partial class Product : BaseEntityWithTacking
     {
+        public string Name { get; set; }
         public int ProductTypeId { get; set; }
-        public int Team1Id { get; set; }
-        public int Team2Id { get; set; }
-        public int VenueId { get; set; }
-        public DateTime MatchDate { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public DateTime ScheduleDate { get; set; }
+        public int? Team1Id { get; set; }
+        public int? Team2Id { get; set; }
+        public int? VenueId { get; set; }
+        public DateTime? StartDateTime { get; set; }
+        public DateTime? EndDateTime { get; set; }
+        public DateTime? ScheduleDateTime { get; set; }
         public string Description { get; set; }
-
         public int? FileId { get; set; }
+        public bool IsDeleted { get; set; }
+        public virtual Team? Team1 { get; set; }
+        public virtual Team? Team2 { get; set; }
+        public virtual Venue? Venue { get; set; }
         public virtual File? File { get; set; }
     }
 }

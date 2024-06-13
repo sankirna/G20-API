@@ -12,6 +12,7 @@ namespace G20.Service.Common
         List<EnumClass> GetRoles();
         List<EnumClass> GetFileTypes();
         List<EnumClass> GetCouponCalculateTypes();
+        List<EnumClass> GetProductTypes();
 
 
     }

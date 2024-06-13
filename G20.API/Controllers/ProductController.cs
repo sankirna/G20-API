@@ -51,30 +51,30 @@ namespace G20.API.Controllers
             var product = await _productService.GetByIdAsync(id);
             if (product == null)
                 return Error("not found");
-            var model = product.ToModel<ProductModel>();
+            var model = product.ToModel<ProductRequestModel>();
             model.File = await _mediaFactoryModel.GetRequestModelAsync(model.FileId);
             return Success(model);
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> Create(ProductModel model)
+        public virtual async Task<IActionResult> Create(ProductRequestModel model)
         {
             var fileId = await _mediaFactoryModel.AddUpdateFile(model.File);
             var product = model.ToEntity<Product>();
             product.FileId = fileId;
             await _productService.InsertAsync(product);
-            foreach (TicketsModel item in model.ListTickets)
-            {
-                item.Product = model;
-                var ticket = item.ToEntity<Ticket>();
-                await _ticketService.InsertAsync(ticket);
-            }
+            //foreach (TicketsModel item in model.ListTickets)
+            //{
+            //    item.Product = model;
+            //    var ticket = item.ToEntity<Ticket>();
+            //    await _ticketService.InsertAsync(ticket);
+            //}
             
-            return Success(product.ToModel<ProductModel>());
+            return Success(product.ToModel<ProductRequestModel>());
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> Update(ProductModel model)
+        public virtual async Task<IActionResult> Update(ProductRequestModel model)
         {
             var product = await _productService.GetByIdAsync(model.Id);
             if (product == null)
@@ -83,7 +83,7 @@ namespace G20.API.Controllers
             product = model.ToEntity(product);
             product.FileId = fileId;
             await _productService.UpdateAsync(product);
-            return Success(product.ToModel<ProductModel>());
+            return Success(product.ToModel<ProductRequestModel>());
         }
 
         [HttpPost]

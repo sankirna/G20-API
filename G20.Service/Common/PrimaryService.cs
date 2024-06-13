@@ -27,5 +27,10 @@ namespace G20.Service.Common
         {
             return EnumHelper.ListFor<CouponCalculateType>().ToList();
         }
+
+        public List<EnumClass> GetProductTypes()
+        {
+            return EnumHelper.ListFor<ProductTypeEnum>().ToList();
+        }
     }
 }
