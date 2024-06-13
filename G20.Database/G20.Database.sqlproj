@@ -89,6 +89,7 @@
     <Build Include="dbo\Tables\VenueTicketCategoryMap.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\Tickets.sql" />
+    <Build Include="dbo\Tables\ProductTicketCategoryMap.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostDeploymentScripts\3.InsertContry.sql" />

@@ -42,35 +42,13 @@ namespace G20.API.Controllers
 
         #region Private Method
 
-        private async Task<List<VenueTicketCategoryMapModel>> GetVenueTicketCategoryMapModels(int venueId)
-        {
-            var venueTicketCategoryMaps = await _venueTicketCategoryMapService.GetVenueTicketCategoryMapsByVenueIdAsync(venueId);
-            var ticketCategories = (await _ticketCategoryService.GetTicketCategoryAsync(string.Empty)).ToList();
-
-            List<VenueTicketCategoryMapModel> venueTicketCategoryMapsModel = new List<VenueTicketCategoryMapModel>();
-            foreach (var ticketCategory in ticketCategories)
-            {
-                var venueTicketCategoryMap = venueTicketCategoryMaps.FirstOrDefault(x => x.VenueId == venueId && x.TicketCategoryId == ticketCategory.Id);
-                VenueTicketCategoryMapModel model = new VenueTicketCategoryMapModel();
-                model.TicketCategoryId = ticketCategory.Id;
-                model.TicketCategoryName = ticketCategory.Name;
-                model.File = await _mediaFactoryModel.GetRequestModelAsync(ticketCategory.FileId);
-                if (venueTicketCategoryMap != null)
-                {
-                    model.Capacity = venueTicketCategoryMap.Capacity;
-                    model.Amount = venueTicketCategoryMap.Amount;
-                }
-                venueTicketCategoryMapsModel.Add(model);
-            }
-
-            return venueTicketCategoryMapsModel;
-        }
 
         private async Task AddUpdateVenueTicketCategoryMapModels(int venueId, List<VenueTicketCategoryMapModel> venueTicketCategoryMapsModel)
         {
-            var venueTicketCategoryMaps = await _venueTicketCategoryMapService.GetVenueTicketCategoryMapsByVenueIdAsync(venueId);
             if (venueTicketCategoryMapsModel != null)
             {
+                venueTicketCategoryMapsModel.ForEach(x => { x.VenueId = venueId; });
+                var venueTicketCategoryMaps = await _venueTicketCategoryMapService.GetVenueTicketCategoryMapsByVenueIdAsync(venueId);
                 var existingIds = venueTicketCategoryMaps.Select(x => x.Id);
                 var requestIds = venueTicketCategoryMapsModel.Select(x => x.Id);
                 var updateIds = requestIds.Intersect(existingIds);
@@ -119,7 +97,7 @@ namespace G20.API.Controllers
             if (venue == null)
                 return Error("not found");
             var model = venue.ToModel<VenueModel>();
-            model.VenueTicketCategories = await GetVenueTicketCategoryMapModels(id);
+            model.VenueTicketCategories = await _venueFactoryModel.PrepareVenueTicketCategoryMapListModelAsync(id);
             return Success(model);
         }
 

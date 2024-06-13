@@ -42,4 +42,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="NoOfTicketsIssue" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="2492c329-319e-46f3-a6e2-8eceae469537" ChangeDateTime="06/13/2024 16:57:04">
+    <Property Name="ElementName" Value="[dbo].[ProductTicketCategory].[TicketCategoryId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProductTicketCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VenueTicketCategoryMapId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="721cf014-f96c-464e-aa5c-afe5996103d3" ChangeDateTime="06/13/2024 16:58:53">
+    <Property Name="ElementName" Value="[dbo].[ProductTicketCategory].[VenueTicketCategoryMapId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProductTicketCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TicketCategoryMapId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2f29844f-4fd4-42ee-b545-450b0a92275d" ChangeDateTime="06/13/2024 16:59:59">
+    <Property Name="ElementName" Value="[dbo].[ProductTicketCategory].[Capacity]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProductTicketCategory]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AvailableSeats" />
+  </Operation>
 </Operations>

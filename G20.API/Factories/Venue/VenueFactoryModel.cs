@@ -1,7 +1,11 @@
-﻿using G20.API.Infrastructure.Mapper.Extensions;
+﻿using G20.API.Factories.Media;
+using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Venue;
+using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Service.Countries;
+using G20.Service.TicketCategories;
 using G20.Service.Venue;
+using G20.Service.VenueTicketCategoriesMap;
 using Nop.Web.Framework.Models.Extensions;
 
 namespace G20.API.Factories.Venue
@@ -10,12 +14,22 @@ namespace G20.API.Factories.Venue
     {
         protected readonly IVenueService _venueService;
         protected readonly ICountryService _countryService;
+        protected readonly IVenueTicketCategoryMapService _venueTicketCategoryMapService;
+        protected readonly IMediaFactoryModel _mediaFactoryModel;
+        protected readonly ITicketCategoryService _ticketCategoryService;
 
         public VenueFactoryModel(IVenueService venueService
-            , ICountryService countryService)
+            , ICountryService countryService
+            , IVenueTicketCategoryMapService venueTicketCategoryMapService
+            , IMediaFactoryModel mediaFactoryModel
+            , ITicketCategoryService ticketCategoryService
+            )
         {
             _venueService = venueService;
             _countryService = countryService;
+            _venueTicketCategoryMapService = venueTicketCategoryMapService;
+            _mediaFactoryModel = mediaFactoryModel;
+            _ticketCategoryService = ticketCategoryService;
         }
 
         public virtual async Task<VenueListModel> PrepareVenueListModelAsync(VenueSearchModel searchModel)
@@ -36,6 +50,31 @@ namespace G20.API.Factories.Venue
             });
 
             return model;
+        }
+
+        public virtual async Task<List<VenueTicketCategoryMapModel>> PrepareVenueTicketCategoryMapListModelAsync(int venueId)
+        {
+            List<VenueTicketCategoryMapModel> venueTicketCategoryMapModels = new List<VenueTicketCategoryMapModel>();
+            var venueTicketCategoryMaps = await _venueTicketCategoryMapService.GetVenueTicketCategoryMapsByVenueIdAsync(venueId);
+            var ticketCategories = (await _ticketCategoryService.GetTicketCategoryAsync(string.Empty)).ToList();
+            List<VenueTicketCategoryMapModel> venueTicketCategoryMapsModel = new List<VenueTicketCategoryMapModel>();
+            foreach (var venueTicketCategoryMap in venueTicketCategoryMaps)
+            {
+                var ticketCategory = ticketCategories.FirstOrDefault(x => x.Id == venueTicketCategoryMap.TicketCategoryId);
+                VenueTicketCategoryMapModel model = new VenueTicketCategoryMapModel();
+                model.Id = venueTicketCategoryMap.Id;
+                model.VenueId = venueTicketCategoryMap.Id;
+                if (ticketCategory != null)
+                {
+                    model.TicketCategoryId = ticketCategory.Id;
+                    model.TicketCategoryName = ticketCategory.Name;
+                    model.File = await _mediaFactoryModel.GetRequestModelAsync(ticketCategory.FileId);
+                    model.Capacity = venueTicketCategoryMap.Capacity;
+                    model.Amount = venueTicketCategoryMap.Amount;
+                }
+                venueTicketCategoryMapsModel.Add(model);
+            }
+            return venueTicketCategoryMapsModel;
         }
     }
 }
