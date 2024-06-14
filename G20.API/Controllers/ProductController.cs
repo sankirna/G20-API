@@ -4,8 +4,6 @@ using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.ProductCombos;
 using G20.API.Models.Products;
 using G20.API.Models.ProductTicketCategoriesMap;
-using G20.API.Models.Tickets;
-using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Core;
 using G20.Core.Domain;
 using G20.Core.Enums;
@@ -48,7 +46,7 @@ namespace G20.API.Controllers
 
         #region Private Method
 
-        private async Task AddUpdateProductTicketCategoryMapModels(int productId, List<ProductTicketCategoryMapModel> productTicketCategoryMapsModel)
+        private async Task AddUpdateProductTicketCategoryMaps(int productId, List<ProductTicketCategoryMapModel> productTicketCategoryMapsModel)
         {
             if (productTicketCategoryMapsModel != null)
             {
@@ -83,6 +81,45 @@ namespace G20.API.Controllers
                     productTicketCategoryMapRequest.ProductId = productId;
                     var productTicketCategoryMap = productTicketCategoryMapRequest.ToEntity<ProductTicketCategoryMap>();
                     await _productTicketCategoryMapService.InsertAsync(productTicketCategoryMap);
+                }
+            }
+        }
+
+        private async Task AddUpdateProductCombo(int productId, List<ProductComboModel> productComboModels)
+        {
+            if (productComboModels != null)
+            {
+                productComboModels.ForEach(x => { x.ProductId = productId; });
+                var productCombos = await _productComboService.GetProductCombosByProductIdAsync(productId);
+                var existingIds = productCombos.Select(x => x.Id);
+                var requestIds = productComboModels.Select(x => x.Id);
+                var updateIds = requestIds.Intersect(existingIds);
+                var deleteIds = existingIds.Except(requestIds);
+                var addedIds = requestIds.Except(existingIds);
+
+                var deleteProductCombos = productCombos.Where(x => deleteIds.Contains(x.Id));
+                foreach (var productCombo in deleteProductCombos)
+                {
+                    await _productComboService.DeleteAsync(productCombo);
+                }
+
+                var updateProductComboModels = productComboModels.Where(x => updateIds.Contains(x.Id));
+                foreach (var updateProductComboModel in updateProductComboModels)
+                {
+                    var productCombo = productCombos.FirstOrDefault(x => x.Id == updateProductComboModel.Id);
+                    if (productCombo == null)
+                        throw new NopException("product Combo Map not found");
+                    productCombo.ProductId = productId;
+                    productCombo = updateProductComboModel.ToEntity(productCombo);
+                    await _productComboService.UpdateAsync(productCombo);
+                }
+
+                var addProductComboModels = productComboModels.Where(x => addedIds.Contains(x.Id));
+                foreach (var productComboModel in addProductComboModels)
+                {
+                    productComboModel.ProductId = productId;
+                    var productCombo = productComboModel.ToEntity<ProductCombo>();
+                    await _productComboService.InsertAsync(productCombo);
                 }
             }
         }
@@ -128,7 +165,11 @@ namespace G20.API.Controllers
             var entityUpdatedModel = product.ToModel<ProductRequestModel>();
             if (entityUpdatedModel.ProductTypeEnum == ProductTypeEnum.Regular)
             {
-                await AddUpdateProductTicketCategoryMapModels(entityUpdatedModel.Id, model.ProductTicketCategories);
+                await AddUpdateProductTicketCategoryMaps(entityUpdatedModel.Id, model.ProductTicketCategories);
+            }
+            if (model.ProductTypeEnum == ProductTypeEnum.Combo)
+            {
+                await AddUpdateProductCombo(entityUpdatedModel.Id, model.ProductCombos);
             }
             return Success(product.ToModel<ProductRequestModel>());
         }
@@ -146,7 +187,11 @@ namespace G20.API.Controllers
             var entityUpdatedModel = product.ToModel<ProductRequestModel>();
             if (entityUpdatedModel.ProductTypeEnum == ProductTypeEnum.Regular)
             {
-                await AddUpdateProductTicketCategoryMapModels(model.Id, model.ProductTicketCategories);
+                await AddUpdateProductTicketCategoryMaps(model.Id, model.ProductTicketCategories);
+            }
+            if (model.ProductTypeEnum == ProductTypeEnum.Combo)
+            {
+                await AddUpdateProductCombo(entityUpdatedModel.Id, model.ProductCombos);
             }
             return Success(entityUpdatedModel);
         }
