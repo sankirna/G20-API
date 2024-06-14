@@ -1,4 +1,5 @@
 ﻿using G20.API.Models.Media;
+using G20.API.Models.ProductCombos;
 using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.Tickets;
 using G20.API.Models.VenueTicketCategoriesMap;
@@ -22,6 +23,6 @@ namespace G20.API.Models.Products
         public int? FileId { get; set; }
         public FileUploadRequestModel? File { get; set; }
         public List<ProductTicketCategoryMapModel> ProductTicketCategories { get; set; }
-
+        public List<ProductComboModel> ProductCombos { get; set; }
     }
 }

@@ -20,6 +20,7 @@ using Profile = AutoMapper.Profile;
 using G20.API.Models.VenueTicketCategoriesMap;
 using G20.API.Models.Products;
 using G20.API.Models.ProductTicketCategoriesMap;
+using G20.API.Models.ProductCombos;
 
 namespace G20.API.Infrastructure.Mapper
 {
@@ -42,6 +43,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateVenueTicketCategoryMap();
             CreateProductMap();
             CreateProductTicketCategoryMap();
+            CreateProductComboMap();
         }
 
         public virtual void CreateCommonMap()
@@ -153,6 +155,11 @@ namespace G20.API.Infrastructure.Mapper
             CreateMap<ProductTicketCategoryMap, ProductTicketCategoryMapRequestModel>().ReverseMap()
                 .ForMember(x => x.TicketCategory, opt => opt.Ignore())
                 .ForMember(x => x.Product, opt => opt.Ignore());
+        }
+
+        public virtual void CreateProductComboMap()
+        {
+            CreateMap<ProductCombo, ProductComboModel>().ReverseMap();
         }
 
         public int Order => 0;

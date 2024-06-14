@@ -1,12 +1,15 @@
 ﻿using G20.API.Factories.Media;
 using G20.API.Factories.Products;
 using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.ProductCombos;
 using G20.API.Models.Products;
 using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.Tickets;
 using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Core;
 using G20.Core.Domain;
+using G20.Core.Enums;
+using G20.Service.ProductCombos;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
 using G20.Service.Tickets;
@@ -21,6 +24,7 @@ namespace G20.API.Controllers
         protected readonly IWorkContext _workContext;
         protected readonly IProductFactoryModel _productFactoryModel;
         protected readonly IProductService _productService;
+        protected readonly IProductComboService _productComboService;
         protected readonly ITicketService _ticketService;
         protected readonly IMediaFactoryModel _mediaFactoryModel;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
@@ -29,12 +33,14 @@ namespace G20.API.Controllers
             , IProductFactoryModel productFactoryModel
             , IMediaFactoryModel mediaFactoryModel
             , IProductService productService
+            , IProductComboService productComboService
             , ITicketService ticketService
             , IProductTicketCategoryMapService productTicketCategoryMapService)
         {
             _workContext = workContext;
             _productFactoryModel = productFactoryModel;
             _productService = productService;
+            _productComboService = productComboService;
             _mediaFactoryModel = mediaFactoryModel;
             _ticketService = ticketService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
@@ -98,9 +104,14 @@ namespace G20.API.Controllers
                 return Error("not found");
             var model = product.ToModel<ProductRequestModel>();
             model.File = await _mediaFactoryModel.GetRequestModelAsync(model.FileId);
-            if (product.VenueId.HasValue)
+            if (model.ProductTypeEnum == ProductTypeEnum.Regular && product.VenueId.HasValue)
             {
                 model.ProductTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListModelAsync(id, product.VenueId.Value);
+            }
+            if (model.ProductTypeEnum == ProductTypeEnum.Combo)
+            {
+                model.ProductCombos = (await _productComboService.GetProductCombosByProductIdAsync(id))
+                                     .ToList().Select(c => c.ToModel<ProductComboModel>()).ToList();
             }
 
             return Success(model);
@@ -113,9 +124,12 @@ namespace G20.API.Controllers
             var product = model.ToEntity<Product>();
             product.FileId = fileId;
             await _productService.InsertAsync(product);
-          
-            var entityUpdatedModel  = product.ToModel<ProductRequestModel>();
-            await AddUpdateProductTicketCategoryMapModels(entityUpdatedModel.Id, model.ProductTicketCategories);
+
+            var entityUpdatedModel = product.ToModel<ProductRequestModel>();
+            if (entityUpdatedModel.ProductTypeEnum == ProductTypeEnum.Regular)
+            {
+                await AddUpdateProductTicketCategoryMapModels(entityUpdatedModel.Id, model.ProductTicketCategories);
+            }
             return Success(product.ToModel<ProductRequestModel>());
         }
 
@@ -130,7 +144,10 @@ namespace G20.API.Controllers
             product.FileId = fileId;
             await _productService.UpdateAsync(product);
             var entityUpdatedModel = product.ToModel<ProductRequestModel>();
-            await AddUpdateProductTicketCategoryMapModels(model.Id, model.ProductTicketCategories);
+            if (entityUpdatedModel.ProductTypeEnum == ProductTypeEnum.Regular)
+            {
+                await AddUpdateProductTicketCategoryMapModels(model.Id, model.ProductTicketCategories);
+            }
             return Success(entityUpdatedModel);
         }
 

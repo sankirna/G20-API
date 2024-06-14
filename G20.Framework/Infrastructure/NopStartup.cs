@@ -27,6 +27,7 @@ using G20.Service.VenueTicketCategoriesMap;
 using G20.Service.Products;
 using G20.Service.Tickets;
 using G20.Service.ProductTicketCategoriesMap;
+using G20.Service.ProductCombos;
 
 namespace Nop.Web.Framework.Infrastructure;
 
@@ -69,6 +70,7 @@ public partial class NopStartup : INopStartup
 
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IProductTicketCategoryMapService, ProductTicketCategoryMapService>();
+        services.AddScoped<IProductComboService, ProductComboService>();
 
         //User Management
         services.AddScoped<IUserService, UserService>();
