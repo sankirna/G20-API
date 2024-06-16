@@ -24,5 +24,10 @@ namespace G20.API.Models.Products
         public FileUploadRequestModel? File { get; set; }
         public List<ProductTicketCategoryMapModel> ProductTicketCategories { get; set; }
         public List<ProductComboModel> ProductCombos { get; set; }
+
+
+        public string Team1Name { get; set; }
+        public string Team2Name { get; set; }
+        public string VenueName { get; set; }
     }
 }

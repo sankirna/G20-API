@@ -6,6 +6,7 @@ using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Service.Countries;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
+using G20.Service.Teams;
 using G20.Service.TicketCategories;
 using G20.Service.Venue;
 using G20.Service.VenueTicketCategoriesMap;
@@ -21,6 +22,7 @@ namespace G20.API.Factories.Products
         protected readonly IVenueTicketCategoryMapService _venueTicketCategoryMapService;
         protected readonly IMediaFactoryModel _mediaFactoryModel;
         protected readonly ITicketCategoryService _ticketCategoryService;
+        protected readonly ITeamService _teamService;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
 
         public ProductFactoryModel(
@@ -31,6 +33,7 @@ namespace G20.API.Factories.Products
             , IMediaFactoryModel mediaFactoryModel
             , ITicketCategoryService ticketCategoryService
             , IProductTicketCategoryMapService productTicketCategoryMapService
+            , ITeamService teamService
             )
         {
             _productService = productService;
@@ -40,8 +43,9 @@ namespace G20.API.Factories.Products
             _mediaFactoryModel = mediaFactoryModel;
             _ticketCategoryService = ticketCategoryService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
+            _teamService = teamService;
         }
-        
+
 
         public virtual async Task<ProductListModel> PrepareProductListModelAsync(ProductSearchModel searchModel)
         {
@@ -54,7 +58,13 @@ namespace G20.API.Factories.Products
             {
                 return products.SelectAwait(async product =>
                 {
+                    if (product.Team1Id != null)
+                        product.Team1 = _teamService.GetByIdAsync((int)product.Team1Id).Result;
+                    if (product.Team2Id != null)
+                        product.Team2 = _teamService.GetByIdAsync((int)product.Team2Id).Result;                    
                     var productModel = product.ToModel<ProductModel>();
+                    if (product.VenueId != null)
+                        productModel.VenueName = _venueService.GetByIdAsync((int)product.VenueId).Result.StadiumName;
                     return productModel;
                 });
             });
@@ -70,6 +80,41 @@ namespace G20.API.Factories.Products
             var ticketCategories = (await _ticketCategoryService.GetTicketCategoryAsync(string.Empty)).ToList();
             List<VenueTicketCategoryMapModel> venueTicketCategoryMapsModel = new List<VenueTicketCategoryMapModel>();
             foreach (var venueTicketCategoryMap in venueTicketCategoryMaps)
+            {
+                ProductTicketCategoryMapModel model = new ProductTicketCategoryMapModel();
+                model.Id = venueTicketCategoryMap.Id;
+
+                var ticketCategory = ticketCategories.FirstOrDefault(x => x.Id == venueTicketCategoryMap.TicketCategoryId);
+                if (ticketCategory != null)
+                {
+                    model.TicketCategoryId = ticketCategory.Id;
+                    model.TicketCategoryName = ticketCategory.Name;
+                    model.File = await _mediaFactoryModel.GetRequestModelAsync(ticketCategory.FileId);
+                }
+
+                var productTicketCategoryMap = productTicketCategoryMaps.FirstOrDefault(x => x.TicketCategoryId == venueTicketCategoryMap.TicketCategoryId);
+                if (productTicketCategoryMap != null)
+                {
+                    model.Total = productTicketCategoryMap.Total;
+                    model.Available = productTicketCategoryMap.Available;
+                    model.Block = productTicketCategoryMap.Block;
+                    model.Sold = productTicketCategoryMap.Sold;
+                    model.Price = productTicketCategoryMap.Price;
+                }
+
+                productTicketCategoryMapModels.Add(model);
+            }
+            return productTicketCategoryMapModels;
+        }
+
+
+        public virtual async Task<List<ProductTicketCategoryMapModel>> PrepareProductTicketCategoryMapListByProductIdsModelAsync(string productId)
+        {
+            List<ProductTicketCategoryMapModel> productTicketCategoryMapModels = new List<ProductTicketCategoryMapModel>();
+            var productTicketCategoryMaps = await _productTicketCategoryMapService.GetProductTicketCategoryMapsByMultipleProductIdsAsync(productId);
+            //var venueTicketCategoryMaps = await _venueTicketCategoryMapService.GetVenueTicketCategoryMapsByVenueIdAsync(venueId);
+            var ticketCategories = (await _ticketCategoryService.GetTicketCategoryAsync(string.Empty)).ToList();
+            foreach (var venueTicketCategoryMap in productTicketCategoryMaps)
             {
                 ProductTicketCategoryMapModel model = new ProductTicketCategoryMapModel();
                 model.Id = venueTicketCategoryMap.Id;

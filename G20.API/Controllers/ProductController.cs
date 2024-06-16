@@ -205,5 +205,17 @@ namespace G20.API.Controllers
             await _productService.DeleteAsync(product);
             return Success(id);
         }
+
+
+        [HttpPost]
+        public virtual async Task<IActionResult> GetCategoriesByProducts(string id)
+        {
+            var product = new Product();
+            var model = product.ToModel<ProductRequestModel>();
+            model.ProductTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListByProductIdsModelAsync(id);
+            
+
+            return Success(model);
+        }
     }
 }

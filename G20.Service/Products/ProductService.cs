@@ -20,7 +20,7 @@ namespace G20.Service.Products
                 if (!string.IsNullOrWhiteSpace(name))
                     query = query.Where(p => p.Team1Id.ToString().Contains(name));
 
-                return query;
+                return query.OrderByDescending(c=> c.Id);
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
 
             return products;
