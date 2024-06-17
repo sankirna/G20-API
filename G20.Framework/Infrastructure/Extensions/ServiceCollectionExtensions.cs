@@ -2,7 +2,9 @@
 using System.Threading.RateLimiting;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using G20.Core.Http;
 using G20.Framework.Filters;
+using G20.Framework.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -462,9 +464,9 @@ public static class ServiceCollectionExtensions
     /// <param name="services">Collection of service descriptors</param>
     public static void AddNopHttpClients(this IServiceCollection services)
     {
-        //default client
-        //services.AddHttpClient(NopHttpDefaults.DefaultHttpClient).WithProxy();
-
+       // default client
+        services.AddHttpClient(NopHttpDefaults.DefaultHttpClient).WithProxy();
+        
         ////client to request current store
         //services.AddHttpClient<StoreHttpClient>();
 

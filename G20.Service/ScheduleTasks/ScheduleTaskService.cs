@@ -1,7 +1,6 @@
 ﻿
 using G20.Core.Domain;
 using G20.Data;
-using G20.Services.ScheduleTasks;
 
 namespace G20.Service.ScheduleTasks;
 

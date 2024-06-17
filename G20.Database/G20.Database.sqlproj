@@ -96,6 +96,7 @@
     <Build Include="dbo\Tables\MessageTemplate.sql" />
     <Build Include="dbo\Tables\Download.sql" />
     <Build Include="dbo\Tables\ScheduleTask.sql" />
+    <Build Include="dbo\Tables\Setting.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostDeploymentScripts\3.InsertContry.sql" />

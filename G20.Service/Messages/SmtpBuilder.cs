@@ -22,7 +22,7 @@ public partial class SmtpBuilder : ISmtpBuilder
 {
     #region Fields
 
-    protected readonly EmailAccountSettings _emailAccountSettings;
+    //protected readonly EmailAccountSettings _emailAccountSettings;
     protected readonly IEmailAccountService _emailAccountService;
     protected readonly INopFileProvider _fileProvider;
 
@@ -30,11 +30,12 @@ public partial class SmtpBuilder : ISmtpBuilder
 
     #region Ctor
 
-    public SmtpBuilder(EmailAccountSettings emailAccountSettings,
+    public SmtpBuilder(
+        //EmailAccountSettings emailAccountSettings,
         IEmailAccountService emailAccountService,
         INopFileProvider fileProvider)
     {
-        _emailAccountSettings = emailAccountSettings;
+        //_emailAccountSettings = emailAccountSettings;
         _emailAccountService = emailAccountService;
         _fileProvider = fileProvider;
     }
@@ -117,7 +118,8 @@ public partial class SmtpBuilder : ISmtpBuilder
     /// </returns>
     public virtual async Task<SmtpClient> BuildAsync(EmailAccount emailAccount = null)
     {
-        emailAccount ??= await _emailAccountService.GetEmailAccountByIdAsync(_emailAccountSettings.DefaultEmailAccountId)
+        var defaultEmailAccountId = 1;
+        emailAccount ??= await _emailAccountService.GetEmailAccountByIdAsync(defaultEmailAccountId)
                          ?? throw new NopException("Email account could not be loaded");
 
         var client = new SmtpClient

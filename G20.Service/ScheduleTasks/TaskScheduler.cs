@@ -1,11 +1,8 @@
 ﻿using G20.Core.Domain;
 using G20.Core.Http;
-using G20.Service.ScheduleTasks;
-using G20.Services.ScheduleTasks;
 using Microsoft.Extensions.DependencyInjection;
-using Nop.Core.Configuration;
 
-namespace Nop.Services.ScheduleTasks;
+namespace G20.Service.ScheduleTasks;
 
 /// <summary>
 /// Represents task manager

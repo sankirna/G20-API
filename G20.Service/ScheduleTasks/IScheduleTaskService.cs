@@ -1,6 +1,6 @@
 ﻿using G20.Core.Domain;
 
-namespace G20.Services.ScheduleTasks;
+namespace G20.Service.ScheduleTasks;
 
 /// <summary>
 /// Task service interface

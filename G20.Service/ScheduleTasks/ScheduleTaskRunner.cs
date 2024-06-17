@@ -1,6 +1,5 @@
 ﻿
 using G20.Core.Domain;
-using G20.Services.ScheduleTasks;
 using Nop.Core.Infrastructure;
 
 namespace G20.Service.ScheduleTasks;

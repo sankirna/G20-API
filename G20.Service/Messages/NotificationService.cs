@@ -12,17 +12,18 @@ public partial class NotificationService : INotificationService
     #region Fields
 
     protected readonly IHttpContextAccessor _httpContextAccessor;
-    protected readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
+    //protected readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
 
     #endregion
 
     #region Ctor
 
-    public NotificationService(IHttpContextAccessor httpContextAccessor,
-        ITempDataDictionaryFactory tempDataDictionaryFactory)
+    public NotificationService(IHttpContextAccessor httpContextAccessor
+        //,        ITempDataDictionaryFactory tempDataDictionaryFactory
+        )
     {
         _httpContextAccessor = httpContextAccessor;
-        _tempDataDictionaryFactory = tempDataDictionaryFactory;
+        //_tempDataDictionaryFactory = tempDataDictionaryFactory;
     }
 
     #endregion
@@ -38,12 +39,14 @@ public partial class NotificationService : INotificationService
     protected virtual void PrepareTempData(NotifyType type, string message, bool encode = true)
     {
         var context = _httpContextAccessor.HttpContext;
-        var tempData = _tempDataDictionaryFactory.GetTempData(context);
+        //var tempData = _tempDataDictionaryFactory.GetTempData(context);
 
         //Messages have stored in a serialized list
-        var messages = tempData.TryGetValue(NopMessageDefaults.NotificationListKey, out var value) 
-            ? JsonConvert.DeserializeObject<IList<NotifyData>>(value.ToString())
-            : new List<NotifyData>();
+        //var messages = tempData.TryGetValue(NopMessageDefaults.NotificationListKey, out var value) 
+        //    ? JsonConvert.DeserializeObject<IList<NotifyData>>(value.ToString())
+        //    : new List<NotifyData>();
+
+        var messages = new List<NotifyData>();
 
         messages.Add(new NotifyData
         {
@@ -52,7 +55,7 @@ public partial class NotificationService : INotificationService
             Encode = encode
         });
 
-        tempData[NopMessageDefaults.NotificationListKey] = JsonConvert.SerializeObject(messages);
+        //tempData[NopMessageDefaults.NotificationListKey] = JsonConvert.SerializeObject(messages);
     }
 
     /// <summary>

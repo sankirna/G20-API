@@ -11,15 +11,17 @@ public partial class Tokenizer : ITokenizer
 {
     #region Fields
 
-    protected readonly MessageTemplatesSettings _messageTemplatesSettings;
+    //protected readonly MessageTemplatesSettings _messageTemplatesSettings;
 
     #endregion
 
     #region Ctor
 
-    public Tokenizer(MessageTemplatesSettings messageTemplatesSettings)
+    public Tokenizer(
+        //MessageTemplatesSettings messageTemplatesSettings
+        )
     {
-        _messageTemplatesSettings = messageTemplatesSettings;
+        //_messageTemplatesSettings = messageTemplatesSettings;
     }
 
     #endregion
@@ -36,7 +38,8 @@ public partial class Tokenizer : ITokenizer
     protected string Replace(string original, string pattern, string replacement)
     {
         //for case sensitive comparison use base string.Replace() method
-        var stringComparison = _messageTemplatesSettings.CaseInvariantReplacement ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        //var stringComparison = _messageTemplatesSettings.CaseInvariantReplacement ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        var stringComparison = StringComparison.Ordinal;
         if (stringComparison == StringComparison.Ordinal)
             return original.Replace(pattern, replacement);
 
