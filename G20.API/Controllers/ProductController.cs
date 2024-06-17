@@ -157,6 +157,13 @@ namespace G20.API.Controllers
         }
 
         [HttpPost]
+        public virtual async Task<IActionResult> GetTicketCategoriesByProducts(ProductTicketCategoriesRequestModel model)
+        {
+            var productTicketCategories = await _productFactoryModel.PrepareComboProductTicketCategoryMapListModelAsync(model.ProductId, model.ProductMapIds);
+            return Success(productTicketCategories);
+        }
+
+        [HttpPost]
         public virtual async Task<IActionResult> Create(ProductRequestModel model)
         {
             var fileId = await _mediaFactoryModel.AddUpdateFile(model.File);
@@ -205,11 +212,6 @@ namespace G20.API.Controllers
         }
 
 
-        [HttpPost]
-        public virtual async Task<IActionResult> GetTicketCategoriesByProducts(List<int> productIds)
-        {
-            var productTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListByProductIdsModelAsync(productIds);
-            return Success(productTicketCategories);
-        }
+        
     }
 }

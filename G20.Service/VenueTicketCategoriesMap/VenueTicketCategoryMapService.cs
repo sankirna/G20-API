@@ -29,9 +29,16 @@ namespace G20.Service.VenueTicketCategoriesMap
 
         public virtual async Task<IList<VenueTicketCategoryMap>> GetVenueTicketCategoryMapsByVenueIdAsync(int venueId)
         {
-            var maps = await _entityRepository.Table.Where(x=>x.IsDeleted ==false && x.VenueId==venueId).ToListAsync();
+            var maps = await GetVenueTicketCategoryMapsByVenueIdsAsync(new List<int>() { venueId });
             return maps;
         }
+
+        public virtual async Task<IList<VenueTicketCategoryMap>> GetVenueTicketCategoryMapsByVenueIdsAsync(List<int> venueIds)
+        {
+            var maps = await _entityRepository.Table.Where(x => x.IsDeleted == false && venueIds.Contains(x.VenueId)).ToListAsync();
+            return maps;
+        }
+
 
         public virtual async Task<VenueTicketCategoryMap> GetByIdAsync(int Id)
         {
