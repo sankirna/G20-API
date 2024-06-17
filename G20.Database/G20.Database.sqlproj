@@ -91,6 +91,11 @@
     <Build Include="dbo\Tables\Tickets.sql" />
     <Build Include="dbo\Tables\ProductTicketCategoryMap.sql" />
     <Build Include="dbo\Tables\ProductCombo.sql" />
+    <Build Include="dbo\Tables\EmailAccount.sql" />
+    <Build Include="dbo\Tables\QueuedEmail.sql" />
+    <Build Include="dbo\Tables\MessageTemplate.sql" />
+    <Build Include="dbo\Tables\Download.sql" />
+    <Build Include="dbo\Tables\ScheduleTask.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PostDeploymentScripts\3.InsertContry.sql" />
