@@ -208,14 +208,10 @@ namespace G20.API.Controllers
 
 
         [HttpPost]
-        public virtual async Task<IActionResult> GetCategoriesByProducts(string id)
+        public virtual async Task<IActionResult> GetCategoriesByProducts(List<int> productIds)
         {
-            var product = new Product();
-            var model = product.ToModel<ProductRequestModel>();
-            model.ProductTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListByProductIdsModelAsync(id);
-            
-
-            return Success(model);
+            var productTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListByProductIdsModelAsync(productIds);
+            return Success(productTicketCategories);
         }
     }
 }

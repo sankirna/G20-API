@@ -1,6 +1,8 @@
 ﻿using G20.Core;
 using G20.Core.Domain;
+using G20.Core.Enums;
 using G20.Data;
+using System.Linq;
 
 namespace G20.Service.Products
 {
@@ -13,14 +15,19 @@ namespace G20.Service.Products
             _entityRepository = entityRepository;
         }
 
-        public virtual async Task<IPagedList<Product>> GetProductsAsync(string name, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public virtual async Task<IPagedList<Product>> GetProductsAsync(string name, int? productTypeId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var products = await _entityRepository.GetAllPagedAsync(query =>
             {
                 if (!string.IsNullOrWhiteSpace(name))
                     query = query.Where(p => p.Team1Id.ToString().Contains(name));
 
-                return query.OrderByDescending(c=> c.Id);
+                if (productTypeId.HasValue)
+                {
+                    query = query.Where(p => p.ProductTypeId == productTypeId);
+                }
+
+                return query.OrderByDescending(c => c.Id);
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
 
             return products;

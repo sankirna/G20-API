@@ -11,6 +11,6 @@ namespace G20.Service.ProductTicketCategoriesMap
         Task InsertAsync(ProductTicketCategoryMap entity);
         Task UpdateAsync(ProductTicketCategoryMap entity);
         Task DeleteAsync(ProductTicketCategoryMap entity);
-        Task<IList<ProductTicketCategoryMap>> GetProductTicketCategoryMapsByMultipleProductIdsAsync(string productId);
+        Task<IList<ProductTicketCategoryMap>> GetProductTicketCategoryMapsByMultipleProductIdsAsync(List<int> productIds);
     }
 }

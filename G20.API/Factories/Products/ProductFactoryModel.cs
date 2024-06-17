@@ -51,7 +51,7 @@ namespace G20.API.Factories.Products
         {
             ArgumentNullException.ThrowIfNull(searchModel);
 
-            var products = await _productService.GetProductsAsync(name: searchModel.Team,
+            var products = await _productService.GetProductsAsync(name: searchModel.Team,productTypeId: searchModel.ProductTypeId, 
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             var model = await new ProductListModel().PrepareToGridAsync(searchModel, products, () =>
@@ -108,10 +108,10 @@ namespace G20.API.Factories.Products
         }
 
 
-        public virtual async Task<List<ProductTicketCategoryMapModel>> PrepareProductTicketCategoryMapListByProductIdsModelAsync(string productId)
+        public virtual async Task<List<ProductTicketCategoryMapModel>> PrepareProductTicketCategoryMapListByProductIdsModelAsync(List<int> productIds)
         {
             List<ProductTicketCategoryMapModel> productTicketCategoryMapModels = new List<ProductTicketCategoryMapModel>();
-            var productTicketCategoryMaps = await _productTicketCategoryMapService.GetProductTicketCategoryMapsByMultipleProductIdsAsync(productId);
+            var productTicketCategoryMaps = await _productTicketCategoryMapService.GetProductTicketCategoryMapsByMultipleProductIdsAsync(productIds);
             //var venueTicketCategoryMaps = await _venueTicketCategoryMapService.GetVenueTicketCategoryMapsByVenueIdAsync(venueId);
             var ticketCategories = (await _ticketCategoryService.GetTicketCategoryAsync(string.Empty)).ToList();
             foreach (var venueTicketCategoryMap in productTicketCategoryMaps)

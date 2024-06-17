@@ -55,9 +55,9 @@ namespace G20.Service.ProductTicketCategoriesMap
             await _entityRepository.DeleteAsync(entity);
         }
 
-        public virtual async Task<IList<ProductTicketCategoryMap>> GetProductTicketCategoryMapsByMultipleProductIdsAsync(string productId)
+        public virtual async Task<IList<ProductTicketCategoryMap>> GetProductTicketCategoryMapsByMultipleProductIdsAsync(List<int> productIds)
         {
-            var maps = await _entityRepository.Table.Where(x => x.IsDeleted == false &&  productId.Contains(x.ProductId.ToString())).ToListAsync();
+            var maps = await _entityRepository.Table.Where(x => x.IsDeleted == false && productIds.Contains(x.ProductId)).ToListAsync();
             return maps;
         }
     }
