@@ -143,12 +143,14 @@ namespace G20.API.Controllers
             model.File = await _mediaFactoryModel.GetRequestModelAsync(model.FileId);
             if (model.ProductTypeEnum == ProductTypeEnum.Regular && product.VenueId.HasValue)
             {
-                model.ProductTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListModelAsync(id, product.VenueId.Value);
+                model.ProductTicketCategories = await _productFactoryModel.PrepareSingalProductTicketCategoryMapListModelAsync(id, product.VenueId.Value);
             }
             if (model.ProductTypeEnum == ProductTypeEnum.Combo)
             {
                 model.ProductCombos = (await _productComboService.GetProductCombosByProductIdAsync(id))
                                      .ToList().Select(c => c.ToModel<ProductComboModel>()).ToList();
+                var productIds= model.ProductCombos.Select(x=>x.ProductMapId).ToList();
+                model.ProductTicketCategories = await _productFactoryModel.PrepareComboProductTicketCategoryMapListModelAsync(id, productIds);
             }
 
             return Success(model);
@@ -163,14 +165,11 @@ namespace G20.API.Controllers
             await _productService.InsertAsync(product);
 
             var entityUpdatedModel = product.ToModel<ProductRequestModel>();
-            if (entityUpdatedModel.ProductTypeEnum == ProductTypeEnum.Regular)
-            {
-                await AddUpdateProductTicketCategoryMaps(entityUpdatedModel.Id, model.ProductTicketCategories);
-            }
             if (model.ProductTypeEnum == ProductTypeEnum.Combo)
             {
                 await AddUpdateProductCombo(entityUpdatedModel.Id, model.ProductCombos);
             }
+            await AddUpdateProductTicketCategoryMaps(entityUpdatedModel.Id, model.ProductTicketCategories);
             return Success(product.ToModel<ProductRequestModel>());
         }
 
@@ -185,14 +184,13 @@ namespace G20.API.Controllers
             product.FileId = fileId;
             await _productService.UpdateAsync(product);
             var entityUpdatedModel = product.ToModel<ProductRequestModel>();
-            if (entityUpdatedModel.ProductTypeEnum == ProductTypeEnum.Regular)
-            {
-                await AddUpdateProductTicketCategoryMaps(model.Id, model.ProductTicketCategories);
-            }
+
             if (model.ProductTypeEnum == ProductTypeEnum.Combo)
             {
                 await AddUpdateProductCombo(entityUpdatedModel.Id, model.ProductCombos);
             }
+            await AddUpdateProductTicketCategoryMaps(model.Id, model.ProductTicketCategories);
+
             return Success(entityUpdatedModel);
         }
 
@@ -208,7 +206,7 @@ namespace G20.API.Controllers
 
 
         [HttpPost]
-        public virtual async Task<IActionResult> GetCategoriesByProducts(List<int> productIds)
+        public virtual async Task<IActionResult> GetTicketCategoriesByProducts(List<int> productIds)
         {
             var productTicketCategories = await _productFactoryModel.PrepareProductTicketCategoryMapListByProductIdsModelAsync(productIds);
             return Success(productTicketCategories);
