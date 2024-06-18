@@ -1,6 +1,10 @@
-﻿using G20.Core.Domain;
+﻿using G20.Core.Configuration;
+using G20.Core.Domain;
 using G20.Core.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Nop.Core.Configuration;
+using System.Net.Http.Json;
 using System.Text;
 
 namespace G20.Service.ScheduleTasks;
@@ -14,6 +18,8 @@ public partial class TaskScheduler : ITaskScheduler
 
     protected static readonly List<TaskThread> _taskThreads = new();
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly AppServerSetting _appServerSetting;
+
 
     #endregion
 
@@ -21,10 +27,12 @@ public partial class TaskScheduler : ITaskScheduler
 
     public TaskScheduler(
         IHttpClientFactory httpClientFactory,
-        IServiceScopeFactory serviceScopeFactory)
+        IServiceScopeFactory serviceScopeFactory,
+        AppSettings appSettings)
     {
         
         _serviceScopeFactory = serviceScopeFactory;
+        _appServerSetting = appSettings.Get<AppServerSetting>();
         TaskThread.HttpClientFactory = httpClientFactory;
         TaskThread.ServiceScopeFactory = serviceScopeFactory;
     }
@@ -53,7 +61,7 @@ public partial class TaskScheduler : ITaskScheduler
 
         //var scheduleTaskUrl = $"{store.Url.TrimEnd('/')}/{NopTaskDefaults.ScheduleTaskPath}";
         //var timeout = _appSettings.Get<CommonConfig>().ScheduleTaskRunTimeout;
-        var name = "https://localhost:7050/api";
+        var name = _appServerSetting.BaseURL+"/api";
         var scheduleTaskUrl = $"{name}/{NopTaskDefaults.ScheduleTaskPath}";
         var timeout =600;
         foreach (var scheduleTask in scheduleTasks)
@@ -177,11 +185,11 @@ public partial class TaskScheduler : ITaskScheduler
                     client.Timeout = TimeSpan.FromMilliseconds(_timeout.Value);
 
                 //send post data
-                var data = new  { taskType =_scheduleTask.Type }; // new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("taskType", _scheduleTask.Type) });
-
-                var bodyStr = data.ToString();
-                var httpContent = new StringContent(bodyStr, Encoding.UTF8, "application/json");
-                await client.PostAsync(_scheduleTaskUrl, httpContent);
+                //var data = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("taskType", _scheduleTask.Type) });
+                var data = new { taskType = _scheduleTask.Type };
+                var json = JsonConvert.SerializeObject(data);
+                var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
+                await client.PostAsync(_scheduleTaskUrl, stringContent);
             }
             catch (Exception ex)
             {

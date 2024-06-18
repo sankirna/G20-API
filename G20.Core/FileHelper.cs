@@ -1,5 +1,8 @@
-﻿using G20.Core.Enums;
+﻿using G20.Core.Configuration;
+using G20.Core.Enums;
 using Microsoft.AspNetCore.Hosting;
+using Nop.Core.Configuration;
+using Nop.Core.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Formats.Tar;
@@ -36,7 +39,9 @@ namespace G20.Core
 
         public static string ToGetUrlFolderPath(this FileTypeEnum fileType)
         {
-            return string.Format("{0}/{1}/", "https://localhost:7050/StaticFiles", fileType.ToString());
+            var appSettings = EngineContext.Current.Resolve<AppSettings>();
+            var appServerSetting = appSettings.Get<AppServerSetting>();
+            return string.Format("{0}/{1}/{2}/", appServerSetting.BaseURL, "StaticFiles", fileType.ToString());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using G20.Service.ScheduleTasks;
+﻿using G20.API.Models.ScheduleTask;
+using G20.Service.ScheduleTasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace G20.API.Controllers
@@ -20,9 +21,9 @@ namespace G20.API.Controllers
 
         [HttpPost]
         //[IgnoreAntiforgeryToken]
-        public virtual async Task<IActionResult> RunTask(string taskType)
+        public virtual async Task<IActionResult> RunTask(RunTaskRequestModel model)
         {
-            var scheduleTask = await _scheduleTaskService.GetTaskByTypeAsync(taskType);
+            var scheduleTask = await _scheduleTaskService.GetTaskByTypeAsync(model.TaskType);
             if (scheduleTask == null)
                 //schedule task cannot be loaded
                 return NoContent();
