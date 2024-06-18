@@ -159,10 +159,10 @@ BEGIN
              VALUES
                    (1
 		           ,'G20'
-                   ,'sankirnarana@gmail.com'
+                   ,'xxx@gmail.com'
                    ,'smtp.gmail.com'
-                   ,'sankirnarana@gmail.com'
-                   ,'rinku@661988'
+                   ,'xxx@gmail.com'
+                   ,'xxx'
                    ,'587'
                    ,0
                    ,1000
