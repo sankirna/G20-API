@@ -121,23 +121,23 @@ namespace G20.API.Infrastructure.Mapper
             CreateMap<ProductModel, Product > ()
                 .ForMember(x => x.File, opt => opt.Ignore())
                 .AfterMap((src, dest) => dest.StartDateTime = dest.StartDateTime.ToUTCDataTime())  
-                .AfterMap((src, dest) => dest.EndDateTime = dest.ScheduleDateTime.ToUTCDataTime())  
+                .AfterMap((src, dest) => dest.EndDateTime = dest.EndDateTime.ToUTCDataTime())  
                 .AfterMap((src, dest) => dest.ScheduleDateTime = dest.ScheduleDateTime.ToUTCDataTime());
             CreateMap<Product, ProductModel>()
                 .ForMember(x => x.File, opt => opt.Ignore())
                 .AfterMap((src, dest) => dest.StartDateTime = dest.StartDateTime.ToLocalDataTime())
-                .AfterMap((src, dest) => dest.ScheduleDateTime = dest.EndDateTime.ToLocalDataTime())
+                .AfterMap((src, dest) => dest.EndDateTime = dest.EndDateTime.ToLocalDataTime())
                 .AfterMap((src, dest) => dest.ScheduleDateTime = dest.ScheduleDateTime.ToLocalDataTime());
 
             CreateMap<ProductRequestModel, Product>()
                 .ForMember(x => x.File, opt => opt.Ignore())
                 .AfterMap((src, dest) => dest.StartDateTime = dest.StartDateTime.ToUTCDataTime())
-                .AfterMap((src, dest) => dest.EndDateTime = dest.ScheduleDateTime.ToUTCDataTime())
+                .AfterMap((src, dest) => dest.EndDateTime = dest.EndDateTime.ToUTCDataTime())
                 .AfterMap((src, dest) => dest.ScheduleDateTime = dest.ScheduleDateTime.ToUTCDataTime());
             CreateMap<Product, ProductRequestModel>()
                 .ForMember(x => x.File, opt => opt.Ignore())
                 .AfterMap((src, dest) => dest.StartDateTime = dest.StartDateTime.ToLocalDataTime())
-                .AfterMap((src, dest) => dest.ScheduleDateTime = dest.EndDateTime.ToLocalDataTime())
+                .AfterMap((src, dest) => dest.EndDateTime = dest.EndDateTime.ToLocalDataTime())
                 .AfterMap((src, dest) => dest.ScheduleDateTime = dest.ScheduleDateTime.ToLocalDataTime());
         }
 
