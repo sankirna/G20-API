@@ -3,10 +3,12 @@ using FluentMigrator.Runner;
 using FluentMigrator.Runner.Conventions;
 using FluentMigrator.Runner.Initialization;
 using FluentMigrator.Runner.Processors;
+using G20.Core.Configuration;
 using G20.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
 using Nop.Data.Migrations;
 
@@ -69,9 +71,9 @@ public partial class NopDbStartup : INopStartup
     /// <param name="application">Builder for configuring an application's request pipeline</param>
     public void Configure(IApplicationBuilder application)
     {
-        //var config = Singleton<AppSettings>.Instance.Get<CacheConfig>();
+        var config = Singleton<AppSettings>.Instance.Get<CacheConfig>();
 
-        //LinqToDB.Common.Configuration.Linq.DisableQueryCache = config.LinqDisableQueryCache;
+       LinqToDB.Common.Configuration.Linq.DisableQueryCache = config.LinqDisableQueryCache;
     }
 
     /// <summary>

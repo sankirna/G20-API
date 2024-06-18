@@ -2,6 +2,7 @@
 using System.Threading.RateLimiting;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using G20.Core.Configuration;
 using G20.Core.Http;
 using G20.Framework.Filters;
 using G20.Framework.Infrastructure.Extensions;
@@ -152,43 +153,43 @@ public static class ServiceCollectionExtensions
     /// <param name="services">Collection of service descriptors</param>
     public static void AddDistributedCache(this IServiceCollection services)
     {
-        //var appSettings = Singleton<AppSettings>.Instance;
-        //var distributedCacheConfig = appSettings.Get<DistributedCacheConfig>();
+        var appSettings = Singleton<AppSettings>.Instance;
+        var distributedCacheConfig = appSettings.Get<DistributedCacheConfig>();
 
-        //if (!distributedCacheConfig.Enabled)
-        //    return;
+        if (!distributedCacheConfig.Enabled)
+            return;
 
-        //switch (distributedCacheConfig.DistributedCacheType)
-        //{
-        //    case DistributedCacheType.Memory:
-        //        services.AddDistributedMemoryCache();
-        //        break;
+        switch (distributedCacheConfig.DistributedCacheType)
+        {
+            case DistributedCacheType.Memory:
+                services.AddDistributedMemoryCache();
+                break;
 
-        //    case DistributedCacheType.SqlServer:
-        //        services.AddDistributedSqlServerCache(options =>
-        //        {
-        //            options.ConnectionString = distributedCacheConfig.ConnectionString;
-        //            options.SchemaName = distributedCacheConfig.SchemaName;
-        //            options.TableName = distributedCacheConfig.TableName;
-        //        });
-        //        break;
+            case DistributedCacheType.SqlServer:
+                services.AddDistributedSqlServerCache(options =>
+                {
+                    options.ConnectionString = distributedCacheConfig.ConnectionString;
+                    options.SchemaName = distributedCacheConfig.SchemaName;
+                    options.TableName = distributedCacheConfig.TableName;
+                });
+                break;
 
-        //    case DistributedCacheType.Redis:
-        //        services.AddStackExchangeRedisCache(options =>
-        //        {
-        //            options.Configuration = distributedCacheConfig.ConnectionString;
-        //            options.InstanceName = distributedCacheConfig.InstanceName ?? string.Empty;
-        //        });
-        //        break;
+            case DistributedCacheType.Redis:
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = distributedCacheConfig.ConnectionString;
+                    options.InstanceName = distributedCacheConfig.InstanceName ?? string.Empty;
+                });
+                break;
 
-        //    case DistributedCacheType.RedisSynchronizedMemory:
-        //        services.AddStackExchangeRedisCache(options =>
-        //        {
-        //            options.Configuration = distributedCacheConfig.ConnectionString;
-        //            options.InstanceName = distributedCacheConfig.InstanceName ?? string.Empty;
-        //        });
-        //        break;
-        //}
+            case DistributedCacheType.RedisSynchronizedMemory:
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = distributedCacheConfig.ConnectionString;
+                    options.InstanceName = distributedCacheConfig.InstanceName ?? string.Empty;
+                });
+                break;
+        }
     }
 
     /// <summary>

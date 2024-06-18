@@ -1,6 +1,7 @@
 ﻿using G20.Core.Domain;
 using G20.Core.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
 namespace G20.Service.ScheduleTasks;
 
@@ -52,12 +53,12 @@ public partial class TaskScheduler : ITaskScheduler
 
         //var scheduleTaskUrl = $"{store.Url.TrimEnd('/')}/{NopTaskDefaults.ScheduleTaskPath}";
         //var timeout = _appSettings.Get<CommonConfig>().ScheduleTaskRunTimeout;
-        var name = "Test";
+        var name = "https://localhost:7050/api";
         var scheduleTaskUrl = $"{name}/{NopTaskDefaults.ScheduleTaskPath}";
         var timeout =600;
         foreach (var scheduleTask in scheduleTasks)
         {
-            var taskThread = new TaskThread(scheduleTask, scheduleTaskUrl, timeout)
+            var taskThread = new TaskThread(scheduleTask, scheduleTaskUrl, null)
             {
                 Seconds = scheduleTask.Seconds
             };
@@ -176,8 +177,11 @@ public partial class TaskScheduler : ITaskScheduler
                     client.Timeout = TimeSpan.FromMilliseconds(_timeout.Value);
 
                 //send post data
-                var data = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("taskType", _scheduleTask.Type) });
-                await client.PostAsync(_scheduleTaskUrl, data);
+                var data = new  { taskType =_scheduleTask.Type }; // new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("taskType", _scheduleTask.Type) });
+
+                var bodyStr = data.ToString();
+                var httpContent = new StringContent(bodyStr, Encoding.UTF8, "application/json");
+                await client.PostAsync(_scheduleTaskUrl, httpContent);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿
+using G20.Core.Caching;
 using G20.Core.Domain;
 using Nop.Core.Infrastructure;
 
@@ -12,16 +13,19 @@ public partial class ScheduleTaskRunner : IScheduleTaskRunner
     #region Fields
 
     protected readonly IScheduleTaskService _scheduleTaskService;
+    protected readonly ILocker _locker;
 
     #endregion
 
     #region Ctor
 
     public ScheduleTaskRunner(
-        IScheduleTaskService scheduleTaskService)
+          IScheduleTaskService scheduleTaskService
+        , ILocker locker)
     {
        
         _scheduleTaskService = scheduleTaskService;
+        _locker = locker;
     }
 
     #endregion
@@ -125,7 +129,7 @@ public partial class ScheduleTaskRunner : IScheduleTaskRunner
             var expiration = TimeSpan.FromSeconds(expirationInSeconds);
 
             //execute task with lock
-            //await _locker.PerformActionWithLockAsync(scheduleTask.Type, expiration, () => PerformTaskAsync(scheduleTask));
+           await _locker.PerformActionWithLockAsync(scheduleTask.Type, expiration, () => PerformTaskAsync(scheduleTask));
         }
         catch (Exception exc)
         {

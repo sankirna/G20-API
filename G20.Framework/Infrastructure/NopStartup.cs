@@ -32,6 +32,11 @@ using Nop.Services.Media;
 using G20.Service.ScheduleTasks;
 using G20.Service.Configuration;
 using Nop.Services.Configuration;
+using G20.Core.Caching;
+using G20.Service.Caching;
+using G20.Core.Configuration;
+using G20.Core.Infrastructure;
+using Nop.Core.Configuration;
 
 namespace Nop.Web.Framework.Infrastructure;
 
@@ -93,7 +98,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IQueuedEmailService, QueuedEmailService>();
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IEmailAccountService, EmailAccountService>();
-        //services.AddScoped<IWorkflowMessageService, WorkflowMessageService>();
+        services.AddScoped<IWorkflowMessageService, WorkflowMessageService>();
         services.AddScoped<IMessageTokenProvider, MessageTokenProvider>();
         services.AddScoped<ITokenizer, Tokenizer>();
         services.AddScoped<ISmtpBuilder, SmtpBuilder>();
@@ -116,47 +121,47 @@ public partial class NopStartup : INopStartup
         //services.AddScoped<OfficialFeedManager>();
 
         //static cache manager
-        //var appSettings = Singleton<AppSettings>.Instance;
-        //var distributedCacheConfig = appSettings.Get<DistributedCacheConfig>();
+        var appSettings = Singleton<AppSettings>.Instance;
+        var distributedCacheConfig = appSettings.Get<DistributedCacheConfig>();
 
-        //services.AddTransient(typeof(IConcurrentCollection<>), typeof(ConcurrentTrie<>));
+        services.AddTransient(typeof(IConcurrentCollection<>), typeof(ConcurrentTrie<>));
 
-        //services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
-        //services.AddScoped<IShortTermCacheManager, PerRequestCacheManager>();
+        services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
+        services.AddScoped<IShortTermCacheManager, PerRequestCacheManager>();
 
-        //if (distributedCacheConfig.Enabled)
-        //{
-        //    switch (distributedCacheConfig.DistributedCacheType)
-        //    {
-        //        case DistributedCacheType.Memory:
-        //            services.AddScoped<IStaticCacheManager, MemoryDistributedCacheManager>();
-        //            services.AddScoped<ICacheKeyService, MemoryDistributedCacheManager>();
-        //            break;
-        //        case DistributedCacheType.SqlServer:
-        //            services.AddScoped<IStaticCacheManager, MsSqlServerCacheManager>();
-        //            services.AddScoped<ICacheKeyService, MsSqlServerCacheManager>();
-        //            break;
-        //        case DistributedCacheType.Redis:
-        //            services.AddSingleton<IRedisConnectionWrapper, RedisConnectionWrapper>();
-        //            services.AddScoped<IStaticCacheManager, RedisCacheManager>();
-        //            services.AddScoped<ICacheKeyService, RedisCacheManager>();
-        //            break;
-        //        case DistributedCacheType.RedisSynchronizedMemory:
-        //            services.AddSingleton<IRedisConnectionWrapper, RedisConnectionWrapper>();
-        //            services.AddSingleton<ISynchronizedMemoryCache, RedisSynchronizedMemoryCache>();
-        //            services.AddSingleton<IStaticCacheManager, SynchronizedMemoryCacheManager>();
-        //            services.AddScoped<ICacheKeyService, SynchronizedMemoryCacheManager>();
-        //            break;
-        //    }
+        if (distributedCacheConfig.Enabled)
+        {
+            switch (distributedCacheConfig.DistributedCacheType)
+            {
+                case DistributedCacheType.Memory:
+                    services.AddScoped<IStaticCacheManager, MemoryDistributedCacheManager>();
+                    services.AddScoped<ICacheKeyService, MemoryDistributedCacheManager>();
+                    break;
+                case DistributedCacheType.SqlServer:
+                    services.AddScoped<IStaticCacheManager, MsSqlServerCacheManager>();
+                    services.AddScoped<ICacheKeyService, MsSqlServerCacheManager>();
+                    break;
+                case DistributedCacheType.Redis:
+                    services.AddSingleton<IRedisConnectionWrapper, RedisConnectionWrapper>();
+                    services.AddScoped<IStaticCacheManager, RedisCacheManager>();
+                    services.AddScoped<ICacheKeyService, RedisCacheManager>();
+                    break;
+                case DistributedCacheType.RedisSynchronizedMemory:
+                    services.AddSingleton<IRedisConnectionWrapper, RedisConnectionWrapper>();
+                    services.AddSingleton<ISynchronizedMemoryCache, RedisSynchronizedMemoryCache>();
+                    services.AddSingleton<IStaticCacheManager, SynchronizedMemoryCacheManager>();
+                    services.AddScoped<ICacheKeyService, SynchronizedMemoryCacheManager>();
+                    break;
+            }
 
-        //    services.AddSingleton<ILocker, DistributedCacheLocker>();
-        //}
-        //else
-        //{
-        //    services.AddSingleton<ILocker, MemoryCacheLocker>();
-        //    services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
-        //    services.AddScoped<ICacheKeyService, MemoryCacheManager>();
-        //}
+            services.AddSingleton<ILocker, DistributedCacheLocker>();
+        }
+        else
+        {
+            services.AddSingleton<ILocker, MemoryCacheLocker>();
+            services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
+            services.AddScoped<ICacheKeyService, MemoryCacheManager>();
+        }
 
 
 

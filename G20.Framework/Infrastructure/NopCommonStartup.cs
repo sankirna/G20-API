@@ -22,6 +22,11 @@ namespace G20.Framework.Infrastructure
         {
             //add default HTTP clients
             services.AddNopHttpClients();
+
+            //add distributed cache
+            services.AddDistributedCache();
+
+            services.AddMemoryCache();
         }
 
         public int Order => 100;

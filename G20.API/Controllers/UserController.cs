@@ -5,6 +5,7 @@ using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Users;
 using G20.Core;
 using G20.Core.Domain;
+using G20.Service.Messages;
 using G20.Service.UserRoles;
 using G20.Service.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -20,17 +21,20 @@ namespace G20.API.Controllers
         protected readonly IUserFactoryModel _userFactoryModel;
         protected readonly IUserService _userService;
         protected readonly IUserRoleService _userRoleService;
+        protected readonly IWorkflowMessageService _workflowMessageService;
 
 
         public UserController(IWorkContext workContext
             , IUserFactoryModel userFactoryModel
             , IUserService userService
-            , IUserRoleService userRoleService)
+            , IUserRoleService userRoleService
+            , IWorkflowMessageService workflowMessageService)
         {
             _workContext = workContext;
             _userFactoryModel = userFactoryModel;
             _userService = userService;
             _userRoleService = userRoleService;
+            _workflowMessageService = workflowMessageService;
         }
 
         #region Private Methods
@@ -94,6 +98,7 @@ namespace G20.API.Controllers
             var user = model.ToEntity<User>();
             await _userService.InsertAsync(user);
             await AddOrUpdateUserRoles(user.Id, model.RoleIds);
+            await _workflowMessageService.SendTestNotificationMessageAsync();
             return Success(user.ToModel<UserModel>());
         }
 

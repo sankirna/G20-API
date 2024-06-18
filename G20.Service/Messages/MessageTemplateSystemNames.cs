@@ -3,6 +3,8 @@ namespace G20.Service.Messages
 {
     public static partial class MessageTemplateSystemNames
     {
+        public const string TEST_NOTIFICATION = "Test";
+
         #region Customer
 
         /// <summary>

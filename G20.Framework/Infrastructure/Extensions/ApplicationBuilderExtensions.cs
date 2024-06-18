@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.ExceptionServices;
 using G20.Core;
+using G20.Service.ScheduleTasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -50,9 +51,9 @@ public static class ApplicationBuilderExtensions
             //assembly = Assembly.GetAssembly(typeof(IMigrationManager));
             //migrationManager.ApplyUpMigrations(assembly, MigrationProcessType.Update);
 
-            //var taskScheduler = engine.Resolve<ITaskScheduler>();
-            //await taskScheduler.InitializeAsync();
-            //taskScheduler.StartScheduler();
+            var taskScheduler = engine.Resolve<ITaskScheduler>();
+            await taskScheduler.InitializeAsync();
+            taskScheduler.StartScheduler();
         }
     }
 
