@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
+    <PackageReference Include="MimeKit" Version="4.6.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\G20.Core\G20.Core.csproj" />
     <ProjectReference Include="..\G20.Data\G20.Data.csproj" />
   </ItemGroup>

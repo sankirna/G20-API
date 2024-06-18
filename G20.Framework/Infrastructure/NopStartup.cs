@@ -1,7 +1,6 @@
 ﻿using G20.Core;
 using G20.Framework;
 using G20.Framework.Authenticate;
-using G20.Service;
 using G20.Service.Account;
 using G20.Service.Categories;
 using G20.Service.Cities;
@@ -28,6 +27,11 @@ using G20.Service.Products;
 using G20.Service.Tickets;
 using G20.Service.ProductTicketCategoriesMap;
 using G20.Service.ProductCombos;
+using G20.Service.Messages;
+using Nop.Services.Media;
+using G20.Service.ScheduleTasks;
+using G20.Service.Configuration;
+using Nop.Services.Configuration;
 
 namespace Nop.Web.Framework.Infrastructure;
 
@@ -55,6 +59,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<INopFileProvider, NopFileProvider>();
 
         //Servies
+        services.AddScoped<ISettingService, SettingService>();
         services.AddScoped<IPrimaryService, PrimaryService>();
         services.AddScoped<ICountryService, CountryService>();
         services.AddScoped<IStateService, StateService>();
@@ -79,6 +84,26 @@ public partial class NopStartup : INopStartup
 
         //Files
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IDownloadService, DownloadService>();
+
+
+        #region Messages
+
+        services.AddScoped<IMessageTemplateService, MessageTemplateService>();
+        services.AddScoped<IQueuedEmailService, QueuedEmailService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IEmailAccountService, EmailAccountService>();
+        //services.AddScoped<IWorkflowMessageService, WorkflowMessageService>();
+        services.AddScoped<IMessageTokenProvider, MessageTokenProvider>();
+        services.AddScoped<ITokenizer, Tokenizer>();
+        services.AddScoped<ISmtpBuilder, SmtpBuilder>();
+        services.AddScoped<IEmailSender, EmailSender>();
+        #endregion
+
+        //Schedule tasks
+        services.AddScoped<IScheduleTaskService, ScheduleTaskService>();
+        services.AddSingleton<ITaskScheduler, G20.Service.ScheduleTasks.TaskScheduler>();
+        services.AddTransient<IScheduleTaskRunner, ScheduleTaskRunner>();
 
         //web helper
         //services.AddScoped<IWebHelper, WebHelper>();
