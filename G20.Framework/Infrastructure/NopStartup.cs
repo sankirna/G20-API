@@ -37,6 +37,7 @@ using G20.Service.Caching;
 using G20.Core.Configuration;
 using G20.Core.Infrastructure;
 using Nop.Core.Configuration;
+using G20.Service.QRCodes;
 
 namespace Nop.Web.Framework.Infrastructure;
 
@@ -109,6 +110,8 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IScheduleTaskService, ScheduleTaskService>();
         services.AddSingleton<ITaskScheduler, G20.Service.ScheduleTasks.TaskScheduler>();
         services.AddTransient<IScheduleTaskRunner, ScheduleTaskRunner>();
+
+        services.AddSingleton<QRCodeService>();
 
         //web helper
         //services.AddScoped<IWebHelper, WebHelper>();
