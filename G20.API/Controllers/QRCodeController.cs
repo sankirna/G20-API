@@ -2,9 +2,7 @@
 using G20.Core.Enums;
 using G20.Service.QRCodes;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
 using Nop.Core.Infrastructure;
-using Org.BouncyCastle.Utilities;
 
 namespace G20.API.Controllers
 {
@@ -12,11 +10,11 @@ namespace G20.API.Controllers
     {
         protected readonly INopFileProvider _fileService;
         protected readonly INopFileProvider _fileProvider;
-        private readonly QRCodeService _qrCodeService;
+        private readonly IQRCodeService _qrCodeService;
 
         public QRCodeController(INopFileProvider fileService,
             INopFileProvider fileProvider,
-            QRCodeService qrCodeService)
+            IQRCodeService qrCodeService)
         {
             _qrCodeService = qrCodeService;
             _fileProvider = fileProvider;
@@ -26,7 +24,7 @@ namespace G20.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Generate(string text)
         {
-            var qrCodeImage = _qrCodeService.GenerateQRCode(text);
+            var qrCodeImage = await _qrCodeService.GenerateQRCode(text);
             using (var stream = new MemoryStream())
             {
                 string path = string.Format("{0}{1}", FileTypeEnum.Other.ToGetFolderPath(), Guid.NewGuid() + ".png");

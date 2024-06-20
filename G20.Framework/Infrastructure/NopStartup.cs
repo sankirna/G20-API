@@ -130,8 +130,8 @@ public partial class NopStartup : INopStartup
         //BoardingDetails
         services.AddScoped<IBoardingDetailService, BoardingDetailService>();
 
-
-        services.AddSingleton<QRCodeService>();
+        //QR Codes
+        services.AddSingleton<IQRCodeService, QRCoderService>();
 
         //web helper
         //services.AddScoped<IWebHelper, WebHelper>();
