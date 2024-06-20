@@ -96,6 +96,12 @@
     <Build Include="dbo\Tables\Download.sql" />
     <Build Include="dbo\Tables\ScheduleTask.sql" />
     <Build Include="dbo\Tables\Setting.sql" />
+    <Build Include="dbo\Tables\ShoppingCart.sql" />
+    <Build Include="dbo\Tables\ShoppingCartItem.sql" />
+    <Build Include="dbo\Tables\Order.sql" />
+    <Build Include="dbo\Tables\PaymentDetail.sql" />
+    <Build Include="dbo\Tables\OrderProductItem.sql" />
+    <Build Include="dbo\Tables\OrderProductItemDetail.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeploymentScripts\PostDeploymentScript.sql">
