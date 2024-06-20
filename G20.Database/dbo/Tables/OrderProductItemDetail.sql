@@ -19,5 +19,6 @@
     CONSTRAINT [FK_OrderProductItemDetail_ProductComboId] FOREIGN KEY ([ProductComboId]) REFERENCES [dbo].[ProductCombo] ([Id])  ON DELETE CASCADE,
     CONSTRAINT [FK_OrderProductItemDetail_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[User] ([Id]),
     CONSTRAINT [FK_OrderProductItemDetail_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[User] ([Id]), 
+    CONSTRAINT [FK_OrderProductItemDetail_QRCodeFileId] FOREIGN KEY ([QRCodeFileId]) REFERENCES [dbo].[File] ([Id]),
     CONSTRAINT [PK_OrderProductItemDetail] PRIMARY KEY ([Id])
 )

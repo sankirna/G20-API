@@ -10,7 +10,7 @@
     [CreatedDateTime] DATETIME       NULL,
     [UpdatedBy]       INT            NULL,
     [UpdatedDateTime] DATETIME       NULL,
+    CONSTRAINT [PK_PaymentDetail] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_PaymentDetail_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[User] ([Id]),
-    CONSTRAINT [FK_PaymentDetail_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[User] ([Id]), 
-    CONSTRAINT [PK_PaymentDetail] PRIMARY KEY ([Id])
+    CONSTRAINT [FK_PaymentDetail_UpdatedBy] FOREIGN KEY ([UpdatedBy]) REFERENCES [dbo].[User] ([Id])
 )
