@@ -83,7 +83,7 @@ namespace G20.API.Factories.Products
             foreach (var venueTicketCategoryMap in venueTicketCategoryMaps)
             {
                 ProductTicketCategoryMapModel model = new ProductTicketCategoryMapModel();
-                model.Id = venueTicketCategoryMap.Id;
+                //model.p = venueTicketCategoryMap.Id;
 
                 var ticketCategory = ticketCategories.FirstOrDefault(x => x.Id == venueTicketCategoryMap.TicketCategoryId);
                 if (ticketCategory != null)
@@ -96,6 +96,8 @@ namespace G20.API.Factories.Products
                 var productTicketCategoryMap = productTicketCategoryMaps.FirstOrDefault(x => x.TicketCategoryId == venueTicketCategoryMap.TicketCategoryId);
                 if (productTicketCategoryMap != null)
                 {
+                    model.Id= productTicketCategoryMap.Id;
+                    model.ProductId= productTicketCategoryMap.ProductId;
                     model.Total = productTicketCategoryMap.Total;
                     model.Available = productTicketCategoryMap.Available;
                     model.Block = productTicketCategoryMap.Block;
