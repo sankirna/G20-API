@@ -11,6 +11,7 @@ namespace G20.API.Models.Products
     public partial record ProductModel : BaseNopEntityModel
     {
         public string Name { get; set; }
+        public int CategoryId { get; set; }
         public int ProductTypeId { get; set; }
         public ProductTypeEnum ProductTypeEnum { get { return (ProductTypeEnum)ProductTypeId; } }
         public int? Team1Id { get; set; }
@@ -29,5 +30,6 @@ namespace G20.API.Models.Products
         public string Team1Name { get; set; }
         public string Team2Name { get; set; }
         public string VenueName { get; set; }
+        public string CategoryName { get; set; }
     }
 }

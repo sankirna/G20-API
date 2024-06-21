@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace G20.Core.Enums
 {
-    public enum CouponCalculateType : int
+    public enum UserTypeEnum
     {
-        Amount = 1,
-        Percentage =2,
-        //Quantity=3
+        Admin = 1,
+        EndUser = 2
     }
 }

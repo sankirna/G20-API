@@ -3,6 +3,7 @@
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
 	[Name] nvarchar(max) NOT NULL,
 	[ProductTypeId] INT,
+	[CategoryId] INT,
 	[VenueId] int  NULL,
 	[Team1Id] int  NULL,
 	[Team2Id] int  NULL,

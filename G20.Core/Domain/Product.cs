@@ -10,6 +10,7 @@ namespace G20.Core.Domain
     public partial class Product : BaseEntityWithTacking
     {
         public string Name { get; set; }
+        public int CategoryId { get; set; }
         public int ProductTypeId { get; set; }
         public int? Team1Id { get; set; }
         public int? Team2Id { get; set; }
