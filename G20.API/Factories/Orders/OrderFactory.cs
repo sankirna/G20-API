@@ -11,7 +11,7 @@ using Nop.Core;
 
 namespace G20.API.Factories.Orders
 {
-    public class OrderFactory
+    public class OrderFactory: IOrderFactory
     {
         protected readonly ICouponService _couponService;
         protected readonly IProductService _productService;
@@ -39,7 +39,7 @@ namespace G20.API.Factories.Orders
             return orderProductItems;
         }
 
-        public virtual async Task<OrderCouponInfoModel> GetCouponInfoByCode(OrderModel orderModel)
+        public virtual async Task<OrderCouponInfoModel> GetAndValidateCouponInfoByCode(OrderModel orderModel)
         {
             if (string.IsNullOrEmpty(orderModel.CouponCode))
                 return null;
@@ -64,7 +64,7 @@ namespace G20.API.Factories.Orders
             return orderCouponInfoModel;
         }
 
-        public virtual async Task<IList<Product>> GetProductDetails(List<OrderProductItemModel> items)
+        public virtual async Task<IList<Product>> GetAndValidateProductDetails(List<OrderProductItemModel> items)
         {
 
             var productIds = items.Select(x => x.ProductId).ToList();
@@ -77,6 +77,17 @@ namespace G20.API.Factories.Orders
 
             if (productTicketCategoryMapIds.Count != productTicketCategoryMaps.Count)
                 throw new NopException("Some of product ticket category(s) are invalid");
+
+            //Check valid product and product ticket categories
+            foreach (var item in items)
+            {
+                var productTicketCategoryMap = productTicketCategoryMaps.FirstOrDefault(x => x.Id == item.ProductTicketCategoryMapId);
+                if (productTicketCategoryMap!= null 
+                     && productTicketCategoryMap.ProductId != item.ProductId)
+                {
+                    throw new NopException("Product and product ticket category(s) is invalid");
+                }
+            }
 
             foreach (var product in products)
             {
@@ -92,6 +103,7 @@ namespace G20.API.Factories.Orders
             {
                 var product = productDetails.FirstOrDefault(x => x.Id == orderProductRequestItem.ProductId);
                 var productTicketCategoryMap = product.ProductTicketCategoryMaps.FirstOrDefault(x => x.Id == orderProductRequestItem.ProductTicketCategoryMapId);
+                orderProductRequestItem.Price = productTicketCategoryMap.Price;
                 orderProductRequestItem.IsOutofStock = productTicketCategoryMap.IsOutOfStock(orderProductRequestItem.Quantity);
             }
             return orderProductRequestItems.Any(x => !x.IsOutofStock);

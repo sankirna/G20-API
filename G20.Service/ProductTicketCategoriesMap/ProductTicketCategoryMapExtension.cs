@@ -14,18 +14,19 @@ namespace G20.Service.ProductTicketCategoriesMap
             if (productTicketCategoryMap == null)
                 return false;
 
-            var isOutofStock = false;
+            var isOutOfStock = false;
 
-            if (productTicketCategoryMap.Available <= 0)
+            //if (productTicketCategoryMap.Available <= 0)
+            //{
+            //    isOutOfStock = true;
+            //}
+
+            var totalQuantity = productTicketCategoryMap.Sold + productTicketCategoryMap.Block + quantity;
+            if (totalQuantity > productTicketCategoryMap.Total)
             {
-                isOutofStock = true;
+                isOutOfStock = true;
             }
-
-            var totalQuantity = productTicketCategoryMap.Sold + quantity;
-            if (totalQuantity> productTicketCategoryMap.Available ) {
-                isOutofStock = true;
-            }
-            return isOutofStock;
+            return isOutOfStock;
         }
     }
 }

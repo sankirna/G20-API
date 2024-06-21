@@ -46,6 +46,8 @@ namespace G20.API.Infrastructure.Mapper
             CreateProductMap();
             CreateProductTicketCategoryMap();
             CreateProductComboMap();
+            CreateShoppingCart();
+            CreateShoppingOrderMap();
         }
 
         public virtual void CreateCommonMap()

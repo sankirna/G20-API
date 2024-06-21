@@ -22,6 +22,7 @@ using System.Text;
 using G20.API.Factories.VenueTicketCategoriesMap;
 using G20.API.Factories.Products;
 using G20.API.Factories.ShoppingCarts;
+using G20.API.Factories.Orders;
 
 namespace G20.API.Infrastructure
 {
@@ -123,12 +124,14 @@ namespace G20.API.Infrastructure
             services.AddScoped<ITicketCategoryFactoryModel, TicketCategoryFactoryModel>();
             services.AddScoped<IVenueTicketCategoryMapFactoryModel, VenueTicketCategoryMapFactoryModel>();
             services.AddScoped<IProductFactoryModel, ProductFactoryModel>();
+
             //User Management
             services.AddScoped<IUserFactoryModel, UserFactoryModel>();
             services.AddScoped<IRoleFactoryModel, RoleFactoryModel>();
 
             //Shopping Cart
             services.AddScoped<IShoppingCartFactory, ShoppingCartFactory>();
+            services.AddScoped<IOrderFactory, OrderFactory>();
 
         }
 
