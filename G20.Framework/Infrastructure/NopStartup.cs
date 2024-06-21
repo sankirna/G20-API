@@ -38,6 +38,10 @@ using G20.Core.Configuration;
 using G20.Core.Infrastructure;
 using Nop.Core.Configuration;
 using G20.Service.QRCodes;
+using G20.Service.ShoppingCarts;
+using G20.Service.Orders;
+using G20.Service.Payments;
+using G20.Service.BoardingDetails;
 
 namespace Nop.Web.Framework.Infrastructure;
 
@@ -111,7 +115,23 @@ public partial class NopStartup : INopStartup
         services.AddSingleton<ITaskScheduler, G20.Service.ScheduleTasks.TaskScheduler>();
         services.AddTransient<IScheduleTaskRunner, ScheduleTaskRunner>();
 
-        services.AddSingleton<QRCodeService>();
+        //Shopping Carts
+        services.AddScoped<IShoppingCartService, ShoppingCartService>();
+        services.AddScoped<IShoppingCartItemService, ShoppingCartItemService>();
+
+        //Orders
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderProductItemService, OrderProductItemService>();
+        services.AddScoped<IOrderProductItemDetailService, OrderProductItemDetailService>();
+
+        //Payments
+        services.AddScoped<IPaymentDetailService, PaymentDetailService>();
+
+        //BoardingDetails
+        services.AddScoped<IBoardingDetailService, BoardingDetailService>();
+
+        //QR Codes
+        services.AddSingleton<IQRCodeService, QRCoderService>();
 
         //web helper
         //services.AddScoped<IWebHelper, WebHelper>();

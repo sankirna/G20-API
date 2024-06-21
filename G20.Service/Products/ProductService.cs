@@ -38,10 +38,10 @@ namespace G20.Service.Products
             return await _entityRepository.GetByIdAsync(id);
         }
 
-        public virtual async Task<IList<Product>> GetByProductMapIdsAsync(List<int> productMapIds)
+        public virtual async Task<IList<Product>> GetByProductIdsAsync(List<int> productIds)
         {
             return await _entityRepository.Table.Where(x => !x.IsDeleted
-                                                         && productMapIds.Contains(x.Id)).ToListAsync();
+                                                         && productIds.Contains(x.Id)).ToListAsync();
         }
 
         public virtual async Task InsertAsync(Product entity)

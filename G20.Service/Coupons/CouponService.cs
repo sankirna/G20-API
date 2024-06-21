@@ -31,6 +31,11 @@ namespace G20.Service.Coupons
             return await _entityRepository.GetByIdAsync(Id);
         }
 
+        public virtual async Task<Coupon> GetByCodeAsync(string couponCode)
+        {
+            return await _entityRepository.Table.FirstOrDefaultAsync(x => !x.IsDeleted && x.Code == couponCode.Trim());
+        }
+
         public virtual async Task InsertAsync(Coupon entity)
         {
             await _entityRepository.InsertAsync(entity);

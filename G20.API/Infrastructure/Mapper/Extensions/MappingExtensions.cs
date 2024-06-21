@@ -59,6 +59,13 @@ public static class MappingExtensions
         return entity.Map<TModel>();
     }
 
+    public static TModel ToModel<TModel>(this BaseNopEntityModel entity) where TModel : BaseNopEntityModel
+    {
+        ArgumentNullException.ThrowIfNull(entity);
+
+        return entity.Map<TModel>();
+    }
+
     /// <summary>
     /// Execute a mapping from the entity to the existing model
     /// </summary>

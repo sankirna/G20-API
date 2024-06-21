@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Remove="DbContexts\IdentityDatabaseContext.cs" />
+    <Compile Remove="Domain\MatrimonyContext.cs" />
   </ItemGroup>
 
   <ItemGroup>

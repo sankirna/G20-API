@@ -210,8 +210,5 @@ namespace G20.API.Controllers
             await _productService.DeleteAsync(product);
             return Success(id);
         }
-
-
-        
     }
 }
