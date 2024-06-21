@@ -164,6 +164,12 @@ namespace G20.API.Infrastructure.Mapper
             CreateMap<ProductCombo, ProductComboModel>().ReverseMap();
         }
 
+        public virtual void CreateShoppingCart()
+        {
+            CreateMap<ShoppingCartModel, ShoppingCart>().ReverseMap();
+            CreateMap<ShoppingCartItemModel, ShoppingCartItem>().ReverseMap();
+        }
+
         public virtual void CreateShoppingOrderMap()
         {
             CreateMap<ShoppingCartModel, OrderModel>().ReverseMap();

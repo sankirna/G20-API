@@ -21,6 +21,7 @@ using Nop.Core.Infrastructure;
 using System.Text;
 using G20.API.Factories.VenueTicketCategoriesMap;
 using G20.API.Factories.Products;
+using G20.API.Factories.ShoppingCarts;
 
 namespace G20.API.Infrastructure
 {
@@ -125,6 +126,10 @@ namespace G20.API.Infrastructure
             //User Management
             services.AddScoped<IUserFactoryModel, UserFactoryModel>();
             services.AddScoped<IRoleFactoryModel, RoleFactoryModel>();
+
+            //Shopping Cart
+            services.AddScoped<IShoppingCartFactory, ShoppingCartFactory>();
+
         }
 
         public void Configure(IApplicationBuilder application)

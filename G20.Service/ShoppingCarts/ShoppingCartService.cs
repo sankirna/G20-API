@@ -35,6 +35,11 @@ namespace G20.Service.ShoppingCarts
             return await _entityRepository.GetByIdAsync(id);
         }
 
+        public virtual async Task<ShoppingCart> GetByUserIdAsync(int id)
+        {
+            return await _entityRepository.Table.FirstOrDefaultAsync(x=>x.UserId==id);
+        }
+
         public virtual async Task InsertAsync(ShoppingCart entity)
         {
             await _entityRepository.InsertAsync(entity);

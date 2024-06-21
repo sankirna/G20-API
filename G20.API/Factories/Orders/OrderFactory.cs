@@ -23,9 +23,8 @@ namespace G20.API.Factories.Orders
         {
             _couponService = couponService;
             _productService = productService;
-            _productTicketCategoryMapService= productTicketCategoryMapService;
+            _productTicketCategoryMapService = productTicketCategoryMapService;
         }
-
 
         public virtual OrderModel MapOrderModelFromShoppingModel(ShoppingCartModel model)
         {
@@ -65,7 +64,7 @@ namespace G20.API.Factories.Orders
             return orderCouponInfoModel;
         }
 
-        public virtual async Task<IList<Product>> GetProducts(List<OrderProductItemModel> items)
+        public virtual async Task<IList<Product>> GetProductDetails(List<OrderProductItemModel> items)
         {
 
             var productIds = items.Select(x => x.ProductId).ToList();
@@ -73,13 +72,29 @@ namespace G20.API.Factories.Orders
             var products = await _productService.GetByProductIdsAsync(productIds);
             var productTicketCategoryMaps = await _productTicketCategoryMapService.GetProductTicketCategoryMapsByIdsAsync(productTicketCategoryMapIds);
 
-            if (productIds.Count != products.Count)
+            if (productIds.DistinctBy(x => x).Count() != products.Count)
                 throw new NopException("Some of product(s) are invalid");
 
             if (productTicketCategoryMapIds.Count != productTicketCategoryMaps.Count)
                 throw new NopException("Some of product ticket category(s) are invalid");
 
+            foreach (var product in products)
+            {
+                product.ProductTicketCategoryMaps = productTicketCategoryMaps.Where(x => x.ProductId == product.Id).ToList();
+            }
+
             return products;
+        }
+
+        public virtual async Task<bool> CheckProductTicketAvaibility(IList<Product> productDetails, List<OrderProductItemModel> orderProductRequestItems)
+        {
+            foreach (var orderProductRequestItem in orderProductRequestItems)
+            {
+                var product = productDetails.FirstOrDefault(x => x.Id == orderProductRequestItem.ProductId);
+                var productTicketCategoryMap = product.ProductTicketCategoryMaps.FirstOrDefault(x => x.Id == orderProductRequestItem.ProductTicketCategoryMapId);
+                orderProductRequestItem.IsOutofStock = productTicketCategoryMap.IsOutOfStock(orderProductRequestItem.Quantity);
+            }
+            return orderProductRequestItems.Any(x => !x.IsOutofStock);
         }
     }
 }

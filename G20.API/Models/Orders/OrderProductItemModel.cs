@@ -8,5 +8,7 @@ namespace G20.API.Models.Orders
         public int ProductTicketCategoryMapId { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+        public decimal Total { get { return Quantity * Price; } }
+        public bool IsOutofStock { get; set; }
     }
 }

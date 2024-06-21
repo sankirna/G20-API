@@ -1,6 +1,9 @@
-﻿namespace G20.API.Factories.ShoppingCarts
+﻿using G20.API.Models.ShoppingCarts;
+
+namespace G20.API.Factories.ShoppingCarts
 {
-    public class IShoppingCartFactory
+    public interface IShoppingCartFactory
     {
+        Task<ShoppingCartModel> GetShoppingCartDetailByUserId(int userId);
     }
 }
