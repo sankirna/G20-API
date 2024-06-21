@@ -21,6 +21,8 @@ using G20.API.Models.VenueTicketCategoriesMap;
 using G20.API.Models.Products;
 using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.ProductCombos;
+using G20.API.Models.Orders;
+using G20.API.Models.ShoppingCarts;
 
 namespace G20.API.Infrastructure.Mapper
 {
@@ -160,6 +162,12 @@ namespace G20.API.Infrastructure.Mapper
         public virtual void CreateProductComboMap()
         {
             CreateMap<ProductCombo, ProductComboModel>().ReverseMap();
+        }
+
+        public virtual void CreateShoppingOrderMap()
+        {
+            CreateMap<ShoppingCartModel, OrderModel>().ReverseMap();
+            CreateMap<ShoppingCartItemModel, OrderProductItemModel>().ReverseMap();
         }
 
         public int Order => 0;

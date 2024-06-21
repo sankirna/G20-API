@@ -8,7 +8,7 @@ namespace G20.Service.Products
     {
         Task<IPagedList<Product>> GetProductsAsync(string name, int? productTypeId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
         Task<Product> GetByIdAsync(int id);
-        Task<IList<Product>> GetByProductMapIdsAsync(List<int> productMapIds);
+        Task<IList<Product>> GetByProductIdsAsync(List<int> productIds);
         Task InsertAsync(Product entity);
         Task UpdateAsync(Product entity);
         Task DeleteAsync(Product entity);

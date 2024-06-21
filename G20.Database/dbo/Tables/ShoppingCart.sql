@@ -6,9 +6,9 @@
     GrossTotal DECIMAL(10, 2) NOT NULL,
     Discount DECIMAL(10, 2),
     GrandTotal DECIMAL(10, 2) NOT NULL,
-    Email VARCHAR(MAX) NOT NULL,
+    /*Email VARCHAR(MAX) NOT NULL,
     Name VARCHAR(MAX)  NULL,
-    PhoneNumber VARCHAR(20)  NULL,
+    PhoneNumber VARCHAR(20)  NULL,*/
     [CreatedBy]       INT            NULL,
     [CreatedDateTime] DATETIME       NULL,
     [UpdatedBy]       INT            NULL,

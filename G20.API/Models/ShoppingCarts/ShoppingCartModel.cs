@@ -1,0 +1,22 @@
+﻿using G20.Framework.Models;
+
+namespace G20.API.Models.ShoppingCarts
+{
+    public partial record ShoppingCartModel : BaseNopEntityModel
+    {
+        public string CouponCode { get; set; }
+        public int? CouponId { get; set; }
+        public decimal GrossTotal { get; set; }
+        public decimal? Discount { get; set; }
+        public decimal GrandTotal
+        {
+            get
+            {
+                return Discount.HasValue ? (GrossTotal - Discount.Value) : GrossTotal;
+            }
+        }
+
+        public List<ShoppingCartItemModel> Items { get; set; }
+
+    }
+}

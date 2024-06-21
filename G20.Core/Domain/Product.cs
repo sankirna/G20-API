@@ -24,5 +24,7 @@ namespace G20.Core.Domain
         public virtual Team? Team2 { get; set; }
         public virtual Venue? Venue { get; set; }
         public virtual File? File { get; set; }
+
+        public ICollection<ProductTicketCategoryMap> ProductTicketCategoryMaps { get; set; }
     }
 }

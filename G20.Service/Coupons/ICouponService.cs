@@ -7,6 +7,7 @@ namespace G20.Service.Coupons
     {
         Task<IPagedList<Coupon>> GetCouponsAsync(string code, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
         Task<Coupon> GetByIdAsync(int Id);
+        Task<Coupon> GetByCodeAsync(string couponCode);
         Task InsertAsync(Coupon entity);
         Task UpdateAsync(Coupon entity);
         Task DeleteAsync(Coupon entity);

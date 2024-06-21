@@ -117,7 +117,7 @@ namespace G20.API.Factories.Products
             }
             var productsTicketCategoryMaps = await _productTicketCategoryMapService.GetProductTicketCategoryMapsByMultipleProductIdsAsync(productMapIds);
             var productsTicketCategoryGroupsMaps = productsTicketCategoryMaps.GroupBy(x => x.TicketCategoryId);
-            var products = (await _productService.GetByProductMapIdsAsync(productMapIds)).ToList();
+            var products = (await _productService.GetByProductIdsAsync(productMapIds)).ToList();
             var venueIds = products.Where(x => x.VenueId.HasValue).Select(x => x.VenueId.Value).ToList();
             var venueTicketCategoryMaps = await _venueTicketCategoryMapService.GetVenueTicketCategoryMapsByVenueIdsAsync(venueIds);
             var venueTicketCategoryGroupMaps = venueTicketCategoryMaps.GroupBy(x => x.TicketCategoryId);
