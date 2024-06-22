@@ -12,5 +12,6 @@ namespace G20.Service.Products
         Task InsertAsync(Product entity);
         Task UpdateAsync(Product entity);
         Task DeleteAsync(Product entity);
+        Task<IPagedList<Product>> GetProductsForSiteAsync(string name, int? productTypeId, int? teamId, int? categoryId, decimal? minimumPrice, decimal? maximumPrice, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
     }
 }

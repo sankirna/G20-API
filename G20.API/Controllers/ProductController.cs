@@ -10,7 +10,9 @@ using G20.Core.Enums;
 using G20.Service.ProductCombos;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
+using G20.Service.TicketCategories;
 using G20.Service.Tickets;
+using G20.Service.Venue;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Nop.Core;
@@ -26,6 +28,8 @@ namespace G20.API.Controllers
         protected readonly ITicketService _ticketService;
         protected readonly IMediaFactoryModel _mediaFactoryModel;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
+        protected readonly ITicketCategoryService _ticketCategoryService;
+        protected readonly IVenueService _venueService;
 
         public ProductController(IWorkContext workContext
             , IProductFactoryModel productFactoryModel
@@ -33,6 +37,8 @@ namespace G20.API.Controllers
             , IProductService productService
             , IProductComboService productComboService
             , ITicketService ticketService
+            , ITicketCategoryService ticketCategoryService
+            ,IVenueService venueService
             , IProductTicketCategoryMapService productTicketCategoryMapService)
         {
             _workContext = workContext;
@@ -42,6 +48,8 @@ namespace G20.API.Controllers
             _mediaFactoryModel = mediaFactoryModel;
             _ticketService = ticketService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
+            _ticketCategoryService = ticketCategoryService;
+            _venueService = venueService;
         }
 
         #region Private Method
@@ -151,7 +159,8 @@ namespace G20.API.Controllers
                 var productIds= model.ProductCombos.Select(x=>x.ProductMapId).ToList();
                 model.ProductTicketCategories = await _productFactoryModel.PrepareComboProductTicketCategoryMapListModelAsync(id, productIds);
             }
-
+            model.CategoryName = _ticketCategoryService.GetByIdAsync(model.CategoryId).Result.Name;
+            model.VenueName = _venueService.GetByIdAsync(model.CategoryId).Result.StadiumName;
             return Success(model);
         }
 
@@ -208,6 +217,13 @@ namespace G20.API.Controllers
                 return Error("not found");
             await _productService.DeleteAsync(product);
             return Success(id);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> ProductListForSite(ProductForSiteSearchModel searchModel)
+        {   
+            var model = await _productFactoryModel.PrepareProductListForSiteModelAsync(searchModel);
+            return Success(model);
         }
     }
 }
