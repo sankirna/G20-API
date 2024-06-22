@@ -1,17 +1,21 @@
 ﻿using G20.API.Factories.Media;
 using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.ProductCombos;
 using G20.API.Models.Products;
 using G20.API.Models.ProductTicketCategoriesMap;
+using G20.API.Models.Teams;
 using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Core.Domain;
 using G20.Service.Categories;
 using G20.Service.Countries;
+using G20.Service.ProductCombos;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
 using G20.Service.Teams;
 using G20.Service.TicketCategories;
 using G20.Service.Venue;
 using G20.Service.VenueTicketCategoriesMap;
+using LinqToDB;
 using Nop.Web.Framework.Models.Extensions;
 
 namespace G20.API.Factories.Products
@@ -27,6 +31,7 @@ namespace G20.API.Factories.Products
         protected readonly ITeamService _teamService;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
         protected readonly ICategoryService _categoryService;
+        protected readonly IProductComboService _productComboService;
 
         public ProductFactoryModel(
               IProductService productService
@@ -37,7 +42,8 @@ namespace G20.API.Factories.Products
             , ITicketCategoryService ticketCategoryService
             , IProductTicketCategoryMapService productTicketCategoryMapService
             , ITeamService teamService
-            ,ICategoryService categoryService
+            , ICategoryService categoryService
+            , IProductComboService productComboService
             )
         {
             _productService = productService;
@@ -49,6 +55,7 @@ namespace G20.API.Factories.Products
             _productTicketCategoryMapService = productTicketCategoryMapService;
             _teamService = teamService;
             _categoryService = categoryService;
+            _productComboService = productComboService;
         }
 
 
@@ -56,7 +63,7 @@ namespace G20.API.Factories.Products
         {
             ArgumentNullException.ThrowIfNull(searchModel);
 
-            var products = await _productService.GetProductsAsync(name: searchModel.Team, productTypeId: searchModel.ProductTypeId,
+            var products = await _productService.GetProductsAsync(name: searchModel.Name, productTypeId: searchModel.ProductTypeId,
                 pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             var model = await new ProductListModel().PrepareToGridAsync(searchModel, products, () =>
@@ -102,8 +109,8 @@ namespace G20.API.Factories.Products
                 var productTicketCategoryMap = productTicketCategoryMaps.FirstOrDefault(x => x.TicketCategoryId == venueTicketCategoryMap.TicketCategoryId);
                 if (productTicketCategoryMap != null)
                 {
-                    model.Id= productTicketCategoryMap.Id;
-                    model.ProductId= productTicketCategoryMap.ProductId;
+                    model.Id = productTicketCategoryMap.Id;
+                    model.ProductId = productTicketCategoryMap.ProductId;
                     model.Total = productTicketCategoryMap.Total;
                     model.Available = productTicketCategoryMap.Available;
                     model.Block = productTicketCategoryMap.Block;
@@ -162,8 +169,8 @@ namespace G20.API.Factories.Products
                     var productsTicketCategoryGroupMaps = productsTicketCategoryGroupsMaps.FirstOrDefault(x => x.Key == ticketCategoryId);
                     if (productsTicketCategoryGroupMaps != null)
                     {
-                        model.Total = productsTicketCategoryGroupMaps.Min(x=>x.Total);
-                        model.Price = productsTicketCategoryGroupMaps.Average(x=>x.Price);
+                        model.Total = productsTicketCategoryGroupMaps.Min(x => x.Total);
+                        model.Price = productsTicketCategoryGroupMaps.Average(x => x.Price);
                     }
                 }
                 productTicketCategoryMapModels.Add(model);
@@ -206,5 +213,109 @@ namespace G20.API.Factories.Products
         //    }
         //    return productTicketCategoryMapModels;
         //}
+
+        public virtual async Task<ProductListForSiteModel> PrepareProductListForSiteModelAsync(ProductForSiteSearchModel searchModel)
+        {
+            ArgumentNullException.ThrowIfNull(searchModel);
+
+            var products = await _productService.GetProductsForSiteAsync(name: searchModel.searchText, productTypeId: searchModel.ProductTypeId,
+                teamId: searchModel.TeamId, categoryId: searchModel.CategoryId,
+                minimumPrice: searchModel.MinimumPrice, maximumPrice: searchModel.MaximumPrice,
+                pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+
+            var model = await new ProductListForSiteModel().PrepareToGridAsync(searchModel, products, () =>
+            {
+                return products.SelectAwait(async product =>
+                {
+
+                    if (product.Team1Id != null)
+                        product.Team1 = _teamService.GetByIdAsync((int)product.Team1Id).Result;
+                    if (product.Team2Id != null)
+                        product.Team2 = _teamService.GetByIdAsync((int)product.Team2Id).Result;
+
+                    product.ProductTicketCategoryMaps = _productTicketCategoryMapService.GetProductTicketCategoryMapsByProductIdAsync(product.Id).Result.ToList().Where(p => p.Price >= searchModel.MinimumPrice && p.Price <= searchModel.MaximumPrice).ToList();
+                    
+                    var productModel = product.ToModel<ProductForSiteModel>();
+                    if (product.VenueId != null)
+                        productModel.VenueName = _venueService.GetByIdAsync((int)product.VenueId).Result.StadiumName;
+                    if (product.CategoryId != null && product.CategoryId != 0)
+                        productModel.CategoryName = _categoryService.GetByIdAsync((int)product.CategoryId).Result.Name;
+                    productModel.File = await _mediaFactoryModel.GetRequestModelAsync(product.FileId);
+                    productModel.ProductCombos = (await _productComboService.GetProductCombosByProductIdAsync(product.Id))
+                                     .ToList().Select(c => c.ToModel<ProductComboModel>()).ToList();
+                    if (product.ProductTicketCategoryMaps.Count > 0)
+                    {
+                        productModel.ProductTicketCategories =
+                                            product.ProductTicketCategoryMaps.ToList().Select(c => c.ToModel<ProductTicketCategoryMapModel>()).ToList();
+                        foreach (var item in productModel.ProductTicketCategories)
+                        {
+                            item.TicketCategoryName = _ticketCategoryService.GetByIdAsync(item.TicketCategoryId).Result.Name;
+                        }
+                        productModel.Price = "$" + product.ProductTicketCategoryMaps.Min(c => c.Price).ToString() + " - $" + product.ProductTicketCategoryMaps.Max(c => c.Price).ToString(); ;
+                    }
+                    
+                    
+                    var productIds = productModel.ProductCombos.Select(x => x.ProductMapId).ToList();
+                    productModel.ProductTeamsList = new List<ProductModel>();
+                    foreach (var item in productIds)
+                    {
+                        var productDetail = _productService.GetByIdAsync(item).Result;
+                        
+                        ProductModel teamProductModel = new ProductModel();
+                        teamProductModel.Name = productDetail.Name;
+                        teamProductModel.Team1Id = productDetail.Team1Id;
+                        teamProductModel.Team2Id = productDetail.Team2Id;
+                        teamProductModel.StartDateTime = productDetail.StartDateTime;
+                        teamProductModel.EndDateTime = productDetail.EndDateTime;
+                        teamProductModel.Description = productDetail.Description;                        
+                        
+
+                        //var teamProductModel =  productDetail.ToModel<ProductModel>;
+                        if (productDetail.Team1Id != null)
+                        {
+                            productDetail.Team1 = _teamService.GetByIdAsync((int)productDetail.Team1Id).Result;
+                            teamProductModel.Team1Name = productDetail.Team1.Name;
+                            teamProductModel.Team1LogoUrl = productDetail.Team1.File?.Name;
+                        }
+                        if (productDetail.Team2Id != null)
+                        {
+                            productDetail.Team2 = _teamService.GetByIdAsync((int)productDetail.Team2Id).Result;
+                            teamProductModel.Team2Name = productDetail.Team2.Name;
+                            teamProductModel.Team2LogoUrl = productDetail.Team2.File?.Name;
+                        }
+                        if (productDetail.VenueId != null)
+                        {
+                            productDetail.Venue = _venueService.GetByIdAsync((int)productDetail.VenueId).Result;
+                            teamProductModel.VenueName = productDetail.Venue.StadiumName;
+                        }
+                        teamProductModel.File = await _mediaFactoryModel.GetRequestModelAsync(productDetail.FileId);
+                        if (teamProductModel != null)
+                            productModel.ProductTeamsList.Add(teamProductModel);
+                        
+                        productDetail.ProductTicketCategoryMaps = _productTicketCategoryMapService.GetProductTicketCategoryMapsByProductIdAsync(productDetail.Id).Result.ToList().Where(p => p.Price >= searchModel.MinimumPrice && p.Price <= searchModel.MaximumPrice).ToList();
+                        if (productDetail.ProductTicketCategoryMaps.Count > 0)
+                        {
+                            teamProductModel.ProductTicketCategories =
+                                                   productDetail.ProductTicketCategoryMaps.ToList().Select(c => c.ToModel<ProductTicketCategoryMapModel>()).ToList();
+                            teamProductModel.Price = "$" + product.ProductTicketCategoryMaps.Min(c => c.Price).ToString() + " - $" + product.ProductTicketCategoryMaps.Max(c => c.Price).ToString();
+                            foreach (var items in teamProductModel.ProductTicketCategories)
+                            {
+                                items.TicketCategoryName = _ticketCategoryService.GetByIdAsync(items.TicketCategoryId).Result.Name;
+                            }
+                        } 
+                    }
+
+                    // var productTicketCategories = _productTicketCategoryMapService.GetProductTicketCategoryMapsByProductIdAsync(product.Id);
+                    //productModel.ProductTicketCategories = productTicketCategories.Result.ToList();
+                    //if (searchModel.MinimumPrice.HasValue || searchModel.MaximumPrice.HasValue)
+                    //    productModel.ProductTicketCategories.Where(c => c.Price >= searchModel.MinimumPrice && c.Price >= searchModel.MaximumPrice);
+
+
+                    return productModel;
+                });
+            });
+
+            return model;
+        }
     }
 }

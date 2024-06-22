@@ -44,6 +44,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateTicketCategoryMap();
             CreateVenueTicketCategoryMap();
             CreateProductMap();
+            CreateProductForSiteMap();
             CreateProductTicketCategoryMap();
             CreateProductComboMap();
             CreateShoppingCart();
@@ -165,6 +166,12 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateMap<ProductCombo, ProductComboModel>().ReverseMap();
         }
+         public virtual void CreateProductForSiteMap()
+        {
+            CreateMap<Product, ProductForSiteModel>().ReverseMap();
+        }
+
+
 
         public virtual void CreateShoppingCart()
         {

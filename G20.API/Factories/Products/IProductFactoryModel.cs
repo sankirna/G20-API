@@ -8,5 +8,6 @@ namespace G20.API.Factories.Products
         Task<ProductListModel> PrepareProductListModelAsync(ProductSearchModel searchModel);
         Task<List<ProductTicketCategoryMapModel>> PrepareSingalProductTicketCategoryMapListModelAsync(int productId, int venueId);
         Task<List<ProductTicketCategoryMapModel>> PrepareComboProductTicketCategoryMapListModelAsync(int? productId, List<int> productMapIds);
+        Task<ProductListForSiteModel> PrepareProductListForSiteModelAsync(ProductForSiteSearchModel searchModel);
     }
 }
