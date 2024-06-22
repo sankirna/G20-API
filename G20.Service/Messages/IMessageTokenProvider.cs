@@ -15,6 +15,13 @@ public partial interface IMessageTokenProvider
     /// <param name="emailAccount">Email account</param>
     /// <returns>A task that represents the asynchronous operation</returns>
     Task AddSampleTokensAsync(IList<Token> tokens);
+    Task AddTickectCategoryTokensAsync(IList<Token> tokens, TicketCategory ticketCategory);
+    Task AddOrderTokensAsync(IList<Token> tokens, Order order);
+    Task AddProductTokensAsync(IList<Token> tokens, Product product);
+    Task AddVanueTokensAsync(IList<Token> tokens, Venue venue);
+    Task AddOrderProductItemTokensAsync(IList<Token> tokens, OrderProductItem orderProductItem);
+    Task AddOrderProductItemDetailTokensAsync(IList<Token> tokens, OrderProductItemDetail orderProductItemDetail);
+    Task AddOrderProductItemDetailQRCodeTokensAsync(IList<Token> tokens, G20.Core.Domain.File file);
 
     /// <summary>
     /// Get token groups of message template

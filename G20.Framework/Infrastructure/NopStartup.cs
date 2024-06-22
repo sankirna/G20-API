@@ -15,7 +15,7 @@ using G20.Service.SubCategories;
 using G20.Service.Teams;
 using G20.Service.UserRoles;
 using G20.Service.Users;
-using G20.Service.Venue;
+using G20.Service.Venues;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;

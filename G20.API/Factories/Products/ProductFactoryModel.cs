@@ -10,7 +10,7 @@ using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
 using G20.Service.Teams;
 using G20.Service.TicketCategories;
-using G20.Service.Venue;
+using G20.Service.Venues;
 using G20.Service.VenueTicketCategoriesMap;
 using Microsoft.CodeAnalysis;
 using Nop.Web.Framework.Models.Extensions;

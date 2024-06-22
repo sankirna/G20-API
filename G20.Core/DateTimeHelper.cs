@@ -37,5 +37,15 @@ namespace G20.Core
         {
             return dt.HasValue ? dt.Value.ToLocalDataTime() : dt;
         }
+
+        public static string ToFormatDateStr(this DateTime? dt)
+        {
+            return dt.HasValue ? dt.Value.ToFormatDateStr() : "";
+        }
+
+        public static string ToFormatDateStr(this DateTime dt)
+        {
+            return dt.ToString("MMMM dd, yyyy hh:mm tt");
+        }
     }
 }

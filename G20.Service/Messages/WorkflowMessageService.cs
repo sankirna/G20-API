@@ -1,5 +1,9 @@
 ﻿using G20.Core.Domain;
 using G20.Core.Enums;
+using G20.Service.Orders;
+using G20.Service.ProductCombos;
+using G20.Service.Products;
+using G20.Service.ProductTicketCategoriesMap;
 using Nop.Core;
 
 
@@ -12,6 +16,12 @@ public partial class WorkflowMessageService : IWorkflowMessageService
 {
     #region Fields
 
+    protected readonly IProductService _productService;
+    protected readonly IProductComboService _productComboService;
+    protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
+    protected readonly IOrderService _orderService;
+    protected readonly IOrderProductItemService _orderProductItemService;
+    protected readonly IOrderProductItemDetailService _orderProductItemDetailService;
     protected readonly IEmailAccountService _emailAccountService;
     protected readonly IMessageTemplateService _messageTemplateService;
     protected readonly IMessageTokenProvider _messageTokenProvider;
@@ -23,14 +33,25 @@ public partial class WorkflowMessageService : IWorkflowMessageService
     #region Ctor
 
     public WorkflowMessageService(
-        
-        IEmailAccountService emailAccountService,
-        IMessageTemplateService messageTemplateService,
-        IMessageTokenProvider messageTokenProvider,
-        IQueuedEmailService queuedEmailService,
-        ITokenizer tokenizer)
+              IProductService productService
+            , IProductComboService productComboService
+            , IProductTicketCategoryMapService productTicketCategoryMapService
+            , IOrderService orderService
+            , IOrderProductItemService orderProductItemService
+            , IOrderProductItemDetailService orderProductItemDetailService
+            , IEmailAccountService emailAccountService
+             , IMessageTemplateService messageTemplateService
+            , IMessageTokenProvider messageTokenProvider
+             , IQueuedEmailService queuedEmailService
+             , ITokenizer tokenizer)
     {
-        
+
+        _productService = productService;
+        _productComboService = productComboService;
+        _productTicketCategoryMapService = productTicketCategoryMapService;
+        _orderService = orderService;
+        _orderProductItemService = orderProductItemService;
+        _orderProductItemDetailService = orderProductItemDetailService;
         _emailAccountService = emailAccountService;
         _messageTemplateService = messageTemplateService;
         _messageTokenProvider = messageTokenProvider;
@@ -94,7 +115,7 @@ public partial class WorkflowMessageService : IWorkflowMessageService
     /// <returns>Email address and name to send email fore store owner</returns>
     protected virtual async Task<(string email, string name)> GetStoreOwnerNameAndEmailAsync(EmailAccount messageTemplateEmailAccount)
     {
-        var storeOwnerEmailAccount =  messageTemplateEmailAccount;
+        var storeOwnerEmailAccount = messageTemplateEmailAccount;
 
         return (storeOwnerEmailAccount.Email, storeOwnerEmailAccount.DisplayName);
     }
@@ -113,7 +134,7 @@ public partial class WorkflowMessageService : IWorkflowMessageService
         var replyToEmail = string.Empty;
 
         var replyToName = string.Empty;
-  
+
 
         return (replyToEmail, replyToName);
     }
@@ -209,8 +230,6 @@ public partial class WorkflowMessageService : IWorkflowMessageService
     /// </returns>
     public virtual async Task<IList<int>> SendTestNotificationMessageAsync()
     {
-     
-
         var messageTemplates = await GetActiveMessageTemplatesAsync(MessageTemplateSystemNames.TEST_NOTIFICATION);
         if (!messageTemplates.Any())
             return new List<int>();
@@ -235,6 +254,49 @@ public partial class WorkflowMessageService : IWorkflowMessageService
 
             return await SendNotificationAsync(messageTemplate, emailAccount, tokens, toEmail, toName,
                 replyToEmailAddress: replyToEmail, replyToName: replyToName);
+        }).ToListAsync();
+    }
+
+
+    public virtual async Task<IList<int>> SendOrderNotificationMessageAsync(
+        Venue venue,
+        Product product,
+        TicketCategory ticketCategory,
+        Order order,
+        OrderProductItem orderProductItem,
+        OrderProductItemDetail orderProductItemDetail,
+        Core.Domain.File orderProductItemDetailORCodeFile
+        )
+    {
+        var messageTemplates = await GetActiveMessageTemplatesAsync(MessageTemplateSystemNames.ORDER_MATCH_NOTIFICATION);
+        if (!messageTemplates.Any())
+            return new List<int>();
+
+        var commonTokens = new List<Token>();
+
+        return await messageTemplates.SelectAwait(async messageTemplate =>
+        {
+            List<int> queueEmailIds = new List<int>();
+            //email account
+            var emailAccount = await GetEmailAccountOfMessageTemplateAsync(messageTemplate);
+
+            var tokens = new List<Token>(commonTokens);
+            await _messageTokenProvider.AddVanueTokensAsync(tokens, venue);
+            await _messageTokenProvider.AddTickectCategoryTokensAsync(tokens, ticketCategory);
+            await _messageTokenProvider.AddProductTokensAsync(tokens, product);
+            await _messageTokenProvider.AddOrderTokensAsync(tokens, order);
+            await _messageTokenProvider.AddOrderProductItemTokensAsync(tokens, orderProductItem);
+            await _messageTokenProvider.AddOrderProductItemTokensAsync(tokens, orderProductItem);
+            await _messageTokenProvider.AddOrderProductItemDetailTokensAsync(tokens, orderProductItemDetail);
+            await _messageTokenProvider.AddOrderProductItemDetailQRCodeTokensAsync(tokens, orderProductItemDetailORCodeFile);
+
+            var (toEmail, toName) = await GetStoreOwnerNameAndEmailAsync(emailAccount);
+
+            var (replyToEmail, replyToName) = await GetCustomerReplyToNameAndEmailAsync(messageTemplate);
+
+
+            return await SendNotificationAsync(messageTemplate, emailAccount, tokens, toEmail, toName,
+                 replyToEmailAddress: replyToEmail, replyToName: replyToName);
         }).ToListAsync();
     }
 

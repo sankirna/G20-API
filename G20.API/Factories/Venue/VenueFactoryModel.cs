@@ -4,7 +4,7 @@ using G20.API.Models.Venue;
 using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Service.Countries;
 using G20.Service.TicketCategories;
-using G20.Service.Venue;
+using G20.Service.Venues;
 using G20.Service.VenueTicketCategoriesMap;
 using Nop.Web.Framework.Models.Extensions;
 

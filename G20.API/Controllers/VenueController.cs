@@ -7,7 +7,7 @@ using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Core;
 using G20.Core.Domain;
 using G20.Service.TicketCategories;
-using G20.Service.Venue;
+using G20.Service.Venues;
 using G20.Service.VenueTicketCategoriesMap;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;

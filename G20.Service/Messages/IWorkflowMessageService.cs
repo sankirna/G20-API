@@ -16,4 +16,14 @@ public partial interface IWorkflowMessageService
         string fromEmail = null, string fromName = null, string subject = null);
 
     Task<IList<int>> SendTestNotificationMessageAsync();
+
+    Task<IList<int>> SendOrderNotificationMessageAsync(
+        Venue venue,
+        Product product,
+        TicketCategory ticketCategory,
+        Order order,
+        OrderProductItem orderProductItem,
+        OrderProductItemDetail orderProductItemDetail,
+        Core.Domain.File orderProductItemDetailORCodeFile
+        );
 }

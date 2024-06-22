@@ -1,8 +1,7 @@
-﻿using System.Globalization;
-using System.Net;
-using System.Text;
+﻿using G20.Core;
 using G20.Core.Domain;
-using Microsoft.AspNetCore.Mvc;
+using G20.Core.Enums;
+using G20.Service.Files;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 
@@ -877,12 +876,48 @@ public partial class MessageTokenProvider : IMessageTokenProvider
     public virtual async Task AddSampleTokensAsync(IList<Token> tokens)
     {
         tokens.Add(new Token("Test.Name", "Sample Test"));
-
-        //event notification
-        //await _eventPublisher.EntityTokensAddedAsync(store, tokens);
     }
 
-    
+    public virtual async Task AddTickectCategoryTokensAsync(IList<Token> tokens, TicketCategory ticketCategory)
+    {
+        tokens.Add(new Token("TicketCategory.Name", ticketCategory.Name));
+    }
+
+    public virtual async Task AddOrderTokensAsync(IList<Token> tokens, Order order)
+    {
+        tokens.Add(new Token("Order.Id", order.Id));
+        tokens.Add(new Token("Order.Name", order.Name));
+    }
+
+    public virtual async Task AddProductTokensAsync(IList<Token> tokens, Product product)
+    {
+        tokens.Add(new Token("Product.Name", product.Name));
+        tokens.Add(new Token("Product.Type", ((ProductTypeEnum)product.ProductTypeId).ToString()));
+        tokens.Add(new Token("Product.StartDateTime", product.StartDateTime.ToLocalDataTime().ToFormatDateStr()));
+    }
+
+    public virtual async Task AddVanueTokensAsync(IList<Token> tokens, Venue venue)
+    {
+        tokens.Add(new Token("Venue.Name", venue.StadiumName));
+        tokens.Add(new Token("Venue.Address", venue.Location));
+    }
+
+    public virtual async Task AddOrderProductItemTokensAsync(IList<Token> tokens, OrderProductItem orderProductItem)
+    {
+        tokens.Add(new Token("OrderProductItem.Seat", orderProductItem.Quantity));
+    }
+
+    public virtual async Task AddOrderProductItemDetailTokensAsync(IList<Token> tokens, OrderProductItemDetail orderProductItemDetail)
+    {
+        //tokens.Add(new Token("OrderProductItem.Seat", orderProductItem.Quantity));
+    }
+
+    public virtual async Task AddOrderProductItemDetailQRCodeTokensAsync(IList<Token> tokens, G20.Core.Domain.File file)
+    {
+        tokens.Add(new Token("OrderItemDetail.ORCodeImageUrl", file.ToGetImageUrl()));
+    }
+
+
     /// <summary>
     /// Get collection of allowed (supported) message tokens
     /// </summary>
@@ -917,66 +952,68 @@ public partial class MessageTokenProvider : IMessageTokenProvider
         //groups depend on which tokens are added at the appropriate methods in IWorkflowMessageService
         return messageTemplate.Name switch
         {
-            MessageTemplateSystemNames.CUSTOMER_REGISTERED_STORE_OWNER_NOTIFICATION or
-                MessageTemplateSystemNames.CUSTOMER_WELCOME_MESSAGE or
-                MessageTemplateSystemNames.CUSTOMER_EMAIL_VALIDATION_MESSAGE or
-                MessageTemplateSystemNames.CUSTOMER_EMAIL_REVALIDATION_MESSAGE or
-                MessageTemplateSystemNames.CUSTOMER_PASSWORD_RECOVERY_MESSAGE or
-                MessageTemplateSystemNames.DELETE_CUSTOMER_REQUEST_STORE_OWNER_NOTIFICATION => new[] { TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens },
+            //MessageTemplateSystemNames.CUSTOMER_REGISTERED_STORE_OWNER_NOTIFICATION or
+            //    MessageTemplateSystemNames.CUSTOMER_WELCOME_MESSAGE or
+            //    MessageTemplateSystemNames.CUSTOMER_EMAIL_VALIDATION_MESSAGE or
+            //    MessageTemplateSystemNames.CUSTOMER_EMAIL_REVALIDATION_MESSAGE or
+            //    MessageTemplateSystemNames.CUSTOMER_PASSWORD_RECOVERY_MESSAGE or
+            //    MessageTemplateSystemNames.DELETE_CUSTOMER_REQUEST_STORE_OWNER_NOTIFICATION => new[] { TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens },
 
-            MessageTemplateSystemNames.ORDER_PLACED_VENDOR_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PLACED_STORE_OWNER_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PLACED_AFFILIATE_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PAID_STORE_OWNER_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PAID_CUSTOMER_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PAID_VENDOR_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PAID_AFFILIATE_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PLACED_CUSTOMER_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_PROCESSING_CUSTOMER_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_COMPLETED_CUSTOMER_NOTIFICATION or
-                MessageTemplateSystemNames.ORDER_CANCELLED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens],
+            MessageTemplateSystemNames.ORDER_MATCH_NOTIFICATION
+            //or
+            //    MessageTemplateSystemNames.ORDER_PLACED_STORE_OWNER_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_PLACED_AFFILIATE_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_PAID_STORE_OWNER_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_PAID_CUSTOMER_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_PAID_VENDOR_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_PAID_AFFILIATE_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_PLACED_CUSTOMER_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_PROCESSING_CUSTOMER_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_COMPLETED_CUSTOMER_NOTIFICATION or
+            //    MessageTemplateSystemNames.ORDER_CANCELLED_CUSTOMER_NOTIFICATION 
+                => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens],
 
-        MessageTemplateSystemNames.SHIPMENT_SENT_CUSTOMER_NOTIFICATION or
-        MessageTemplateSystemNames.SHIPMENT_READY_FOR_PICKUP_CUSTOMER_NOTIFICATION or
-        MessageTemplateSystemNames.SHIPMENT_DELIVERED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ShipmentTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.SHIPMENT_SENT_CUSTOMER_NOTIFICATION or
+        //MessageTemplateSystemNames.SHIPMENT_READY_FOR_PICKUP_CUSTOMER_NOTIFICATION or
+        //MessageTemplateSystemNames.SHIPMENT_DELIVERED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ShipmentTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens],
 
-        MessageTemplateSystemNames.ORDER_REFUNDED_STORE_OWNER_NOTIFICATION or
-        MessageTemplateSystemNames.ORDER_REFUNDED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.RefundedOrderTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.ORDER_REFUNDED_STORE_OWNER_NOTIFICATION or
+        //MessageTemplateSystemNames.ORDER_REFUNDED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.RefundedOrderTokens, TokenGroupNames.CustomerTokens],
 
-        MessageTemplateSystemNames.NEW_ORDER_NOTE_ADDED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderNoteTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.NEW_ORDER_NOTE_ADDED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderNoteTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens],
 
-        MessageTemplateSystemNames.RECURRING_PAYMENT_CANCELLED_STORE_OWNER_NOTIFICATION or
-        MessageTemplateSystemNames.RECURRING_PAYMENT_CANCELLED_CUSTOMER_NOTIFICATION or
-        MessageTemplateSystemNames.RECURRING_PAYMENT_FAILED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.RecurringPaymentTokens],
+        //MessageTemplateSystemNames.RECURRING_PAYMENT_CANCELLED_STORE_OWNER_NOTIFICATION or
+        //MessageTemplateSystemNames.RECURRING_PAYMENT_CANCELLED_CUSTOMER_NOTIFICATION or
+        //MessageTemplateSystemNames.RECURRING_PAYMENT_FAILED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.RecurringPaymentTokens],
 
-        MessageTemplateSystemNames.NEWSLETTER_SUBSCRIPTION_ACTIVATION_MESSAGE or
-        MessageTemplateSystemNames.NEWSLETTER_SUBSCRIPTION_DEACTIVATION_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.SubscriptionTokens],
+        //MessageTemplateSystemNames.NEWSLETTER_SUBSCRIPTION_ACTIVATION_MESSAGE or
+        //MessageTemplateSystemNames.NEWSLETTER_SUBSCRIPTION_DEACTIVATION_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.SubscriptionTokens],
 
-        MessageTemplateSystemNames.EMAIL_A_FRIEND_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.ProductTokens, TokenGroupNames.EmailAFriendTokens],
-        MessageTemplateSystemNames.WISHLIST_TO_FRIEND_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.WishlistToFriendTokens],
+        //MessageTemplateSystemNames.EMAIL_A_FRIEND_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.ProductTokens, TokenGroupNames.EmailAFriendTokens],
+        //MessageTemplateSystemNames.WISHLIST_TO_FRIEND_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.WishlistToFriendTokens],
 
-        MessageTemplateSystemNames.NEW_RETURN_REQUEST_STORE_OWNER_NOTIFICATION or
-        MessageTemplateSystemNames.NEW_RETURN_REQUEST_CUSTOMER_NOTIFICATION or
-        MessageTemplateSystemNames.RETURN_REQUEST_STATUS_CHANGED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.ReturnRequestTokens],
+        //MessageTemplateSystemNames.NEW_RETURN_REQUEST_STORE_OWNER_NOTIFICATION or
+        //MessageTemplateSystemNames.NEW_RETURN_REQUEST_CUSTOMER_NOTIFICATION or
+        //MessageTemplateSystemNames.RETURN_REQUEST_STATUS_CHANGED_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.OrderTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.ReturnRequestTokens],
 
-        MessageTemplateSystemNames.NEW_FORUM_TOPIC_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ForumTopicTokens, TokenGroupNames.ForumTokens, TokenGroupNames.CustomerTokens],
-        MessageTemplateSystemNames.NEW_FORUM_POST_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ForumPostTokens, TokenGroupNames.ForumTopicTokens, TokenGroupNames.ForumTokens, TokenGroupNames.CustomerTokens],
-        MessageTemplateSystemNames.PRIVATE_MESSAGE_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.PrivateMessageTokens, TokenGroupNames.CustomerTokens],
-        MessageTemplateSystemNames.NEW_VENDOR_ACCOUNT_APPLY_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.VendorTokens],
-        MessageTemplateSystemNames.VENDOR_INFORMATION_CHANGE_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.VendorTokens],
-        MessageTemplateSystemNames.GIFT_CARD_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.GiftCardTokens],
+        //MessageTemplateSystemNames.NEW_FORUM_TOPIC_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ForumTopicTokens, TokenGroupNames.ForumTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.NEW_FORUM_POST_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ForumPostTokens, TokenGroupNames.ForumTopicTokens, TokenGroupNames.ForumTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.PRIVATE_MESSAGE_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.PrivateMessageTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.NEW_VENDOR_ACCOUNT_APPLY_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.VendorTokens],
+        //MessageTemplateSystemNames.VENDOR_INFORMATION_CHANGE_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.VendorTokens],
+        //MessageTemplateSystemNames.GIFT_CARD_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.GiftCardTokens],
 
-        MessageTemplateSystemNames.PRODUCT_REVIEW_STORE_OWNER_NOTIFICATION or
-        MessageTemplateSystemNames.PRODUCT_REVIEW_REPLY_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ProductReviewTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.PRODUCT_REVIEW_STORE_OWNER_NOTIFICATION or
+        //MessageTemplateSystemNames.PRODUCT_REVIEW_REPLY_CUSTOMER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ProductReviewTokens, TokenGroupNames.CustomerTokens],
 
-        MessageTemplateSystemNames.QUANTITY_BELOW_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ProductTokens],
-        MessageTemplateSystemNames.QUANTITY_BELOW_ATTRIBUTE_COMBINATION_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ProductTokens, TokenGroupNames.AttributeCombinationTokens],
-        MessageTemplateSystemNames.NEW_VAT_SUBMITTED_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.VatValidation],
-        MessageTemplateSystemNames.BLOG_COMMENT_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.BlogCommentTokens, TokenGroupNames.CustomerTokens],
-        MessageTemplateSystemNames.NEWS_COMMENT_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.NewsCommentTokens, TokenGroupNames.CustomerTokens],
-        MessageTemplateSystemNames.BACK_IN_STOCK_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.ProductBackInStockTokens],
-        MessageTemplateSystemNames.CONTACT_US_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ContactUs],
-        MessageTemplateSystemNames.CONTACT_VENDOR_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ContactVendor],
+        //MessageTemplateSystemNames.QUANTITY_BELOW_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ProductTokens],
+        //MessageTemplateSystemNames.QUANTITY_BELOW_ATTRIBUTE_COMBINATION_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.ProductTokens, TokenGroupNames.AttributeCombinationTokens],
+        //MessageTemplateSystemNames.NEW_VAT_SUBMITTED_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.VatValidation],
+        //MessageTemplateSystemNames.BLOG_COMMENT_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.BlogCommentTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.NEWS_COMMENT_STORE_OWNER_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.NewsCommentTokens, TokenGroupNames.CustomerTokens],
+        //MessageTemplateSystemNames.BACK_IN_STOCK_NOTIFICATION => [TokenGroupNames.StoreTokens, TokenGroupNames.CustomerTokens, TokenGroupNames.ProductBackInStockTokens],
+        //MessageTemplateSystemNames.CONTACT_US_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ContactUs],
+        //MessageTemplateSystemNames.CONTACT_VENDOR_MESSAGE => [TokenGroupNames.StoreTokens, TokenGroupNames.ContactVendor],
         _ => [],
         };
     }

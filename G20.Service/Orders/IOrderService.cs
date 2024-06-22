@@ -11,5 +11,6 @@ namespace G20.Service.Orders
         Task InsertAsync(Order entity);
         Task UpdateAsync(Order entity);
         Task DeleteAsync(Order entity);
+        Task<bool> SendOrderNotifications(int orderId);
     }
 }

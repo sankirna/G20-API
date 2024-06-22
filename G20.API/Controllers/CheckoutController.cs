@@ -216,6 +216,12 @@ namespace G20.API.Controllers
 
             #endregion
 
+            #region Send Email Notifications
+
+            var isSend = await _orderService.SendOrderNotifications(order.Id);
+            
+            #endregion
+
             return Success(orderModel);
         }
     }

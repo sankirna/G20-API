@@ -33,7 +33,7 @@ namespace G20.API.Factories.Media
                 var fileType = (FileTypeEnum)entity.TypeId;
                 model.FileName = entity.OriginalName;
                 model.FileType = fileType;
-                model.Url = string.Format("{0}{1}", fileType.ToGetUrlFolderPath(), entity.Name);
+                model.Url = entity.ToGetImageUrl();
             }
             return model;
 

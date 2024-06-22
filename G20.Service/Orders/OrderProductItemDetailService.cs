@@ -24,6 +24,11 @@ namespace G20.Service.Orders
             return orderProductItemDetails;
         }
 
+        public virtual async Task<IList<OrderProductItemDetail>> GetOrderProductItemDetailsByOrderProductItemIdAsync(int orderProductItemId)
+        {
+            return await _entityRepository.Table.Where(x => x.OrderProductItemId == orderProductItemId).ToListAsync();
+        }
+
         public virtual async Task<OrderProductItemDetail> GetByIdAsync(int id)
         {
             return await _entityRepository.GetByIdAsync(id);
