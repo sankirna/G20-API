@@ -11,6 +11,7 @@ using G20.Service.Teams;
 using G20.Service.TicketCategories;
 using G20.Service.Venue;
 using G20.Service.VenueTicketCategoriesMap;
+using Microsoft.CodeAnalysis;
 using Nop.Web.Framework.Models.Extensions;
 
 namespace G20.API.Factories.Products
@@ -47,6 +48,15 @@ namespace G20.API.Factories.Products
             _teamService = teamService;
         }
 
+        public virtual async Task<ProductModel> PrepareProductModelAsync(int productId)
+        {
+            var product = await _productService.GetByIdAsync(productId);
+            if (product == null)
+                return null;
+            var model = product.ToModel<ProductRequestModel>();
+            model.File = await _mediaFactoryModel.GetRequestModelAsync(model.FileId);
+            return model;
+        }
 
         public virtual async Task<ProductListModel> PrepareProductListModelAsync(ProductSearchModel searchModel)
         {
@@ -73,6 +83,31 @@ namespace G20.API.Factories.Products
             return model;
         }
 
+        public virtual async Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(int productTicketCategoryMapId)
+        {
+            var productTicketCategoryMap = await _productTicketCategoryMapService.GetByIdAsync(productTicketCategoryMapId);
+            var ticketCategory = await _ticketCategoryService.GetByIdAsync(productTicketCategoryMap.Id);
+            ProductTicketCategoryMapModel model = new ProductTicketCategoryMapModel();
+            if (ticketCategory != null)
+            {
+                model.TicketCategoryId = ticketCategory.Id;
+                model.TicketCategoryName = ticketCategory.Name;
+                model.File = await _mediaFactoryModel.GetRequestModelAsync(ticketCategory.FileId);
+                if (productTicketCategoryMap != null)
+                {
+                    model.Id = productTicketCategoryMap.Id;
+                    model.ProductId = productTicketCategoryMap.ProductId;
+                    model.Total = productTicketCategoryMap.Total;
+                    model.Available = productTicketCategoryMap.Available;
+                    model.Block = productTicketCategoryMap.Block;
+                    model.Sold = productTicketCategoryMap.Sold;
+                    model.Price = productTicketCategoryMap.Price;
+                }
+            }
+            return model;
+        }
+
+
         public virtual async Task<List<ProductTicketCategoryMapModel>> PrepareSingalProductTicketCategoryMapListModelAsync(int productId, int venueId)
         {
             List<ProductTicketCategoryMapModel> productTicketCategoryMapModels = new List<ProductTicketCategoryMapModel>();
@@ -96,8 +131,8 @@ namespace G20.API.Factories.Products
                 var productTicketCategoryMap = productTicketCategoryMaps.FirstOrDefault(x => x.TicketCategoryId == venueTicketCategoryMap.TicketCategoryId);
                 if (productTicketCategoryMap != null)
                 {
-                    model.Id= productTicketCategoryMap.Id;
-                    model.ProductId= productTicketCategoryMap.ProductId;
+                    model.Id = productTicketCategoryMap.Id;
+                    model.ProductId = productTicketCategoryMap.ProductId;
                     model.Total = productTicketCategoryMap.Total;
                     model.Available = productTicketCategoryMap.Available;
                     model.Block = productTicketCategoryMap.Block;
@@ -156,8 +191,8 @@ namespace G20.API.Factories.Products
                     var productsTicketCategoryGroupMaps = productsTicketCategoryGroupsMaps.FirstOrDefault(x => x.Key == ticketCategoryId);
                     if (productsTicketCategoryGroupMaps != null)
                     {
-                        model.Total = productsTicketCategoryGroupMaps.Min(x=>x.Total);
-                        model.Price = productsTicketCategoryGroupMaps.Average(x=>x.Price);
+                        model.Total = productsTicketCategoryGroupMaps.Min(x => x.Total);
+                        model.Price = productsTicketCategoryGroupMaps.Average(x => x.Price);
                     }
                 }
                 productTicketCategoryMapModels.Add(model);

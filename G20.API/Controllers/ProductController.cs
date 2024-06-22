@@ -136,14 +136,13 @@ namespace G20.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Get(int id)
         {
-            var product = await _productService.GetByIdAsync(id);
-            if (product == null)
+            var model = await _productFactoryModel.PrepareProductModelAsync(id);
+            if (model == null)
                 return Error("not found");
-            var model = product.ToModel<ProductRequestModel>();
-            model.File = await _mediaFactoryModel.GetRequestModelAsync(model.FileId);
-            if (model.ProductTypeEnum == ProductTypeEnum.Regular && product.VenueId.HasValue)
+
+            if (model.ProductTypeEnum == ProductTypeEnum.Regular && model.VenueId.HasValue)
             {
-                model.ProductTicketCategories = await _productFactoryModel.PrepareSingalProductTicketCategoryMapListModelAsync(id, product.VenueId.Value);
+                model.ProductTicketCategories = await _productFactoryModel.PrepareSingalProductTicketCategoryMapListModelAsync(id, model.VenueId.Value);
             }
             if (model.ProductTypeEnum == ProductTypeEnum.Combo)
             {
