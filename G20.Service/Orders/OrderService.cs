@@ -84,7 +84,7 @@ namespace G20.Service.Orders
                 foreach (var orderProductItemDetail in orderProductItemDetails)
                 {
                     var product = await _productService.GetByIdAsync(orderProductItem.ProductId);
-                    var venue = await _venueService.GetByIdAsync(product.VenueId.Value);
+                    var venue = (await _venueService.GetByIdAsync(product.VenueId.Value))?? new Venue();
                     var file = await _fileService.GetByIdAsync(orderProductItemDetail.QRCodeFileId.Value);
                     await _workflowMessageService.SendOrderNotificationMessageAsync(
                         venue,

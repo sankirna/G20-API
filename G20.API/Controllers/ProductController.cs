@@ -12,7 +12,7 @@ using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
 using G20.Service.TicketCategories;
 using G20.Service.Tickets;
-using G20.Service.Venue;
+using G20.Service.Venues;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Nop.Core;
@@ -159,8 +159,8 @@ namespace G20.API.Controllers
                 var productIds= model.ProductCombos.Select(x=>x.ProductMapId).ToList();
                 model.ProductTicketCategories = await _productFactoryModel.PrepareComboProductTicketCategoryMapListModelAsync(id, productIds);
             }
-            model.CategoryName = _ticketCategoryService.GetByIdAsync(model.CategoryId).Result.Name;
-            model.VenueName = _venueService.GetByIdAsync(model.CategoryId).Result.StadiumName;
+            model.CategoryName = (await _ticketCategoryService.GetByIdAsync(model.CategoryId)).Name;
+            model.VenueName = ((await _venueService.GetByIdAsync(model.CategoryId)) ?? new Venue()).StadiumName;
             return Success(model);
         }
 
