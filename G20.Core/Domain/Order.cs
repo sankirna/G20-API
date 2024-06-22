@@ -10,9 +10,9 @@ namespace G20.Core.Domain
         public decimal GrossTotal { get; set; }
         public decimal? Discount { get; set; }
         public decimal GrandTotal { get; set; }
-        public string? Email { get; set; }
-        public string? Name { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
         public int? PaymentId { get; set; }
 
         // Navigation Properties

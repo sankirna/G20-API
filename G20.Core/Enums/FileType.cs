@@ -5,6 +5,7 @@ namespace G20.Core.Enums
     {
         TeamLogo = 1,
         ProfileResume = 2,
+        OrderProductItemQRCode = 3,
         Other = 9999
     }
 }

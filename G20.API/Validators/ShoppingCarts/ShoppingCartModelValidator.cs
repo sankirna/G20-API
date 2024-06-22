@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
-using G20.API.Models.Coupons;
 using G20.API.Models.ShoppingCarts;
-using System.Security.Policy;
 
 namespace G20.API.Validators.ShoppingCarts
 {

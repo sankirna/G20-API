@@ -1,14 +1,11 @@
 ﻿using G20.API.Factories.Orders;
 using G20.API.Factories.ShoppingCarts;
 using G20.API.Infrastructure.Mapper.Extensions;
-using G20.API.Models.ProductCombos;
-using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.ShoppingCarts;
 using G20.Core;
 using G20.Core.Domain;
 using G20.Service.ShoppingCarts;
 using Microsoft.AspNetCore.Mvc;
-using Mono.TextTemplating;
 using Nop.Core;
 
 namespace G20.API.Controllers
@@ -93,6 +90,7 @@ namespace G20.API.Controllers
             var userId = _workContext.GetCurrentUserId();
             
             var shoppingCartId = 0;
+
             #region Check validation and map order model from shopping cart
 
             var orderModel = _orderFactory.MapOrderModelFromShoppingModel(model);
