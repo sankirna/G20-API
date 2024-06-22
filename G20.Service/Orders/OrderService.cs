@@ -83,9 +83,17 @@ namespace G20.Service.Orders
                 var ticketCategory = ticketCategories.FirstOrDefault(x => x.Id == productTicketCategoryMap.TicketCategoryId);
                 foreach (var orderProductItemDetail in orderProductItemDetails)
                 {
-                    var product = await _productService.GetByIdAsync(orderProductItem.ProductId);
-                    var venue = (await _venueService.GetByIdAsync(product.VenueId.Value))?? new Venue();
-                    var file = await _fileService.GetByIdAsync(orderProductItemDetail.QRCodeFileId.Value);
+                    var product = await _productService.GetByIdAsync(orderProductItemDetail.ProductId);
+                    var venue = new Venue();
+                    if (product.VenueId.HasValue)
+                    {
+                        venue = await _venueService.GetByIdAsync(product.VenueId.Value);
+                    }
+                    var file = new Core.Domain.File();
+                    if (orderProductItemDetail.QRCodeFileId.HasValue)
+                    {
+                        file = await _fileService.GetByIdAsync(orderProductItemDetail.QRCodeFileId.Value);
+                    }
                     await _workflowMessageService.SendOrderNotificationMessageAsync(
                         venue,
                         product,

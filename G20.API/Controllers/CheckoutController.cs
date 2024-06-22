@@ -163,7 +163,7 @@ namespace G20.API.Controllers
                         {
                             var orderProductComboItemDetail = PrepareOrderProductItemDetail(userId
                                     , orderProductItem.Id
-                                    , item.ProductId
+                                    , productCombo.ProductMapId
                                     , productCombo.Id);
                             orderProductItemDetails.Add(orderProductComboItemDetail);
                         }

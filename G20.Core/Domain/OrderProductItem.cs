@@ -6,7 +6,6 @@ namespace G20.Core.Domain
 {
     public partial class OrderProductItem : BaseEntityWithTacking
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }
