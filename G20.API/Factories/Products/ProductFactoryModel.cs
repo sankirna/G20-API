@@ -4,6 +4,7 @@ using G20.API.Models.Products;
 using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.VenueTicketCategoriesMap;
 using G20.Core.Domain;
+using G20.Service.Categories;
 using G20.Service.Countries;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
@@ -26,6 +27,7 @@ namespace G20.API.Factories.Products
         protected readonly ITicketCategoryService _ticketCategoryService;
         protected readonly ITeamService _teamService;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
+        protected readonly ICategoryService _categoryService;
 
         public ProductFactoryModel(
               IProductService productService
@@ -36,6 +38,7 @@ namespace G20.API.Factories.Products
             , ITicketCategoryService ticketCategoryService
             , IProductTicketCategoryMapService productTicketCategoryMapService
             , ITeamService teamService
+            ,ICategoryService categoryService
             )
         {
             _productService = productService;
@@ -46,6 +49,7 @@ namespace G20.API.Factories.Products
             _ticketCategoryService = ticketCategoryService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
             _teamService = teamService;
+            _categoryService = categoryService;
         }
 
         public virtual async Task<ProductModel> PrepareProductModelAsync(int productId)
@@ -76,6 +80,8 @@ namespace G20.API.Factories.Products
                     var productModel = product.ToModel<ProductModel>();
                     if (product.VenueId != null)
                         productModel.VenueName = _venueService.GetByIdAsync((int)product.VenueId).Result.StadiumName;
+                    if (product.CategoryId != null && product.CategoryId != 0)
+                        productModel.CategoryName = _categoryService.GetByIdAsync((int)product.CategoryId).Result.Name;
                     return productModel;
                 });
             });
