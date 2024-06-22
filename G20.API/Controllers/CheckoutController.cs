@@ -127,20 +127,20 @@ namespace G20.API.Controllers
             order.Email = model.Email;
             order.Name = model.Name;
             order.PhoneNumber = model.PhoneNumber;
-
+            order.OrderStatusId = (int)OrderStatusEnum.New;
             await _orderService.InsertAsync(order);
 
             #endregion
 
             #region Insert Order Item
 
+            await _orderService.UpdateOrderStatus(order, OrderStatusEnum.New);
+
             foreach (var item in orderModel.Items)
             {
                 var orderProductItem = item.ToEntity<OrderProductItem>();
                 orderProductItem.OrderId = order.Id;
                 orderProductItem.UserId = userId;
-
-
 
                 await _orderProductItemService.InsertAsync(orderProductItem);
 
@@ -212,6 +212,8 @@ namespace G20.API.Controllers
                 await _shoppingCartService.DeleteAsync(shoppingCart);
 
                 #endregion
+
+                await _orderService.UpdateOrderStatus(order, OrderStatusEnum.Completed);
             }
 
             #endregion
@@ -219,7 +221,7 @@ namespace G20.API.Controllers
             #region Send Email Notifications
 
             var isSend = await _orderService.SendOrderNotifications(order.Id);
-            
+
             #endregion
 
             return Success(orderModel);

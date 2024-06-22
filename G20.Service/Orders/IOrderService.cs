@@ -1,5 +1,6 @@
 ﻿using G20.Core;
 using G20.Core.Domain;
+using G20.Core.Enums;
 
 
 namespace G20.Service.Orders
@@ -10,6 +11,7 @@ namespace G20.Service.Orders
         Task<Order> GetByIdAsync(int id);
         Task InsertAsync(Order entity);
         Task UpdateAsync(Order entity);
+        Task UpdateOrderStatus(Order entity, OrderStatusEnum orderStatusEnum);
         Task DeleteAsync(Order entity);
         Task<bool> SendOrderNotifications(int orderId);
     }

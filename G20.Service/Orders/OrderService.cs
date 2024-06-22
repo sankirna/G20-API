@@ -1,5 +1,6 @@
 ﻿using G20.Core;
 using G20.Core.Domain;
+using G20.Core.Enums;
 using G20.Data;
 using G20.Service.Files;
 using G20.Service.Messages;
@@ -50,8 +51,16 @@ namespace G20.Service.Orders
             await _entityRepository.InsertAsync(entity);
         }
 
+        
+
         public virtual async Task UpdateAsync(Order entity)
         {
+            await _entityRepository.UpdateAsync(entity);
+        }
+
+        public virtual async Task UpdateOrderStatus(Order entity, OrderStatusEnum orderStatusEnum)
+        {
+            entity.OrderStatusId = (int)orderStatusEnum;
             await _entityRepository.UpdateAsync(entity);
         }
 
