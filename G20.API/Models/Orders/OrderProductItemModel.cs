@@ -1,4 +1,6 @@
-﻿using G20.Framework.Models;
+﻿using G20.API.Models.Products;
+using G20.API.Models.ProductTicketCategoriesMap;
+using G20.Framework.Models;
 
 namespace G20.API.Models.Orders
 {
@@ -10,5 +12,7 @@ namespace G20.API.Models.Orders
         public decimal Price { get; set; }
         public decimal Total { get { return Quantity * Price; } }
         public bool IsOutofStock { get; set; }
+        public ProductModel ProductDetail { get; set; }
+        public ProductTicketCategoryMapModel ProductTicketCategoryMapDetail { get; set; }
     }
 }

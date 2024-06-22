@@ -4,14 +4,10 @@ namespace G20.Core.Domain
 {
     public partial class OrderProductItemDetail : BaseEntityWithTacking
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public int OrderProductItemId { get; set; }
         public int? ProductComboId { get; set; }
         public int ProductId { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price { get; set; }
-        public decimal TotalPrice { get; set; }
         public int? QRCodeFileId { get; set; }
 
         // Navigation Properties
