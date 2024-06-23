@@ -23,6 +23,7 @@ using G20.API.Factories.VenueTicketCategoriesMap;
 using G20.API.Factories.Products;
 using G20.API.Factories.ShoppingCarts;
 using G20.API.Factories.Orders;
+using Matrimony.API.Factories.BoardingDetails;
 
 namespace G20.API.Infrastructure
 {
@@ -132,6 +133,8 @@ namespace G20.API.Infrastructure
             //Shopping Cart
             services.AddScoped<IShoppingCartFactory, ShoppingCartFactory>();
             services.AddScoped<IOrderFactory, OrderFactory>();
+
+            services.AddScoped<IBoardingDetailFactoryModel, BoardingDetailFactoryModel>();
 
         }
 

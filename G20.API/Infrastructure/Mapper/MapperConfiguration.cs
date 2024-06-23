@@ -23,6 +23,7 @@ using G20.API.Models.ProductTicketCategoriesMap;
 using G20.API.Models.ProductCombos;
 using G20.API.Models.Orders;
 using G20.API.Models.ShoppingCarts;
+using G20.API.Models.BoardingDetails;
 
 namespace G20.API.Infrastructure.Mapper
 {
@@ -50,6 +51,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateShoppingCart();
             CreateOrderCart();
             CreateShoppingOrderMap();
+            CreateBoardingDetailMap();
         }
 
         public virtual void CreateCommonMap()
@@ -172,8 +174,6 @@ namespace G20.API.Infrastructure.Mapper
             CreateMap<Product, ProductForSiteModel>().ReverseMap();
         }
 
-
-
         public virtual void CreateShoppingCart()
         {
             CreateMap<ShoppingCartModel, ShoppingCart>().ReverseMap();
@@ -190,6 +190,11 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateMap<ShoppingCartModel, OrderModel>().ReverseMap();
             CreateMap<ShoppingCartItemModel, OrderProductItemModel>().ReverseMap();
+        }
+
+        public virtual void CreateBoardingDetailMap()
+        {
+            CreateMap<BoardingDetail, BoardingDetailModel>().ReverseMap();
         }
 
         public int Order => 0;

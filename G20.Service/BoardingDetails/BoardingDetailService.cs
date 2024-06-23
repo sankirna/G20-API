@@ -14,7 +14,7 @@ namespace G20.Service.BoardingDetails
             _entityRepository = entityRepository;
         }
 
-        public virtual async Task<IPagedList<BoardingDetail>> GetBoardingDetailsAsync(int orderId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public virtual async Task<IPagedList<BoardingDetail>> GetBoardingDetailsAsync( int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var boardingDetails = await _entityRepository.GetAllPagedAsync(query =>
             {
