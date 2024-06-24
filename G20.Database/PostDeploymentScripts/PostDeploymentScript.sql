@@ -48,8 +48,8 @@ BEGIN
            ,[CreatedDateTime]
            ,[IsDeleted])
      VALUES
-           ('admin@g20.com'
-           ,'admin'
+           ('admin'
+           ,'admin@g20.com'
            ,'999999999'
            ,'admin@123'
            ,GETDATE()
