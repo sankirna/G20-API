@@ -1,4 +1,5 @@
-﻿using G20.Core;
+﻿using G20.API.Models.Users;
+using G20.Core;
 using G20.Core.Enums;
 using G20.Framework.Models;
 
@@ -7,7 +8,6 @@ namespace G20.API.Models.Orders
     public partial record OrderDetailModel : BaseNopEntityModel
     {
         public int UserId { get; set; }
-        public string UserName { get; set; }
         public string? CouponCode { get; set; }
         public int? CouponId { get; set; }
         public decimal GrossTotal { get; set; }
@@ -28,6 +28,7 @@ namespace G20.API.Models.Orders
         public DateTime? CreatedDateTime { get; set; }
         public DateTime? UpdatedDateTime { get; set; }
 
+        public UserModel UserDetail { get; set; }
         public List<OrderProductItemModel> Items { get; set; }
     }
 }
