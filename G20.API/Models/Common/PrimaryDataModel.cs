@@ -8,5 +8,6 @@ namespace G20.API.Models.Common
         public List<EnumModel> FileTypes { get;set; }
         public List<EnumModel> CouponCalculateTypes { get;set; }
         public List<EnumModel> ProductTypes { get;set; }
+        public List<EnumModel> OrderStatuses { get;set; }
     }
 }

@@ -25,11 +25,35 @@ namespace G20.Service.Orders
             _entityRepository = entityRepository;
         }
 
-        public virtual async Task<IPagedList<Order>> GetOrdersAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public virtual async Task<IPagedList<Order>> GetOrdersAsync(
+            int userId =0,
+            OrderStatusEnum? orderStatusEnum=null,
+            DateTime? fromDate=null,
+            DateTime? toDate = null,
+            int pageIndex = 0, 
+            int pageSize = int.MaxValue,
+            bool getOnlyTotalCount = false)
         {
             var orders = await _entityRepository.GetAllPagedAsync(query =>
             {
+                if(userId>0)
                 query = query.Where(o => o.UserId == userId);
+
+                if (orderStatusEnum != null)
+                {
+                    query = query.Where(o => o.OrderStatusId == (int)orderStatusEnum);
+                }
+
+                if (fromDate != null)
+                {
+                    query = query.Where(o => o.CreatedDateTime >= fromDate.ToUTCDataTime());
+                }
+
+                if (toDate != null)
+                {
+                    query = query.Where(o => o.CreatedDateTime <= fromDate.ToUTCDataTime());
+                }
+
                 return query;
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
 

@@ -6,6 +6,8 @@ namespace G20.API.Factories.Orders
 {
     public interface IOrderFactory
     {
+        Task<OrderListModel> PrepareOrderListModelAsync(OrderListRequestModel searchModel);
+        Task<OrderDetailModel> GetOrderDetailModelAsync(Order order);
         OrderModel MapOrderModelFromShoppingModel(ShoppingCartModel model);
         List<OrderProductItemModel> MapOrderProductItemModelFromShoppingItemModel(List<ShoppingCartItemModel> shoppingCartItems);
         Task<OrderCouponInfoModel> GetAndValidateCouponInfoByCode(OrderModel orderModel);
