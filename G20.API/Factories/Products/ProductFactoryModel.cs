@@ -174,7 +174,11 @@ namespace G20.API.Factories.Products
             {
                 return products.SelectAwait(async product =>
                 {
-                    var productModel = await PrepareProductDetailModelAsync(product, isCategoryDetail: true, isVenueDetail: true, isTeam1Detail: true, isTeam2Detail: true);
+                    var productModel = await PrepareProductDetailModelAsync(product, 
+                        isCategoryDetail: true,
+                        isVenueDetail: true,
+                        isTeam1Detail: true, 
+                        isTeam2Detail: true);
                     return productModel;
                 });
             });
