@@ -1,5 +1,6 @@
 ﻿using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Categories;
+using G20.Core.Domain;
 using G20.Service.Categories;
 using Nop.Web.Framework.Models.Extensions;
 using System;
@@ -28,12 +29,17 @@ namespace G20.API.Factories.Categories
             {
                 return categories.SelectAwait(async category =>
                 {
-                    var categoryModel = category.ToModel<CategoryModel>();
+                    var categoryModel = await PrepareCategoryModelAsync(category);
                     return categoryModel;
                 });
             });
 
             return model;
+        }
+
+        public virtual async Task<CategoryModel> PrepareCategoryModelAsync(Category entity, bool isDetail=false)
+        {
+            return entity.ToModel<CategoryModel>();
         }
     }
 }

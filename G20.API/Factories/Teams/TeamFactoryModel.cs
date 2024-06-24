@@ -1,6 +1,7 @@
 ﻿using G20.API.Factories.Media;
 using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Teams;
+using G20.Core.Domain;
 using G20.Service.Teams;
 using Nop.Web.Framework.Models.Extensions;
 using System.Linq;
@@ -32,12 +33,18 @@ namespace G20.API.Factories.Teams
             {
                 return teams.SelectAwait(async team =>
                 {
-                    var teamModel = team.ToModel<TeamModel>();
-                    teamModel.Logo = await _mediaFactoryModel.GetRequestModelAsync(teamModel.logoId);
+                    var teamModel = await PrepareTeamModelAsync(team);
                     return teamModel;
                 });
             });
 
+            return model;
+        }
+
+        public virtual async Task<TeamModel> PrepareTeamModelAsync(Team entity, bool isDetail = false)
+        {
+            var model = entity.ToModel<TeamModel>();
+            model.Logo = await _mediaFactoryModel.GetRequestModelAsync(model.logoId);
             return model;
         }
     }

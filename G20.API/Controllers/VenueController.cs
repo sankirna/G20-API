@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using G20.API.Factories.Media;
-using G20.API.Factories.Venue;
+using G20.API.Factories.Venues;
 using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Venue;
 using G20.API.Models.VenueTicketCategoriesMap;

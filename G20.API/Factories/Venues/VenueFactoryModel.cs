@@ -1,14 +1,16 @@
 ﻿using G20.API.Factories.Media;
 using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Categories;
 using G20.API.Models.Venue;
 using G20.API.Models.VenueTicketCategoriesMap;
+using G20.Core.Domain;
 using G20.Service.Countries;
 using G20.Service.TicketCategories;
 using G20.Service.Venues;
 using G20.Service.VenueTicketCategoriesMap;
 using Nop.Web.Framework.Models.Extensions;
 
-namespace G20.API.Factories.Venue
+namespace G20.API.Factories.Venues
 {
     public class VenueFactoryModel : IVenueFactoryModel
     {
@@ -50,6 +52,11 @@ namespace G20.API.Factories.Venue
             });
 
             return model;
+        }
+
+        public virtual async Task<VenueModel> PrepareVenueModelAsync(Venue entity, bool isDetail = false)
+        {
+            return entity.ToModel<VenueModel>();
         }
 
         public virtual async Task<List<VenueTicketCategoryMapModel>> PrepareVenueTicketCategoryMapListModelAsync(int venueId)
