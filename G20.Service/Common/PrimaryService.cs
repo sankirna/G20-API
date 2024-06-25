@@ -32,5 +32,10 @@ namespace G20.Service.Common
         {
             return EnumHelper.ListFor<ProductTypeEnum>().ToList();
         }
+
+        public List<EnumClass> GetOrderStatuses()
+        {
+            return EnumHelper.ListFor<OrderStatusEnum>().ToList();
+        }
     }
 }

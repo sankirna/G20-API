@@ -1,29 +1,79 @@
-﻿using G20.API.Infrastructure.Mapper.Extensions;
+﻿using G20.API.Factories.Users;
+using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Coupons;
 using G20.API.Models.Orders;
 using G20.API.Models.ShoppingCarts;
 using G20.Core.Domain;
 using G20.Core.Enums;
 using G20.Service.Coupons;
+using G20.Service.Orders;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
+using G20.Service.Users;
 using Nop.Core;
+using Nop.Web.Framework.Models.Extensions;
 
 namespace G20.API.Factories.Orders
 {
-    public class OrderFactory: IOrderFactory
+    public class OrderFactory : IOrderFactory
     {
+        protected readonly IOrderService _orderService;
+        protected readonly IUserService _userservice;
+        protected readonly IUserFactoryModel _userFactoryModel;
         protected readonly ICouponService _couponService;
         protected readonly IProductService _productService;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
 
-        public OrderFactory(ICouponService couponService
+        public OrderFactory(
+              IOrderService orderService
+            , IUserService userService
+            , IUserFactoryModel userFactoryModel
+            , ICouponService couponService
             , IProductService productService
             , IProductTicketCategoryMapService productTicketCategoryMapService)
         {
+            _orderService = orderService;
+            _userservice = userService;
+            _userFactoryModel = userFactoryModel;
             _couponService = couponService;
             _productService = productService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
+        }
+
+        public virtual async Task<OrderListModel> PrepareOrderListModelAsync(OrderListRequestModel searchModel)
+        {
+            ArgumentNullException.ThrowIfNull(searchModel);
+
+            var orders = await _orderService.GetOrdersAsync(
+                userId: searchModel.userId,
+                orderStatusEnum: searchModel.OrderStatusEnum,
+                fromDate: searchModel.FromDate,
+                toDate: searchModel.ToDate,
+                pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+
+            var model = await new OrderListModel().PrepareToGridAsync(searchModel, orders, () =>
+            {
+                return orders.SelectAwait(async order =>
+                {
+                    var orderDetailModel = await GetOrderDetailModelAsync(order, true);
+                    return orderDetailModel;
+                });
+            });
+
+            return model;
+        }
+
+        public virtual async Task<OrderDetailModel> GetOrderDetailModelAsync(Order order
+             , bool isUserDetail =false)
+        {
+            var orderDetailModel = order.ToModel<OrderDetailModel>();
+            //User Name
+            var user = await _userservice.GetByIdAsync(orderDetailModel.UserId);
+            if (isUserDetail && user != null)
+            {
+                orderDetailModel.UserDetail = await _userFactoryModel.PrepareUserModelAsync(user);
+            }
+            return orderDetailModel;
         }
 
         public virtual OrderModel MapOrderModelFromShoppingModel(ShoppingCartModel model)
@@ -82,7 +132,7 @@ namespace G20.API.Factories.Orders
             foreach (var item in items)
             {
                 var productTicketCategoryMap = productTicketCategoryMaps.FirstOrDefault(x => x.Id == item.ProductTicketCategoryMapId);
-                if (productTicketCategoryMap!= null 
+                if (productTicketCategoryMap != null
                      && productTicketCategoryMap.ProductId != item.ProductId)
                 {
                     throw new NopException("Product and product ticket category(s) is invalid");

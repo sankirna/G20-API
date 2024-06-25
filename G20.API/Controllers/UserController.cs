@@ -80,7 +80,7 @@ namespace G20.API.Controllers
             var user = await _userService.GetByIdAsync(id);
             if (user == null)
                 return Error("not found");
-            var model = user.ToModel<UserModel>();
+            var model = await _userFactoryModel.PrepareUserModelAsync(user);
             model.RoleIds = (await _userRoleService.GetRoleByUserIdAsync(user.Id)).Select(x => x.Id).ToList();
             return Success(model);
         }

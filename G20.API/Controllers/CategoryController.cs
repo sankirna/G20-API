@@ -42,7 +42,7 @@ namespace G20.API.Controllers
         {
             var category = model.ToEntity<Category>();
             await _categoryService.InsertAsync(category);
-            return Success(category.ToModel<CategoryModel>());
+            return Success(await _categoryFactoryModel.PrepareCategoryModelAsync(category));
         }
 
         [HttpPost]

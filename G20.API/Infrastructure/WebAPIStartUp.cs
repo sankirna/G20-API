@@ -9,7 +9,6 @@ using G20.API.Factories.States;
 using G20.API.Factories.SubCategories;
 using G20.API.Factories.Teams;
 using G20.API.Factories.Users;
-using G20.API.Factories.Venue;
 using G20.Core.DbContexts;
 using G20.Core.IndentityModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,6 +23,7 @@ using G20.API.Factories.Products;
 using G20.API.Factories.ShoppingCarts;
 using G20.API.Factories.Orders;
 using Matrimony.API.Factories.BoardingDetails;
+using G20.API.Factories.Venues;
 
 namespace G20.API.Infrastructure
 {

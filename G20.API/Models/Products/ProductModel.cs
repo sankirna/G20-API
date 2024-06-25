@@ -1,8 +1,9 @@
-﻿using G20.API.Models.Media;
+﻿using G20.API.Models.Categories;
+using G20.API.Models.Media;
 using G20.API.Models.ProductCombos;
 using G20.API.Models.ProductTicketCategoriesMap;
-using G20.API.Models.Tickets;
-using G20.API.Models.VenueTicketCategoriesMap;
+using G20.API.Models.Teams;
+using G20.API.Models.Venue;
 using G20.Core.Enums;
 using G20.Framework.Models;
 
@@ -23,16 +24,12 @@ namespace G20.API.Models.Products
         public string Description { get; set; }
         public int? FileId { get; set; }
         public FileUploadRequestModel? File { get; set; }
+        public TeamModel Team1Detail { get; set; }
+        public TeamModel Team2Detail { get; set; }
+        public VenueModel VenueDetail { get; set; }
+        public CategoryModel CategoryDetail { get; set; }
         public List<ProductTicketCategoryMapModel> ProductTicketCategories { get; set; }
         public List<ProductComboModel> ProductCombos { get; set; }
-
-
-        public string Team1Name { get; set; }
-        public string Team2Name { get; set; }
-        public string Team1LogoUrl { get; set; }
-        public string Team2LogoUrl { get; set; }
-        public string VenueName { get; set; }
-        public string CategoryName { get; set; }
-        public string Price { get; set; }
+        public List<ProductModel> ProductComboDetails { get; set; }
     }
 }

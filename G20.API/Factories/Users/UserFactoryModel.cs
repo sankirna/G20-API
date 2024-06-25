@@ -1,5 +1,7 @@
 ﻿using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Teams;
 using G20.API.Models.Users;
+using G20.Core.Domain;
 using G20.Service.Users;
 using Nop.Web.Framework.Models.Extensions;
 using System.Threading.Tasks;
@@ -22,11 +24,17 @@ namespace G20.API.Factories.Users
             {
                 return users.SelectAwait(async user =>
                 {
-                    var userModel = user.ToModel<UserModel>();
+                    var userModel = await PrepareUserModelAsync(user);
                     return userModel;
                 });
             });
 
+            return model;
+        }
+
+        public virtual async Task<UserModel> PrepareUserModelAsync(User entity, bool isDetail = false)
+        {
+            var model = entity.ToModel<UserModel>();
             return model;
         }
     }
