@@ -16,6 +16,7 @@ if (!string.IsNullOrEmpty(builder.Environment?.EnvironmentName))
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.ConfigureApplicationSettings(builder);
 
+Console.WriteLine(builder.Environment?.EnvironmentName);
 
 //load application settings
 builder.Host.UseDefaultServiceProvider(options =>
