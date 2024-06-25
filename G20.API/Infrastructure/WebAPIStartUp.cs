@@ -66,7 +66,7 @@ namespace G20.API.Infrastructure
 
             services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new OpenApiInfo { Title = "Test API", Version = "v1" });
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "GT20 API", Version = "v1" });
                 option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,

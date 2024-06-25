@@ -32,15 +32,20 @@ builder.Services.ConfigureApplicationServices(builder);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
-    app.MapSwagger().RequireAuthorization();
-    app.UseSwaggerUI();
+    app.MapSwagger().RequireAuthorization();    
+    //app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/Api/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = string.Empty;
+    });
 }
 app.UseCors(MyAllowSpecificOrigins);
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
