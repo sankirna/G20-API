@@ -92,7 +92,7 @@ namespace G20.API.Controllers
         {
             var userId = _workContext.GetCurrentUserId();
 
-            var shoppingCartModel = await _shoppingCartFactory.GetShoppingCartDetailByUserId(_workContext.GetCurrentUserId());
+            var shoppingCartModel = await _shoppingCartFactory.GetShoppingCartDetailByUserId(userId);
             if (shoppingCartModel == null)
             {
                 throw new NopException("Please add some item(s) in cart");
@@ -205,18 +205,25 @@ namespace G20.API.Controllers
                 await _productTicketCategoryMapService.UpdateAsync(productTicketCategoryMap);
 
                 #endregion
-
-                #region Clear Shopping Cart
-
-                var shoppingCart = await _shoppingCartService.GetByUserIdAsync(userId);
-                await _shoppingCartService.DeleteAsync(shoppingCart);
-
-                #endregion
-
+               
                 await _orderService.UpdateOrderStatus(order, OrderStatusEnum.Completed);
             }
 
             #endregion
+
+            #region Clear Shopping Cart
+
+            var shoppingCart = await _shoppingCartService.GetByUserIdAsync(userId);
+            await _shoppingCartService.DeleteAsync(shoppingCart);
+
+            #endregion
+
+            #region Update order status
+
+            await _orderService.UpdateOrderStatus(order, OrderStatusEnum.Completed);
+
+            #endregion
+
 
             #region Send Email Notifications
 

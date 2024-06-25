@@ -22,7 +22,7 @@ namespace G20.Service.ShoppingCarts
         {
             var shoppingCarts = await _entityRepository.GetAllPagedAsync(query =>
             {
-                if (userId>0)
+                if (userId > 0)
                     query = query.Where(c => c.UserId == userId);
                 return query;
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
@@ -37,7 +37,7 @@ namespace G20.Service.ShoppingCarts
 
         public virtual async Task<ShoppingCart> GetByUserIdAsync(int id)
         {
-            return await _entityRepository.Table.FirstOrDefaultAsync(x=>x.UserId==id);
+            return await _entityRepository.Table.FirstOrDefaultAsync(x => x.UserId == id);
         }
 
         public virtual async Task InsertAsync(ShoppingCart entity)
