@@ -5,7 +5,7 @@
     OrderProductItemId INT NOT NULL,
     ProductId INT NOT NULL,
     ProductComboId INT,
-    QRCode NVARCHAR(1000) NOT NULL,
+    QRCode NVARCHAR(1000) NULL,
     QRCodeFileId INT,
     [CreatedBy]       INT            NULL,
     [CreatedDateTime] DATETIME       NULL,

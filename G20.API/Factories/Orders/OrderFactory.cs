@@ -154,6 +154,13 @@ namespace G20.API.Factories.Orders
 
             OrderCouponInfoModel orderCouponInfoModel = new OrderCouponInfoModel();
             orderCouponInfoModel.CouponId = coupon.Id;
+            if (coupon.IsQuantity)
+            {
+                if(coupon.MinimumQuantity<= orderModel.TotalQuantity)
+                {
+                    throw new NopException("Please add {0} tickets", (coupon.MinimumQuantity- orderModel.TotalQuantity));
+                }
+            }
             switch ((CouponCalculateType)coupon.TypeId)
             {
                 case CouponCalculateType.Amount:

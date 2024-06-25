@@ -6,6 +6,13 @@ namespace G20.API.Models.Orders
     {
         public string CouponCode { get; set; }
         public int? CouponId { get; set; }
+        public decimal TotalQuantity
+        {
+            get
+            {
+                return Items == null ? 0 : Items.Sum(x => x.Quantity);
+            }
+        }
         public decimal GrossTotal
         {
             get

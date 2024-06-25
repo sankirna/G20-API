@@ -192,6 +192,7 @@ namespace G20.API.Controllers
                     //Update QR code file id
                     var orderProductItemDetailEntity = await _orderProductItemDetailService.GetByIdAsync(orderProductItemDetail.Id);
                     orderProductItemDetailEntity.QRCodeFileId = file.Id;
+                    orderProductItemDetailEntity.QRCode = string.Format("{0}-{1}-{2}", orderProductItemDetail.Id, item.ProductId, item.ProductTicketCategoryMapId);
                     await _orderProductItemDetailService.UpdateAsync(orderProductItemDetailEntity);
 
                 }

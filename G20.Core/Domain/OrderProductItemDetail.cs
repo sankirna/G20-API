@@ -8,6 +8,7 @@ namespace G20.Core.Domain
         public int OrderProductItemId { get; set; }
         public int? ProductComboId { get; set; }
         public int ProductId { get; set; }
+        public string QRCode { get; set; }
         public int? QRCodeFileId { get; set; }
 
         // Navigation Properties
