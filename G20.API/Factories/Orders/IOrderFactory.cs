@@ -8,7 +8,12 @@ namespace G20.API.Factories.Orders
     {
         Task<OrderListModel> PrepareOrderListModelAsync(OrderListRequestModel searchModel);
         Task<OrderDetailModel> GetOrderDetailModelAsync(Order order
-                                                      , bool isUserDetail = false);
+                                                        , bool isUserDetail = false
+                                                        , bool isCouponDetail = false
+                                                        , bool isOrderProductItem = false
+                                                        , bool isProductTicketCategoryMapDetail = false);
+        Task<OrderProductItemModel>  GetOrderProductItemModelAsync(OrderProductItem orderProductItem
+                                                                  , bool isProductDetail = false);
         OrderModel MapOrderModelFromShoppingModel(ShoppingCartModel model);
         List<OrderProductItemModel> MapOrderProductItemModelFromShoppingItemModel(List<ShoppingCartItemModel> shoppingCartItems);
         Task<OrderCouponInfoModel> GetAndValidateCouponInfoByCode(OrderModel orderModel);

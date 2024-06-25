@@ -76,7 +76,11 @@ namespace G20.API.Controllers
             var order = await _orderService.GetByIdAsync(orderId);
             if (order == null)
                 return Error("not found");
-            var model = await _orderFactory.GetOrderDetailModelAsync(order);
+            var model = await _orderFactory.GetOrderDetailModelAsync(order
+                                                                    , isUserDetail: true
+                                                                    , isCouponDetail: true
+                                                                    , isOrderProductItem: true
+                                                                    , isProductTicketCategoryMapDetail: true);
             return Success(model);
         }
     }

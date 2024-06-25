@@ -1,5 +1,7 @@
-﻿using G20.API.Models.Users;
+﻿using G20.API.Models.Coupons;
+using G20.API.Models.Users;
 using G20.Core;
+using G20.Core.Domain;
 using G20.Core.Enums;
 using G20.Framework.Models;
 
@@ -29,6 +31,7 @@ namespace G20.API.Models.Orders
         public DateTime? UpdatedDateTime { get; set; }
 
         public UserModel UserDetail { get; set; }
+        public CouponModel CouponDetail { get; set; }
         public List<OrderProductItemModel> Items { get; set; }
     }
 }

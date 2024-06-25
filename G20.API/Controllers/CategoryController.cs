@@ -34,7 +34,8 @@ namespace G20.API.Controllers
             var category = await _categoryService.GetByIdAsync(id);
             if (category == null)
                 return Error("not found");
-            return Success(category.ToModel<CategoryModel>());
+            var model = await _categoryFactoryModel.PrepareCategoryModelAsync(category);
+            return Success(model);
         }
 
         [HttpPost]

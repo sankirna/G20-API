@@ -1,4 +1,6 @@
-﻿using G20.API.Factories.Users;
+﻿using G20.API.Factories.Coupons;
+using G20.API.Factories.Products;
+using G20.API.Factories.Users;
 using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Coupons;
 using G20.API.Models.Orders;
@@ -21,7 +23,10 @@ namespace G20.API.Factories.Orders
         protected readonly IUserService _userservice;
         protected readonly IUserFactoryModel _userFactoryModel;
         protected readonly ICouponService _couponService;
+        protected readonly ICouponFactoryModel _couponFactoryModel;
         protected readonly IProductService _productService;
+        protected readonly IProductFactoryModel _productFactoryModel;
+        protected readonly IOrderProductItemService _orderProductItemService;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
 
         public OrderFactory(
@@ -29,14 +34,20 @@ namespace G20.API.Factories.Orders
             , IUserService userService
             , IUserFactoryModel userFactoryModel
             , ICouponService couponService
+            , ICouponFactoryModel couponFactoryModel
             , IProductService productService
+            , IProductFactoryModel productFactoryModel
+            , IOrderProductItemService orderProductItemService
             , IProductTicketCategoryMapService productTicketCategoryMapService)
         {
             _orderService = orderService;
             _userservice = userService;
             _userFactoryModel = userFactoryModel;
             _couponService = couponService;
+            _couponFactoryModel = couponFactoryModel;
             _productService = productService;
+            _productFactoryModel = productFactoryModel;
+            _orderProductItemService = orderProductItemService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
         }
 
@@ -55,7 +66,9 @@ namespace G20.API.Factories.Orders
             {
                 return orders.SelectAwait(async order =>
                 {
-                    var orderDetailModel = await GetOrderDetailModelAsync(order, true);
+                    var orderDetailModel = await GetOrderDetailModelAsync(order
+                        , isUserDetail: true
+                        , isCouponDetail: true);
                     return orderDetailModel;
                 });
             });
@@ -64,16 +77,57 @@ namespace G20.API.Factories.Orders
         }
 
         public virtual async Task<OrderDetailModel> GetOrderDetailModelAsync(Order order
-             , bool isUserDetail =false)
+             , bool isUserDetail = false
+             , bool isCouponDetail = false
+             , bool isOrderProductItem = false
+             , bool isProductTicketCategoryMapDetail= false)
         {
             var orderDetailModel = order.ToModel<OrderDetailModel>();
-            //User Name
+        
             var user = await _userservice.GetByIdAsync(orderDetailModel.UserId);
             if (isUserDetail && user != null)
             {
                 orderDetailModel.UserDetail = await _userFactoryModel.PrepareUserModelAsync(user);
             }
+
+            if (isCouponDetail)
+            {
+                if (orderDetailModel.CouponCode != null)
+                {
+                    var coupon = await _couponService.GetByCodeAsync(orderDetailModel.CouponCode);
+                    orderDetailModel.CouponDetail = await _couponFactoryModel.PrepareCouponModelAsync(coupon);
+                }
+            }
+            if (isOrderProductItem)
+            {
+                var orderProductItems = (await _orderProductItemService.GetOrderProductItemsAsync(orderDetailModel.Id)).ToList();
+                orderDetailModel.Items = new List<OrderProductItemModel>();
+                if (orderProductItems != null && orderProductItems.Any())
+                {
+                    foreach (var item in orderProductItems)
+                    {
+                        var orderProductItemModel = await GetOrderProductItemModelAsync(item, isProductDetail: true);
+                        orderDetailModel.Items.Add(orderProductItemModel);
+                    }
+                }
+            }
             return orderDetailModel;
+        }
+
+        public virtual async Task<OrderProductItemModel> GetOrderProductItemModelAsync(OrderProductItem orderProductItem
+            , bool isProductDetail = false)
+        {
+            var orderProductItemModel = orderProductItem.ToModel<OrderProductItemModel>();
+            if (isProductDetail)
+            {
+                var product = await _productService.GetByIdAsync(orderProductItemModel.ProductId);
+                orderProductItemModel.ProductDetail = await _productFactoryModel.PrepareProductDetailModelAsync(product
+                                                                , isCategoryDetail: true
+                                                                , isVenueDetail: true
+                                                                , isTeam1Detail: true
+                                                                , isTeam2Detail: true);
+            }
+            return orderProductItemModel;
         }
 
         public virtual OrderModel MapOrderModelFromShoppingModel(ShoppingCartModel model)
@@ -158,5 +212,7 @@ namespace G20.API.Factories.Orders
             }
             return orderProductRequestItems.Any(x => !x.IsOutofStock);
         }
+
+       
     }
 }

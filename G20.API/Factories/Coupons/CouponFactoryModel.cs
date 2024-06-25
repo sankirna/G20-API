@@ -1,5 +1,7 @@
 ﻿using G20.API.Infrastructure.Mapper.Extensions;
+using G20.API.Models.Categories;
 using G20.API.Models.Coupons;
+using G20.Core.Domain;
 using G20.Service.Coupons;
 using Nop.Web.Framework.Models.Extensions;
 
@@ -25,12 +27,17 @@ namespace G20.API.Factories.Coupons
             {
                 return coupons.SelectAwait(async coupon =>
                 {
-                    var couponModel = coupon.ToModel<CouponModel>();
+                    var couponModel = await PrepareCouponModelAsync(coupon);
                     return couponModel;
                 });
             });
 
             return model;
+        }
+
+        public virtual async Task<CouponModel> PrepareCouponModelAsync(Coupon entity, bool isDetail = false)
+        {
+            return entity.ToModel<CouponModel>();
         }
     }
 }

@@ -36,7 +36,9 @@ namespace G20.API.Controllers
             var coupon = await _couponService.GetByIdAsync(id);
             if (coupon == null)
                 return Error("not found");
-            return Success(coupon.ToModel<CouponModel>());
+
+            var model = await _couponFactoryModel.PrepareCouponModelAsync(coupon);
+            return Success(model);
         }
 
         [HttpPost]
