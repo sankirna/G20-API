@@ -1,4 +1,5 @@
-﻿using G20.Core.Domain;
+﻿using G20.Core;
+using G20.Core.Domain;
 using G20.Data;
 using Nop.Core;
 
@@ -25,6 +26,19 @@ public partial class EmailAccountService : IEmailAccountService
     #endregion
 
     #region Methods
+
+    public virtual async Task<IPagedList<EmailAccount>> GetEmailAccountsAsync(string email, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+    {
+        var coupons = await _emailAccountRepository.GetAllPagedAsync(query =>
+        {
+            if (!string.IsNullOrWhiteSpace(email))
+                query = query.Where(c => c.Email.Contains(email));
+
+            return query;
+        }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
+
+        return coupons;
+    }
 
     /// <summary>
     /// Inserts an email account

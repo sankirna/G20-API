@@ -24,6 +24,7 @@ using G20.API.Factories.ShoppingCarts;
 using G20.API.Factories.Orders;
 using Matrimony.API.Factories.BoardingDetails;
 using G20.API.Factories.Venues;
+using G20.API.Factories.EmailAccounts;
 
 namespace G20.API.Infrastructure
 {
@@ -125,6 +126,7 @@ namespace G20.API.Infrastructure
             services.AddScoped<ITicketCategoryFactoryModel, TicketCategoryFactoryModel>();
             services.AddScoped<IVenueTicketCategoryMapFactoryModel, VenueTicketCategoryMapFactoryModel>();
             services.AddScoped<IProductFactoryModel, ProductFactoryModel>();
+            services.AddScoped<IEmailAccountFactoryModel, EmailAccountFactoryModel>();
 
             //User Management
             services.AddScoped<IUserFactoryModel, UserFactoryModel>();

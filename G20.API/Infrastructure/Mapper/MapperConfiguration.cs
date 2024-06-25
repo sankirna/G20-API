@@ -24,6 +24,7 @@ using G20.API.Models.ProductCombos;
 using G20.API.Models.Orders;
 using G20.API.Models.ShoppingCarts;
 using G20.API.Models.BoardingDetails;
+using G20.API.Models.EmailAccounts;
 
 namespace G20.API.Infrastructure.Mapper
 {
@@ -51,6 +52,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateOrderCart();
             CreateShoppingOrderMap();
             CreateBoardingDetailMap();
+            CreatEmailAccountMap();
         }
 
         public virtual void CreateCommonMap()
@@ -192,6 +194,12 @@ namespace G20.API.Infrastructure.Mapper
         public virtual void CreateBoardingDetailMap()
         {
             CreateMap<BoardingDetail, BoardingDetailModel>().ReverseMap();
+        }
+
+        public virtual void CreatEmailAccountMap()
+        {
+            CreateMap<EmailAccount, EmailAccountModel>().ReverseMap();
+            CreateMap<EmailAccount, EmailAccountRequestModel>().ReverseMap();
         }
 
         public int Order => 0;

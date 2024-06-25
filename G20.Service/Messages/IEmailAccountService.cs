@@ -1,4 +1,5 @@
 ﻿
+using G20.Core;
 using G20.Core.Domain;
 
 namespace G20.Service.Messages;
@@ -8,6 +9,8 @@ namespace G20.Service.Messages;
 /// </summary>
 public partial interface IEmailAccountService
 {
+    Task<IPagedList<EmailAccount>> GetEmailAccountsAsync(string email, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false);
+
     /// <summary>
     /// Inserts an email account
     /// </summary>
