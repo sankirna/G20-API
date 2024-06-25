@@ -6,7 +6,7 @@ namespace G20.API.Models.Coupons
     public partial record CouponModel : BaseNopEntityModel
     {
         public string Code { get; set; }
-        public Boolean? IsQuantity { get; set; }
+        public bool IsQuantity { get; set; }
         public int? MinimumQuantity { get; set; }
         public decimal Amount { get; set; }
         public CouponCalculateType TypeId { get; set; }

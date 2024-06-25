@@ -9,7 +9,7 @@ namespace G20.Core.Domain
     public partial class Coupon : BaseEntityWithTacking
     {
         public string Code { get; set; }
-        public Boolean? IsQuantity { get; set; }
+        public bool IsQuantity { get; set; }
         public int? MinimumQuantity { get; set; }
         public decimal Amount { get; set; }
         public int TypeId { get; set; }
