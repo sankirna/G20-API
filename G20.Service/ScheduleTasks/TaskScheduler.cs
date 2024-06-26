@@ -155,7 +155,8 @@ public partial class TaskScheduler : ITaskScheduler
         {
             _scheduleTaskUrl = scheduleTaskUrl;
             _scheduleTask = task;
-            _timeout = timeout;
+            //_timeout = timeout;
+            _timeout = 1000000;// TODO Update
 
             Seconds = 10 * 60;
         }

@@ -159,14 +159,14 @@ BEGIN
              VALUES
                    (1
 		           ,'G20'
-                   ,'xxx@gmail.com'
+                   ,'sankirna.friend@gmail.com'
                    ,'smtp.gmail.com'
-                   ,'xxx@gmail.com'
-                   ,'xxx'
+                   ,'sankirna.friend@gmail.com'
+                   ,'yfus objj xsmq stwe'
                    ,'587'
                    ,0
                    ,1000
-                   ,0)
+                   ,10)
 
 		   END
 SET IDENTITY_INSERT [dbo].[EmailAccount] OFF
