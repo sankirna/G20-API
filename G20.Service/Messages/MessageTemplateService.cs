@@ -1,4 +1,5 @@
-﻿using G20.Core.Domain;
+﻿using G20.Core;
+using G20.Core.Domain;
 using G20.Data;
 
 namespace G20.Service.Messages;
@@ -26,6 +27,19 @@ public partial class MessageTemplateService : IMessageTemplateService
     #endregion
 
     #region Methods
+
+    public virtual async Task<IPagedList<MessageTemplate>> GetMessageTemplatesAsync(string name, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+    {
+        var coupons = await _messageTemplateRepository.GetAllPagedAsync(query =>
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(c => c.Name.Contains(name));
+
+            return query;
+        }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
+
+        return coupons;
+    }
 
     /// <summary>
     /// Delete a message template
