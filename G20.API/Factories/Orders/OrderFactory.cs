@@ -76,6 +76,31 @@ namespace G20.API.Factories.Orders
             return model;
         }
 
+        public virtual async Task<OrderListModel> PrepareOrderListModelAsync(UserOrderHistoryRequestModel searchModel)
+        {
+            ArgumentNullException.ThrowIfNull(searchModel);
+
+            var orders = await _orderService.GetOrdersAsync(
+                userId: searchModel.UserId,
+                orderStatusEnum: searchModel.OrderStatusEnum,
+                pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+
+            var model = await new OrderListModel().PrepareToGridAsync(searchModel, orders, () =>
+            {
+                return orders.SelectAwait(async order =>
+                {
+                    var orderDetailModel = await GetOrderDetailModelAsync(order
+                                                                    , isUserDetail: true
+                                                                    , isCouponDetail: true
+                                                                    , isOrderProductItem: true
+                                                                    , isProductTicketCategoryMapDetail: true);
+                    return orderDetailModel;
+                });
+            });
+
+            return model;
+        }
+
         public virtual async Task<OrderDetailModel> GetOrderDetailModelAsync(Order order
              , bool isUserDetail = false
              , bool isCouponDetail = false

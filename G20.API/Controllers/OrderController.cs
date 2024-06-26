@@ -66,6 +66,7 @@ namespace G20.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> GetOrders(OrderListRequestModel searchModel)
         {
+            var userId = _workContext.GetCurrentUserId();
             var model = await _orderFactory.PrepareOrderListModelAsync(searchModel);
             return Success(model);
         }

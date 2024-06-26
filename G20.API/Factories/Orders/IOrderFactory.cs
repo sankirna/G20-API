@@ -7,6 +7,7 @@ namespace G20.API.Factories.Orders
     public interface IOrderFactory
     {
         Task<OrderListModel> PrepareOrderListModelAsync(OrderListRequestModel searchModel);
+        Task<OrderListModel> PrepareOrderListModelAsync(UserOrderHistoryRequestModel searchModel);
         Task<OrderDetailModel> GetOrderDetailModelAsync(Order order
                                                         , bool isUserDetail = false
                                                         , bool isCouponDetail = false
