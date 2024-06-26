@@ -3,6 +3,7 @@
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
 	[UserName]             NVARCHAR (256)     NULL,
 	[Email]                NVARCHAR (256)     NULL,
+	[UserTypeId]           int     NULL,
 	[PhoneNumber]          NVARCHAR (MAX)     NULL,
 	[Password] NVARCHAR (MAX)     NULL,
 	[CreatedBy]       INT            NULL,
