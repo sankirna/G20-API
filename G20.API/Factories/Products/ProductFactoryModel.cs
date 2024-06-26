@@ -324,8 +324,6 @@ namespace G20.API.Factories.Products
                                                                              isTeam2Detail: true, 
                                                                              isProductCombos: true, 
                                                                              isProductTicketCategoryMap:true);
-                   
-
                     return productModel;
                 });
             });

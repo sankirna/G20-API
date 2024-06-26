@@ -6,7 +6,9 @@ namespace G20.API.Validators.MessageTemplates
 {
     public class MessageTemplateValidator : AbstractValidator<MessageTemplateModel>
     {
-        public MessageTemplateValidator() { }
+        public MessageTemplateValidator()
+        {
+        }
     }
 }
 
