@@ -7,6 +7,7 @@ using Matrimony.API.Factories.BoardingDetails;
 using Matrimony.API.Models.BoardingDetails;
 using Microsoft.AspNetCore.Mvc;
 using G20.API.Infrastructure.Mapper.Extensions;
+using G20.Service.Orders;
 
 namespace Matrimony.API.Controllers
 {
@@ -15,14 +16,17 @@ namespace Matrimony.API.Controllers
         protected readonly IWorkContext _workContext;
         protected readonly IBoardingDetailFactoryModel _boardingDetailFactoryModel;
         protected readonly IBoardingDetailService _boardingDetailService;
+        protected readonly IOrderProductItemDetailService _orderProductItemDetailService;
 
         public BoardingDetailController(IWorkContext workContext,
             IBoardingDetailFactoryModel boardingDetailFactoryModel,
-            IBoardingDetailService boardingDetailService)
+            IBoardingDetailService boardingDetailService,
+            IOrderProductItemDetailService orderProductItemDetailService)
         {
             _workContext = workContext;
             _boardingDetailFactoryModel = boardingDetailFactoryModel;
             _boardingDetailService = boardingDetailService;
+            _orderProductItemDetailService = orderProductItemDetailService;
         }
 
         [HttpPost]
@@ -74,6 +78,7 @@ namespace Matrimony.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> ValidateTicket(BoardingCheckRequestModel model)
         {
+            var boardingDetail = await _orderProductItemDetailService.GetOrderProductItemDetailsByQRCodeAsync(model.ProductId,model.ValidatePayload);
             return Success("ok");
         }
     }

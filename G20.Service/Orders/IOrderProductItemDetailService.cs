@@ -12,5 +12,6 @@ namespace G20.Service.Orders
         Task InsertAsync(OrderProductItemDetail entity);
         Task UpdateAsync(OrderProductItemDetail entity);
         Task DeleteAsync(OrderProductItemDetail entity);
+        Task<OrderProductItemDetail> GetOrderProductItemDetailsByQRCodeAsync(int ProductId, string QRCode);
     }
 }

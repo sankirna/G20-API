@@ -73,7 +73,7 @@ namespace G20.API.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _userService.GetByEmailAndPasswordAsync(model.Email, model.Password);
+            var user = await _userService.GetByEmailAndPasswordAsync(model.Email, model.Password,model.UserTypeId);
             if (user != null)
             {
                 var userRoles = await _userRoleService.GetRoleByUserIdAsync(user.Id);
@@ -113,7 +113,8 @@ namespace G20.API.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+               
             };
             var result = await _authenticateService.CreateAsync(user, model.Password);
             if (!result)

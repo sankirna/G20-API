@@ -235,5 +235,12 @@ namespace G20.API.Controllers
             var model = await _productFactoryModel.PrepareProductListForSiteModelAsync(searchModel);
             return Success(model);
         }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> GetListFromVenueId(ProductSearchByVenueModel searchModel)
+        {
+            var model = await _productFactoryModel.PrepareProductListByVenueModelAsync(searchModel);
+            return Success(model);
+        }
     }
 }

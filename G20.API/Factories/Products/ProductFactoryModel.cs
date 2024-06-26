@@ -330,5 +330,27 @@ namespace G20.API.Factories.Products
 
             return model;
         }
+        public virtual async Task<ProductListModel> PrepareProductListByVenueModelAsync(ProductSearchByVenueModel searchModel)
+        {
+            ArgumentNullException.ThrowIfNull(searchModel);
+
+            var products = await _productService.GetProductsByVenueAsync(venueId: searchModel.VenueId,
+                pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+
+            var model = await new ProductListModel().PrepareToGridAsync(searchModel, products, () =>
+            {
+                return products.SelectAwait(async product =>
+                {
+                    var productModel = await PrepareProductDetailModelAsync(product,
+                        isCategoryDetail: true,
+                        isVenueDetail: true,
+                        isTeam1Detail: true,
+                        isTeam2Detail: true);
+                    return productModel;
+                });
+            });
+
+            return model;
+        }
     }
 }

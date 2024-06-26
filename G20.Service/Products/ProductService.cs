@@ -79,6 +79,20 @@ namespace G20.Service.Products
 
             return products;
         }
+        public virtual async Task<IPagedList<Product>> GetProductsByVenueAsync(int venueId, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        {
+            var products = await _entityRepository.GetAllPagedAsync(query =>
+            {
+                
+                if (venueId!= null)
+                {
+                    query = query.Where(p => p.VenueId == venueId && p.StartDateTime.Value.Date == DateTime.Now.Date);
+                }
 
+                return query.OrderByDescending(c => c.Id);
+            }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
+
+            return products;
+        }
     }
 }

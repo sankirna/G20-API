@@ -13,5 +13,7 @@ namespace G20.API.Auth
 
         [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
+        [Required(ErrorMessage = "UserType is required")]
+        public int UserTypeId { get; set; }
     }
 }
