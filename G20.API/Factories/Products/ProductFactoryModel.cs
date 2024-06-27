@@ -95,16 +95,16 @@ namespace G20.API.Factories.Products
                 var productTicketCategoryMaps = (await _productTicketCategoryMapService.GetProductTicketCategoryMapsByProductIdAsync(model.Id))
                          .ToList();
                 //TODO: should search data in database
-                if (productForSiteSearchModel != null) { 
+                if (productForSiteSearchModel != null && (productForSiteSearchModel.MinimumPrice > 0 || productForSiteSearchModel.MaximumPrice > 0))
+                {
                     productTicketCategoryMaps = productTicketCategoryMaps.Where(p => p.Price >= productForSiteSearchModel.MinimumPrice && p.Price <= productForSiteSearchModel.MaximumPrice).ToList();
                 }
                 if (productTicketCategoryMaps.Any())
                 {
-                    model.ProductTicketCategories =
-                                        productTicketCategoryMaps.ToList().Select(c => c.ToModel<ProductTicketCategoryMapModel>()).ToList();
-                    foreach (var item in model.ProductTicketCategories)
+                    model.ProductTicketCategories = new List<ProductTicketCategoryMapModel>();
+                    foreach (var productTicketCategoryMap in productTicketCategoryMaps)
                     {
-                        item.TicketCategoryName = _ticketCategoryService.GetByIdAsync(item.TicketCategoryId).Result.Name;
+                        model.ProductTicketCategories.Add(await PrepareProductTicketCategoryMapModelAsync(productTicketCategoryMap));
                     }
                 }
             }
@@ -139,6 +139,8 @@ namespace G20.API.Factories.Products
                     var comboProductMapIds = model.ProductCombos.Select(x => x.ProductMapId).ToList();
                     var productComboDetails = await _productService.GetByProductIdsAsync(comboProductMapIds);
                     model.ProductComboDetails = new List<ProductModel>();
+                    model.StartDateTime = productComboDetails.Min(x => x.StartDateTime);
+                    model.EndDateTime = productComboDetails.Max(x => x.EndDateTime);
                     foreach (var productComboDetail in productComboDetails)
                     {
                         var productComboModelDetail = await PrepareProductDetailModelAsync(productComboDetail,
@@ -174,10 +176,10 @@ namespace G20.API.Factories.Products
             {
                 return products.SelectAwait(async product =>
                 {
-                    var productModel = await PrepareProductDetailModelAsync(product, 
+                    var productModel = await PrepareProductDetailModelAsync(product,
                         isCategoryDetail: true,
                         isVenueDetail: true,
-                        isTeam1Detail: true, 
+                        isTeam1Detail: true,
                         isTeam2Detail: true);
                     return productModel;
                 });
@@ -189,24 +191,31 @@ namespace G20.API.Factories.Products
         public virtual async Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(int productTicketCategoryMapId)
         {
             var productTicketCategoryMap = await _productTicketCategoryMapService.GetByIdAsync(productTicketCategoryMapId);
-            var ticketCategory = await _ticketCategoryService.GetByIdAsync(productTicketCategoryMap.Id);
+            ProductTicketCategoryMapModel model = await PrepareProductTicketCategoryMapModelAsync(productTicketCategoryMap);
+            return model;
+        }
+
+        public virtual async Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(ProductTicketCategoryMap enity)
+        {
             ProductTicketCategoryMapModel model = new ProductTicketCategoryMapModel();
-            if (ticketCategory != null)
+            if (enity != null)
             {
-                model.TicketCategoryId = ticketCategory.Id;
-                model.TicketCategoryName = ticketCategory.Name;
-                model.File = await _mediaFactoryModel.GetRequestModelAsync(ticketCategory.FileId);
-                if (productTicketCategoryMap != null)
+                model.Id = enity.Id;
+                model.ProductId = enity.ProductId;
+                model.Total = enity.Total;
+                model.Available = enity.Available;
+                model.Block = enity.Block;
+                model.Sold = enity.Sold;
+                model.Price = enity.Price;
+                var ticketCategory = await _ticketCategoryService.GetByIdAsync(enity.Id);
+                if (ticketCategory != null)
                 {
-                    model.Id = productTicketCategoryMap.Id;
-                    model.ProductId = productTicketCategoryMap.ProductId;
-                    model.Total = productTicketCategoryMap.Total;
-                    model.Available = productTicketCategoryMap.Available;
-                    model.Block = productTicketCategoryMap.Block;
-                    model.Sold = productTicketCategoryMap.Sold;
-                    model.Price = productTicketCategoryMap.Price;
+                    model.TicketCategoryId = ticketCategory.Id;
+                    model.TicketCategoryName = ticketCategory.Name;
+                    model.File = await _mediaFactoryModel.GetRequestModelAsync(ticketCategory.FileId);
                 }
             }
+            
             return model;
         }
 
@@ -318,12 +327,13 @@ namespace G20.API.Factories.Products
                 {
                     var productModel = await PrepareProductDetailModelAsync(product,
                                                                              productForSiteSearchModel: searchModel,
-                                                                             isCategoryDetail: true, 
-                                                                             isVenueDetail: true, 
-                                                                             isTeam1Detail: true, 
-                                                                             isTeam2Detail: true, 
-                                                                             isProductCombos: true, 
-                                                                             isProductTicketCategoryMap:true);
+                                                                             isCategoryDetail: true,
+                                                                             isVenueDetail: true,
+                                                                             isTeam1Detail: true,
+                                                                             isTeam2Detail: true,
+                                                                             isProductCombos: true,
+                                                                             isProductTicketCategoryMap: true,
+                                                                             isProductComboListDetail: true);
                     return productModel;
                 });
             });

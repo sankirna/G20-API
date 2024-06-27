@@ -1,4 +1,5 @@
 ﻿using G20.Core.Domain;
+using G20.Core.Enums;
 using G20.Service.Configuration;
 using Microsoft.AspNetCore.Http;
 using System;

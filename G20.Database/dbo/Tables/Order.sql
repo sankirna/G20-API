@@ -11,6 +11,7 @@
     PhoneNumber VARCHAR(20)  NOT NULL,
     PaymentId INT NULL,
     [OrderStatusId] INT NOT NULL,
+    [PaymentStatusId] INT NOT NULL,
     [CreatedBy]       INT            NULL,
     [CreatedDateTime] DATETIME       NULL,
     [UpdatedBy]       INT            NULL,
