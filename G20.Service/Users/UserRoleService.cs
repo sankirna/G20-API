@@ -32,7 +32,7 @@ namespace G20.Service.UserRoles
         {
             var query = from ur in _entityRepository.Table
                         join r in _roleRepository.Table on ur.RoleId equals r.Id
-                        where ur.UserId == userId 
+                        where ur.UserId == userId
                         select r;
 
             return await query.ToListAsync();

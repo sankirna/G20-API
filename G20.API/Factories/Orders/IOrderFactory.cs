@@ -21,5 +21,6 @@ namespace G20.API.Factories.Orders
         Task<IList<Product>> GetAndValidateProductDetails(List<OrderProductItemModel> items);
 
         Task<bool> CheckProductTicketAvaibility(IList<Product> productDetails, List<OrderProductItemModel> orderProductRequestItems);
+        Task<UserProductItemDetail> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail);
     }
 }

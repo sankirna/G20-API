@@ -6,6 +6,6 @@ namespace G20.API.Models.BoardingDetails
     {
         public int ProductId { get; set; }
         //public int ProductTicketCategoryMapId { get; set; }
-        public string ValidatePayload  { get; set; }
+        public string ValidateQRcode  { get; set; }
     }
 }

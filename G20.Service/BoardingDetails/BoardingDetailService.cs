@@ -44,5 +44,11 @@ namespace G20.Service.BoardingDetails
             ArgumentNullException.ThrowIfNull(entity);
             await _entityRepository.DeleteAsync(entity);
         }
+
+        public int GetBoardingQuanity(int OrderProductItemDetailId)
+        {
+
+            return  _entityRepository.Table.Where(c => c.OrderProductItemDetailId == OrderProductItemDetailId).Count();
+        }
     }
 }

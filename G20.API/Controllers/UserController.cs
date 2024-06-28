@@ -120,7 +120,7 @@ namespace G20.API.Controllers
 
             user = model.ToEntity(user);
             user.Email = email;
-            user.UserTypeId=model.UserTypeId;
+            //user.UserTypeId=model.UserTypeId;
             await _userService.UpdateAsync(user);
             await AddOrUpdateUserRoles(user.Id, model.RoleIds);
             return Success(user.ToModel<UserModel>());

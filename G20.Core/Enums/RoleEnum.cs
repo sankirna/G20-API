@@ -9,6 +9,8 @@ namespace G20.Core.Enums
     public enum RoleEnum
     {
         Admin = 1,
-        User = 2
+        User = 2,
+        Security=3,
+        Affeliet=4
     }
 }

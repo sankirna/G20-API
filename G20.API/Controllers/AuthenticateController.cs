@@ -1,5 +1,7 @@
 ﻿using G20.API.Auth;
 using G20.API.Models;
+using G20.Core.Domain;
+using G20.Core.Enums;
 using G20.Core.IndentityModels;
 using G20.Service.Account;
 using G20.Service.UserRoles;
@@ -8,7 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using QRCoder.Extensions;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -68,16 +72,18 @@ namespace G20.API.Controllers
         //    return Unauthorized();
         //}
 
+        #region Privatte  Method(s)
 
-        [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        private async Task<IActionResult> CheckAuthenticationByRoleType(LoginModel model,RoleEnum? roleEnum=null)
         {
-            var user = await _userService.GetByEmailAndPasswordAsync(model.Email, model.Password,model.UserTypeId);
+            var user = await _userService.GetByEmailAndPasswordAsync(model.Email, model.Password);
             if (user != null)
             {
                 var userRoles = await _userRoleService.GetRoleByUserIdAsync(user.Id);
-
+                if ( roleEnum.HasValue && !userRoles.Any(c=> c.Name.ToLower().Trim()== roleEnum.ToString().ToLower().Trim()))
+                {
+                    return Unauthorized();
+                }
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
@@ -99,6 +105,14 @@ namespace G20.API.Controllers
                 });
             }
             return Unauthorized();
+        }
+        #endregion
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            return await CheckAuthenticationByRoleType(model);            
         }
 
         [HttpPost]
@@ -172,6 +186,20 @@ namespace G20.API.Controllers
 
             return token;
         }
+                
+        [HttpPost]
+        [Route("enduser-login")]
+        public async Task<IActionResult> EndUserLogin([FromBody] LoginModel model)
+        {
+            return await CheckAuthenticationByRoleType(model, RoleEnum.User);
+        }
+
+        [HttpPost]
+        [Route("security-login")]
+        public async Task<IActionResult> SecurityLogin([FromBody] LoginModel model)
+        {
+            return await CheckAuthenticationByRoleType(model, RoleEnum.Security);
+        }
 
     }
-}
+}   

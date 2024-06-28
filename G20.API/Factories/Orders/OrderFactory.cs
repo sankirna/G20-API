@@ -5,12 +5,15 @@ using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.Coupons;
 using G20.API.Models.Orders;
 using G20.API.Models.ShoppingCarts;
+using G20.API.Models.Users;
 using G20.Core.Domain;
 using G20.Core.Enums;
+using G20.Service.BoardingDetails;
 using G20.Service.Coupons;
 using G20.Service.Orders;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
+using G20.Service.TicketCategories;
 using G20.Service.Users;
 using Nop.Core;
 using Nop.Web.Framework.Models.Extensions;
@@ -28,6 +31,8 @@ namespace G20.API.Factories.Orders
         protected readonly IProductFactoryModel _productFactoryModel;
         protected readonly IOrderProductItemService _orderProductItemService;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
+        protected readonly ITicketCategoryService _ticketCategoryService;
+        protected readonly IBoardingDetailService _boardingDetailService;
 
         public OrderFactory(
               IOrderService orderService
@@ -38,7 +43,9 @@ namespace G20.API.Factories.Orders
             , IProductService productService
             , IProductFactoryModel productFactoryModel
             , IOrderProductItemService orderProductItemService
-            , IProductTicketCategoryMapService productTicketCategoryMapService)
+            , IProductTicketCategoryMapService productTicketCategoryMapService
+            , ITicketCategoryService ticketCategoryService
+            , IBoardingDetailService boardingDetailService)
         {
             _orderService = orderService;
             _userservice = userService;
@@ -49,6 +56,8 @@ namespace G20.API.Factories.Orders
             _productFactoryModel = productFactoryModel;
             _orderProductItemService = orderProductItemService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
+            _ticketCategoryService = ticketCategoryService;
+            _boardingDetailService = boardingDetailService;
         }
 
         public virtual async Task<OrderListModel> PrepareOrderListModelAsync(OrderListRequestModel searchModel)
@@ -105,10 +114,10 @@ namespace G20.API.Factories.Orders
              , bool isUserDetail = false
              , bool isCouponDetail = false
              , bool isOrderProductItem = false
-             , bool isProductTicketCategoryMapDetail= false)
+             , bool isProductTicketCategoryMapDetail = false)
         {
             var orderDetailModel = order.ToModel<OrderDetailModel>();
-        
+
             var user = await _userservice.GetByIdAsync(orderDetailModel.UserId);
             if (isUserDetail && user != null)
             {
@@ -181,9 +190,9 @@ namespace G20.API.Factories.Orders
             orderCouponInfoModel.CouponId = coupon.Id;
             if (coupon.IsQuantity)
             {
-                if(coupon.MinimumQuantity<= orderModel.TotalQuantity)
+                if (coupon.MinimumQuantity <= orderModel.TotalQuantity)
                 {
-                    throw new NopException("Please add {0} tickets", (coupon.MinimumQuantity- orderModel.TotalQuantity));
+                    throw new NopException("Please add {0} tickets", (coupon.MinimumQuantity - orderModel.TotalQuantity));
                 }
             }
             switch ((CouponCalculateType)coupon.TypeId)
@@ -245,6 +254,26 @@ namespace G20.API.Factories.Orders
             return orderProductRequestItems.Any(x => !x.IsOutofStock);
         }
 
-       
+        public virtual async Task<UserProductItemDetail> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail)
+        {
+            var orderProductItem = await _orderProductItemService.GetByIdAsync(orderProductItemDetail.OrderProductItemId);
+            UserProductItemDetail userProductDetail = new UserProductItemDetail();
+            userProductDetail.OrderProductItemDetailId = orderProductItemDetail.OrderProductItemId;
+            userProductDetail.TotalQuantity = orderProductItem.Quantity;
+            int boardQuantity = _boardingDetailService.GetBoardingQuanity(orderProductItemDetail.Id);
+            userProductDetail.RemainingQuantity = (orderProductItem.Quantity - boardQuantity);
+
+            userProductDetail.UserId = orderProductItemDetail.UserId;
+            //userProductDetail.OrderProductItemDetail = orderProductItemDetail;
+            //userProductDetail.OrderProductItemModel = orderProductItem;
+            orderProductItem.ProductTicketCategoryMap = await _productTicketCategoryMapService.GetByIdAsync(orderProductItem.ProductTicketCategoryMapId);
+            var user = await _userservice.GetByIdAsync(orderProductItem.UserId);
+            if (user != null)
+            {
+                userProductDetail.UserName = user.UserName;
+            }
+            userProductDetail.StandName = _ticketCategoryService.GetByIdAsync(orderProductItem.ProductTicketCategoryMap.TicketCategoryId).Result.Name;
+            return userProductDetail;
+        }
     }
 }

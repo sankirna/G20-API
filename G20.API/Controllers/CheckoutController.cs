@@ -127,7 +127,7 @@ namespace G20.API.Controllers
             order.Email = model.Email;
             order.Name = model.Name;
             order.PhoneNumber = model.PhoneNumber;
-            order.OrderStatusId = (int)OrderStatusEnum.New;
+            //order.OrderStatusId = (int)OrderStatusEnum.New;
             await _orderService.InsertAsync(order);
 
             #endregion

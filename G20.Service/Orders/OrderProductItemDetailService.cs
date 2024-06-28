@@ -49,9 +49,10 @@ namespace G20.Service.Orders
             ArgumentNullException.ThrowIfNull(entity);
             await _entityRepository.DeleteAsync(entity);
         }
-        public virtual async Task<OrderProductItemDetail> GetOrderProductItemDetailsByQRCodeAsync(int ProductId,string QRCode)
-        {
-            return await _entityRepository.Table.Where(x => x.ProductId == ProductId && x.QRCode== QRCode).SingleOrDefaultAsync();
+        public virtual async Task<OrderProductItemDetail> GetDetailsByQRCodeAsync(int productId,string qrCode)
+        {   
+            var ProductItemDetail = await _entityRepository.Table.FirstOrDefaultAsync(x => x.ProductId == productId && x.QRCode == qrCode);            
+            return ProductItemDetail;
         }
     }
 }
