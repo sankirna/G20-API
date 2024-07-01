@@ -291,6 +291,7 @@ namespace G20.API.Factories.Products
                 if (productTicketCategoryMap != null)
                 {
                     model.Id = productTicketCategoryMap.Id;
+                    model.ProductId = productTicketCategoryMap.ProductId;
                     model.Total = productTicketCategoryMap.Total;
                     model.Available = productTicketCategoryMap.Available;
                     model.Block = productTicketCategoryMap.Block;

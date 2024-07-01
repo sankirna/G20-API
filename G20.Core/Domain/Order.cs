@@ -15,7 +15,7 @@ namespace G20.Core.Domain
         public string PhoneNumber { get; set; }
         public int? PaymentId { get; set; }
         public int OrderStatusId { get; set; }
-        public int PaymentStatusId { get; set; }
+        //public int PaymentStatusId { get; set; }
 
         // Navigation Properties
         public User User { get; set; }
