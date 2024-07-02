@@ -290,7 +290,8 @@ public partial class WorkflowMessageService : IWorkflowMessageService
             await _messageTokenProvider.AddOrderProductItemDetailTokensAsync(tokens, orderProductItemDetail);
             await _messageTokenProvider.AddOrderProductItemDetailQRCodeTokensAsync(tokens, orderProductItemDetailORCodeFile);
 
-            var (toEmail, toName) = await GetStoreOwnerNameAndEmailAsync(emailAccount);
+            var toEmail = order.Email;
+            var toName = order.Name;
 
             var (replyToEmail, replyToName) = await GetCustomerReplyToNameAndEmailAsync(messageTemplate);
 
