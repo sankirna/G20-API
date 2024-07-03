@@ -98,6 +98,7 @@ namespace G20.API.Controllers
             if (couponCodeInfo != null)
             {
                 orderModel.CouponId = couponCodeInfo.CouponId;
+                orderModel.Discount= couponCodeInfo.Discount;
             }
             else
             {
