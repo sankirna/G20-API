@@ -10,6 +10,7 @@ namespace G20.API.Models.Users
         public string Password { get; set; }
         //public int UserTypeId { get; set; }
         public List<int> RoleIds { get; set; }
+        public List<string> RoleNames { get; set; } = new List<string>();
 
     }
 }

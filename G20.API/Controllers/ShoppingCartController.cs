@@ -26,14 +26,14 @@ namespace G20.API.Controllers
         {
             _workContext = workContext;
             _shoppingCartService = shoppingCartService;
-            _shoppingCartItemService= shoppingCartItemService;
+            _shoppingCartItemService = shoppingCartItemService;
             _shoppingCartFactory = shoppingCartFactory;
             _orderFactory = orderFactory;
         }
 
         #region Private Method
 
-        private async Task AddUpdateShoppingCartItem(int shoppingCartId,int userId, List<ShoppingCartItemModel> shoppingCartItemModels)
+        private async Task AddUpdateShoppingCartItem(int shoppingCartId, int userId, List<ShoppingCartItemModel> shoppingCartItemModels)
         {
             if (shoppingCartItemModels != null)
             {
@@ -88,7 +88,7 @@ namespace G20.API.Controllers
         public virtual async Task<IActionResult> Post(ShoppingCartModel model)
         {
             var userId = _workContext.GetCurrentUserId();
-            
+
             var shoppingCartId = 0;
 
             #region Check validation and map order model from shopping cart
@@ -98,16 +98,17 @@ namespace G20.API.Controllers
             if (couponCodeInfo != null)
             {
                 orderModel.CouponId = couponCodeInfo.CouponId;
-                orderModel.Discount= couponCodeInfo.Discount;
+                orderModel.Discount = couponCodeInfo.Discount;
             }
             else
             {
                 orderModel.CouponId = null;
                 orderModel.CouponCode = null;
+                orderModel.Discount = null;
             }
             var productDetails = await _orderFactory.GetAndValidateProductDetails(orderModel.Items);
             var checkAvaibility = await _orderFactory.CheckProductTicketAvaibility(productDetails, orderModel.Items);
-            if (!checkAvaibility)
+            if (model.Items.Any() && !checkAvaibility)
             {
                 throw new NopException("Some of product(s) are out of stock. please remove from cart");
             }
@@ -144,7 +145,7 @@ namespace G20.API.Controllers
 
             var shoppingCartItems = await _shoppingCartItemService.GetByShoppingCartIdAsync(shoppingCartId);
 
-            await AddUpdateShoppingCartItem(shoppingCartId,userId, model.Items);
+            await AddUpdateShoppingCartItem(shoppingCartId, userId, model.Items);
 
             #endregion
 

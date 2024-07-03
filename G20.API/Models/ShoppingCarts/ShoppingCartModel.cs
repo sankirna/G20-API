@@ -4,6 +4,10 @@ namespace G20.API.Models.ShoppingCarts
 {
     public partial record ShoppingCartModel : BaseNopEntityModel
     {
+        public ShoppingCartModel()
+        {
+            Items = new List<ShoppingCartItemModel>();
+        }
         public string CouponCode { get; set; }
         public int? CouponId { get; set; }
         public decimal GrossTotal

@@ -1,4 +1,5 @@
 ﻿using G20.API.Auth;
+using G20.API.Factories.Users;
 using G20.API.Models;
 using G20.Core.Domain;
 using G20.Core.Enums;
@@ -26,17 +27,21 @@ namespace G20.API.Controllers
         private readonly IAuthenticateService _authenticateService;
         private readonly IUserService _userService;
         private readonly IUserRoleService _userRoleService;
+        private readonly IUserFactoryModel _userFactoryModel;
+        
         private readonly IConfiguration _configuration;
 
         public AuthenticateController(
             IAuthenticateService authenticateService,
             IUserService userService,
             IUserRoleService userRoleService,
+            IUserFactoryModel userFactoryModel,
             IConfiguration configuration)
         {
             _authenticateService = authenticateService;
             _userService = userService;
             _userRoleService = userRoleService;
+            _userFactoryModel = userFactoryModel;
             _configuration = configuration;
         }
 
@@ -95,13 +100,17 @@ namespace G20.API.Controllers
                 {
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole.Name));
                 }
-
                 var token = GetToken(authClaims);
-
+                var userModel = await _userFactoryModel.PrepareUserModelAsync(user);
+                if (userRoles.Any())
+                {
+                    userModel.RoleNames= userRoles.Select(x=>x.Name).ToList();
+                }
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    expiration = token.ValidTo,
+                    user= userModel
                 });
             }
             return Unauthorized();
@@ -179,7 +188,7 @@ namespace G20.API.Controllers
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:ValidIssuer"],
                 audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.Now.AddYears(3),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
