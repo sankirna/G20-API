@@ -11,6 +11,6 @@ namespace G20.Service.BoardingDetails
         Task InsertAsync(BoardingDetail entity);
         Task UpdateAsync(BoardingDetail entity);
         Task DeleteAsync(BoardingDetail entity);
-        int GetBoardingQuanity(int OrderProductItemDetailId);
+        int GetBoardingQuanity(int OrderProductItemDetailId, int totalQuantity);
     }
 }

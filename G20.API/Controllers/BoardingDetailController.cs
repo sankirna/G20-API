@@ -36,7 +36,7 @@ namespace Matrimony.API.Controllers
             _boardingDetailFactoryModel = boardingDetailFactoryModel;
             _boardingDetailService = boardingDetailService;
             _orderProductItemDetailService = orderProductItemDetailService;
-            _orderProductItemService = orderProductItemService; 
+            _orderProductItemService = orderProductItemService;
             _orderService = orderService;
             _orderFactory = orderFactory;
         }
@@ -60,9 +60,21 @@ namespace Matrimony.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Create(BoardingDetailModel model)
         {
-            var boardingDetail = model.ToEntity<BoardingDetail>();
-            await _boardingDetailService.InsertAsync(boardingDetail);
-            return Success(boardingDetail.ToModel<BoardingDetailModel>());
+            if (model.Quantity < 0)
+            {
+                return Error("Invalid quantity.");
+            }
+            int boardQuantity = _boardingDetailService.GetBoardingQuanity(model.OrderProductItemDetailId, model.TotalQuantity);            
+            if (boardQuantity > 0 && model.Quantity<= model.TotalQuantity)
+            {
+                var boardingDetail = model.ToEntity<BoardingDetail>();
+                await _boardingDetailService.InsertAsync(boardingDetail);
+                return Success(boardingDetail.ToModel<BoardingDetailModel>());
+            }
+            else
+            {
+                return Error("Exceed the ticket limit.");
+            }
         }
 
         [HttpPost]
@@ -90,17 +102,17 @@ namespace Matrimony.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> ValidateTicket(BoardingCheckRequestModel model)
         {
-            var orderProductItemDetail = await _orderProductItemDetailService.GetDetailsByQRCodeAsync(model.ProductId,model.ValidateQRcode);
+            var orderProductItemDetail = await _orderProductItemDetailService.GetDetailsByQRCodeAsync(model.ProductId, model.ValidateQRcode);
             if (orderProductItemDetail == null)
             {
                 return Error("QR Scan failed");
             }
             else
             {
-                var UserProductItemDetail = _orderFactory.GetOrderProductItemDetailModelAsync(orderProductItemDetail); 
+                var UserProductItemDetail = _orderFactory.GetOrderProductItemDetailModelAsync(orderProductItemDetail);
                 return Success(UserProductItemDetail);
             }
-             
+
         }
     }
 }
