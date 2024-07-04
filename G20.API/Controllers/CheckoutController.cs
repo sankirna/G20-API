@@ -5,11 +5,13 @@ using G20.API.Infrastructure.Mapper.Extensions;
 using G20.API.Models.BoardingDetails;
 using G20.API.Models.Checkout;
 using G20.API.Models.Media;
+using G20.API.Models.Orders;
 using G20.API.Models.ShoppingCarts;
 using G20.Core;
 using G20.Core.Domain;
 using G20.Core.Enums;
 using G20.Service.Orders;
+using G20.Service.Payments;
 using G20.Service.ProductCombos;
 using G20.Service.Products;
 using G20.Service.ProductTicketCategoriesMap;
@@ -18,6 +20,7 @@ using G20.Service.ShoppingCarts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Nop.Core;
+using QRCoder;
 
 namespace G20.API.Controllers
 {
@@ -85,6 +88,33 @@ namespace G20.API.Controllers
             return orderProductItemDetail;
         }
 
+        private async Task<bool> ClearShoppingCart(int userId)
+        {
+            #region Clear Shopping Cart
+
+            var shoppingCart = await _shoppingCartService.GetByUserIdAsync(userId);
+            await _shoppingCartService.DeleteAsync(shoppingCart);
+
+            #endregion
+
+            return true;
+        }
+
+        private async Task<bool> UpdateProductTicketCategoryStock(int orderId)
+        {
+            #region Update product stock
+            var orderProductItems = (await _orderProductItemService.GetOrderProductItemsAsync(orderId)).ToList();
+            foreach (var orderProductItem in orderProductItems)
+            {
+                var productTicketCategoryMap = await _productTicketCategoryMapService.GetByIdAsync(orderProductItem.ProductTicketCategoryMapId);
+                productTicketCategoryMap.Sold = productTicketCategoryMap.Sold + orderProductItem.Quantity;
+                await _productTicketCategoryMapService.UpdateAsync(productTicketCategoryMap);
+            }
+
+            #endregion
+            return true;
+        }
+
         #endregion
 
         [HttpPost]
@@ -120,6 +150,7 @@ namespace G20.API.Controllers
 
             #endregion
 
+
             #region Insert Order
 
             var order = orderModel.ToEntity<Order>();
@@ -127,14 +158,26 @@ namespace G20.API.Controllers
             order.Email = model.Email;
             order.Name = model.Name;
             order.PhoneNumber = model.PhoneNumber;
+            order.OrderStatusId = (int)OrderStatusEnum.New;
+            order.PaymentTypeId = (int)model.PaymentTypeId;
+            switch (model.PaymentTypeId)
+            {
+                case PaymentTypeEnum.Offline:
+                    order.PaymentStatusId = (int)PaymentStatus.Paid;
+                    break;
+                case PaymentTypeEnum.Strip:
+                    order.OrderStatusId = (int)OrderStatusEnum.PaymentInitiate;
+                    order.PaymentStatusId = (int)PaymentStatus.Authorized;
+                    break;
+                default:
+                    break;
+            }
             //order.OrderStatusId = (int)OrderStatusEnum.New;
             await _orderService.InsertAsync(order);
 
             #endregion
 
             #region Insert Order Item
-
-            await _orderService.UpdateOrderStatus(order, OrderStatusEnum.New);
 
             foreach (var item in orderModel.Items)
             {
@@ -175,6 +218,7 @@ namespace G20.API.Controllers
 
                     await _orderProductItemDetailService.InsertAsync(orderProductItemDetail);
 
+                    string qrCode = string.Format("{0}-{1}-{2}", orderProductItemDetail.Id, item.ProductId, item.ProductTicketCategoryMapId); ;
                     //Create QR code
                     BoardingCheckDetailModel boardingCheckDetailModel = new BoardingCheckDetailModel();
                     boardingCheckDetailModel.OrderProductItemDetailId = orderProductItemDetail.Id;
@@ -182,7 +226,7 @@ namespace G20.API.Controllers
                     boardingCheckDetailModel.ProductTicketCategoryMapId = item.ProductTicketCategoryMapId;
                     boardingCheckDetailModel.Quantity = item.Quantity;
 
-                    var qrFileContentArray = await _qrCodeService.GenerateQRCode(boardingCheckDetailModel);
+                    var qrFileContentArray = await _qrCodeService.GenerateQRCode(qrCode);
                     FileUploadRequestModel fileUploadRequestModel = new FileUploadRequestModel();
                     fileUploadRequestModel.FileAsBase64 = Convert.ToBase64String(qrFileContentArray);
                     fileUploadRequestModel.FileType = FileTypeEnum.OrderProductItemQRCode;
@@ -192,47 +236,59 @@ namespace G20.API.Controllers
                     //Update QR code file id
                     var orderProductItemDetailEntity = await _orderProductItemDetailService.GetByIdAsync(orderProductItemDetail.Id);
                     orderProductItemDetailEntity.QRCodeFileId = file.Id;
-                    orderProductItemDetailEntity.QRCode = string.Format("{0}-{1}-{2}", orderProductItemDetail.Id, item.ProductId, item.ProductTicketCategoryMapId);
+                    orderProductItemDetailEntity.QRCode = qrCode;
                     await _orderProductItemDetailService.UpdateAsync(orderProductItemDetailEntity);
 
                 }
 
                 #endregion
-
-                #region Update product stock
-
-                var productTicketCategoryMap = await _productTicketCategoryMapService.GetByIdAsync(item.ProductTicketCategoryMapId);
-                productTicketCategoryMap.Sold = productTicketCategoryMap.Sold + item.Quantity;
-                await _productTicketCategoryMapService.UpdateAsync(productTicketCategoryMap);
-
-                #endregion
-               
-                await _orderService.UpdateOrderStatus(order, OrderStatusEnum.Completed);
             }
 
             #endregion
 
-            #region Clear Shopping Cart
+            if (model.PaymentTypeId == PaymentTypeEnum.Offline)
+            {
+                #region Clear Shopping Cart
 
-            var shoppingCart = await _shoppingCartService.GetByUserIdAsync(userId);
-            await _shoppingCartService.DeleteAsync(shoppingCart);
+                await ClearShoppingCart(userId);
 
-            #endregion
+                #endregion
 
-            #region Update order status
+                #region Updated Product Ticket Category Stock
 
-            await _orderService.UpdateOrderStatus(order, OrderStatusEnum.Completed);
+                await UpdateProductTicketCategoryStock(order.Id);
 
-            #endregion
+                #endregion
 
+                #region Update order status
 
-            #region Send Email Notifications
+                await _orderService.UpdateOrderStatus(order, OrderStatusEnum.Completed);
 
-            var isSend = await _orderService.SendOrderNotifications(order.Id);
+                #endregion
 
-            #endregion
+                #region Send Email Notifications
+
+                var isSend = await _orderService.SendOrderNotifications(order.Id);
+
+                #endregion
+            }
 
             return Success(orderModel);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> PostProcessPaymentRequest(PostProcessPaymentRequest model)
+        {
+            var order = await _orderService.GetByIdAsync(model.OrderId);
+            if (order == null)
+            {
+                throw new NopException("Order not found");
+            }
+            if (order.PaymentStatusId == (int)PaymentStatus.Paid)
+            {
+            }
+
+            return Success(model);
         }
     }
 }

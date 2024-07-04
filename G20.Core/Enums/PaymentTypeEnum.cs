@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace G20.Core.Enums
 {
-    public enum PaymentTypeEnum:int
+    public enum PaymentTypeEnum : int
     {
-        OffLine=0
+        Offline = 1,
+        Strip=11
     }
 }

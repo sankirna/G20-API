@@ -9,7 +9,7 @@
     Email VARCHAR(MAX)  NOT NULL,
     Name VARCHAR(MAX)  NOT NULL,
     PhoneNumber VARCHAR(20)  NOT NULL,
-    PaymentId INT NULL,
+    [PaymentTypeId] INT NOT NULL,
     [OrderStatusId] INT NOT NULL,
     [PaymentStatusId] INT NOT NULL,
     [CreatedBy]       INT            NULL,

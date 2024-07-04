@@ -13,5 +13,7 @@ namespace G20.Service.Payments
         /// Gets or sets an order. Used when order is already saved (payment gateways that redirect a customer to a third-party URL)
         /// </summary>
         public Order Order { get; set; }
+
+        public int OrderId { get;set; }
     }
 }
