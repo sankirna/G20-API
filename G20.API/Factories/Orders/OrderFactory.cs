@@ -259,9 +259,8 @@ namespace G20.API.Factories.Orders
             var orderProductItem = await _orderProductItemService.GetByIdAsync(orderProductItemDetail.OrderProductItemId);
             UserProductItemDetail userProductDetail = new UserProductItemDetail();
             userProductDetail.OrderProductItemDetailId = orderProductItemDetail.OrderProductItemId;
-            userProductDetail.TotalQuantity = orderProductItem.Quantity;
-            int boardQuantity = _boardingDetailService.GetBoardingQuanity(orderProductItemDetail.Id);
-            userProductDetail.RemainingQuantity = (orderProductItem.Quantity - boardQuantity);
+            userProductDetail.TotalQuantity = orderProductItem.Quantity; 
+            userProductDetail.RemainingQuantity = _boardingDetailService.GetBoardingQuanity(orderProductItemDetail.Id, orderProductItem.Quantity);
 
             userProductDetail.UserId = orderProductItemDetail.UserId;
             //userProductDetail.OrderProductItemDetail = orderProductItemDetail;

@@ -4,6 +4,7 @@
 	UserId INT NOT NULL,
     OrderProductItemDetailId INT NOT NULL,
     EntryDateTime DATETIME NOT NULL,
+    Quantity INT NOT NULL DEFAULT 0,
     [CreatedBy]       INT            NULL,
     [CreatedDateTime] DATETIME       NULL,
     [UpdatedBy]       INT            NULL,
