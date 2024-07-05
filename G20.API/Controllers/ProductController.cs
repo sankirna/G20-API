@@ -157,6 +157,22 @@ namespace G20.API.Controllers
                 model.ProductCombos = (await _productComboService.GetProductCombosByProductIdAsync(id))
                                      .ToList().Select(c => c.ToModel<ProductComboModel>()).ToList();
                 var productIds= model.ProductCombos.Select(x=>x.ProductMapId).ToList();
+
+
+                var productComboDetails = await _productService.GetByProductIdsAsync(productIds);
+                model.ProductComboDetails = new List<ProductModel>();
+                model.StartDateTime = productComboDetails.Min(x => x.StartDateTime);
+                model.EndDateTime = productComboDetails.Max(x => x.EndDateTime);
+                foreach (var productComboDetail in productComboDetails)
+                {
+                    var productComboModelDetail = await _productFactoryModel.PrepareProductDetailModelAsync(productComboDetail,
+                                                                                  isVenueDetail: true,
+                                                                                  isTeam1Detail: true,
+                                                                                  isTeam2Detail: true);
+
+                    model.ProductComboDetails.Add(productComboModelDetail);
+                }
+
                 model.ProductTicketCategories = await _productFactoryModel.PrepareComboProductTicketCategoryMapListModelAsync(id, productIds);
             }
             //model.CategoryName = (await _ticketCategoryService.GetByIdAsync(model.CategoryId)).Name;
