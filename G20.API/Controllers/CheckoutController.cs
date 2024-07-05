@@ -210,8 +210,8 @@ namespace G20.API.Controllers
                 {
 
                     await _orderProductItemDetailService.InsertAsync(orderProductItemDetail);
-
-                    string qrCode = string.Format("{0}-{1}-{2}", orderProductItemDetail.Id, item.ProductId, item.ProductTicketCategoryMapId); ;
+                    Random random = new Random();   
+                    string qrCode = string.Format("{0}-{1}-{2}", random.Next(1000, 9999), item.ProductId, random.Next(1000, 9999)); ;
                     //Create QR code
                     BoardingCheckDetailModel boardingCheckDetailModel = new BoardingCheckDetailModel();
                     boardingCheckDetailModel.OrderProductItemDetailId = orderProductItemDetail.Id;
