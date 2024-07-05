@@ -1,4 +1,5 @@
 ﻿using G20.Core.Enums;
+using G20.Service.Payments;
 
 namespace G20.API.Models.Checkout
 {
@@ -8,5 +9,6 @@ namespace G20.API.Models.Checkout
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public PaymentTypeEnum PaymentTypeId { get; set; }
+        public ProcessPaymentRequest ProcessPaymentRequest  { get; set; }
     }
 }

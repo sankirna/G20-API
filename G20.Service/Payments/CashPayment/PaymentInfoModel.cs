@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +10,14 @@ namespace G20.Service.Payments.ManualPayment
     {
         public PaymentInfoModel()
         {
-            CreditCardTypes = new List<SelectListItem>();
-            ExpireMonths = new List<SelectListItem>();
-            ExpireYears = new List<SelectListItem>();
+            //CreditCardTypes = new List<SelectListItem>();
+            //ExpireMonths = new List<SelectListItem>();
+            //ExpireYears = new List<SelectListItem>();
         }
 
         public string CreditCardType { get; set; }
 
-        public IList<SelectListItem> CreditCardTypes { get; set; }
+        //public IList<SelectListItem> CreditCardTypes { get; set; }
 
         public string CardholderName { get; set; }
 
@@ -28,9 +27,9 @@ namespace G20.Service.Payments.ManualPayment
 
         public string ExpireYear { get; set; }
 
-        public IList<SelectListItem> ExpireMonths { get; set; }
+        //public IList<SelectListItem> ExpireMonths { get; set; }
 
-        public IList<SelectListItem> ExpireYears { get; set; }
+        //public IList<SelectListItem> ExpireYears { get; set; }
 
         public string CardCode { get; set; }
     }

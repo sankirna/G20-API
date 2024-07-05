@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace G20.Service.Payments.ManualPayment
 {
-    public class ManualPaymentProcessor : IPaymentMethod
+    public class CashPaymentProcessor : IPaymentMethod
     {
         #region Fields
 
@@ -19,7 +19,7 @@ namespace G20.Service.Payments.ManualPayment
 
         #region Ctor
 
-        public ManualPaymentProcessor()
+        public CashPaymentProcessor()
         {
 
         }
@@ -38,10 +38,7 @@ namespace G20.Service.Payments.ManualPayment
         /// </returns>
         public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
         {
-            var result = new ProcessPaymentResult
-            {
-                AllowStoringCreditCardNumber = true
-            };
+            var result = new ProcessPaymentResult();
             switch (TransactMode.Authorize)//TODO Check
             {
                 case TransactMode.Pending:
@@ -219,14 +216,7 @@ namespace G20.Service.Payments.ManualPayment
 
             //validate
             var validator = new PaymentInfoValidator();
-            var model = new PaymentInfoModel
-            {
-                CardholderName = form["CardholderName"],
-                CardNumber = form["CardNumber"],
-                CardCode = form["CardCode"],
-                ExpireMonth = form["ExpireMonth"],
-                ExpireYear = form["ExpireYear"]
-            };
+            var model = new PaymentInfoModel();
             var validationResult = validator.Validate(model);
             if (!validationResult)
                 //warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
@@ -245,15 +235,7 @@ namespace G20.Service.Payments.ManualPayment
         /// </returns>
         public Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
         {
-            return Task.FromResult(new ProcessPaymentRequest
-            {
-                CreditCardType = form["CreditCardType"],
-                CreditCardName = form["CardholderName"],
-                CreditCardNumber = form["CardNumber"],
-                CreditCardExpireMonth = int.Parse(form["ExpireMonth"]),
-                CreditCardExpireYear = int.Parse(form["ExpireYear"]),
-                CreditCardCvv2 = form["CardCode"]
-            });
+            return Task.FromResult(new ProcessPaymentRequest());
         }
 
         /// <summary>
@@ -308,7 +290,7 @@ namespace G20.Service.Payments.ManualPayment
         /// <summary>
         /// Gets a value indicating whether we should display a payment information page for this plugin
         /// </summary>
-        public bool SkipPaymentInfo => false;
+        public bool SkipPaymentInfo => true;
 
         #endregion
     }

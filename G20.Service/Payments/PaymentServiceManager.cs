@@ -1,4 +1,7 @@
-﻿using G20.Service.Payments.ManualPayment;
+﻿using G20.Core.Enums;
+using G20.Service.Payments.ManualPayment;
+using G20.Service.Venues;
+using Nop.Core.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +12,22 @@ namespace G20.Service.Payments
 {
     public class PaymentServiceManager
     {
-        public static IPaymentMethod GetPaymentMethod(string type)
+        public PaymentServiceManager() { }
+
+        public static IPaymentMethod GetPaymentMethod(PaymentTypeEnum paymentType)
         {
-            return new ManualPaymentProcessor();
+            switch (paymentType)
+            {
+                case PaymentTypeEnum.Cash:
+                    return EngineContext.Current.Resolve<CashPaymentProcessor>();
+                    break;
+                case PaymentTypeEnum.Strip:
+                    break;
+                default:
+                    break;
+            }
+
+            return null;
         }
     }
 }

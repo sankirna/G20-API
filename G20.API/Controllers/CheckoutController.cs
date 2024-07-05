@@ -39,6 +39,8 @@ namespace G20.API.Controllers
         protected readonly IOrderProductItemService _orderProductItemService;
         protected readonly IOrderProductItemDetailService _orderProductItemDetailService;
         protected readonly IQRCodeService _qrCodeService;
+        protected readonly IPaymentService _paymentService;
+        protected readonly IOrderProcessingService _orderProcessingService;
 
         public CheckoutController(IWorkContext workContext
             , IShoppingCartService shoppingCartService
@@ -52,7 +54,9 @@ namespace G20.API.Controllers
             , IOrderService orderService
             , IOrderProductItemService orderProductItemService
             , IOrderProductItemDetailService orderProductItemDetailService
-            , IQRCodeService qrCodeService)
+            , IQRCodeService qrCodeService
+            , IPaymentService paymentService
+            , IOrderProcessingService orderProcessingService)
         {
             _workContext = workContext;
             _shoppingCartService = shoppingCartService;
@@ -67,6 +71,8 @@ namespace G20.API.Controllers
             _orderProductItemService = orderProductItemService;
             _orderProductItemDetailService = orderProductItemDetailService;
             _qrCodeService = qrCodeService;
+            _paymentService = paymentService;
+            _orderProcessingService = orderProcessingService;
         }
 
         #region Private Method(s)
@@ -150,7 +156,6 @@ namespace G20.API.Controllers
 
             #endregion
 
-
             #region Insert Order
 
             var order = orderModel.ToEntity<Order>();
@@ -160,19 +165,7 @@ namespace G20.API.Controllers
             order.PhoneNumber = model.PhoneNumber;
             order.OrderStatusId = (int)OrderStatusEnum.New;
             order.PaymentTypeId = (int)model.PaymentTypeId;
-            switch (model.PaymentTypeId)
-            {
-                case PaymentTypeEnum.Offline:
-                    order.PaymentStatusId = (int)PaymentStatus.Paid;
-                    break;
-                case PaymentTypeEnum.Strip:
-                    order.OrderStatusId = (int)OrderStatusEnum.PaymentInitiate;
-                    order.PaymentStatusId = (int)PaymentStatus.Authorized;
-                    break;
-                default:
-                    break;
-            }
-            //order.OrderStatusId = (int)OrderStatusEnum.New;
+            order.PaymentStatusId = (int)PaymentStatus.Authorized;
             await _orderService.InsertAsync(order);
 
             #endregion
@@ -246,11 +239,53 @@ namespace G20.API.Controllers
 
             #endregion
 
-            if (model.PaymentTypeId == PaymentTypeEnum.Offline)
+            var paymentMethod = PaymentServiceManager.GetPaymentMethod((PaymentTypeEnum)order.PaymentTypeId);
+            if (paymentMethod == null)
             {
+                throw new NopException("in valid");
+            }
+
+            if (paymentMethod.SkipPaymentInfo)
+            {
+                ProcessPaymentRequest processPaymentRequest = new ProcessPaymentRequest();
+                processPaymentRequest.UserId = userId;
+                processPaymentRequest.OrderId = order.Id;
+                processPaymentRequest.PaymentType = (PaymentTypeEnum)order.PaymentTypeId;
+                return await PostProcessPaymentRequest(processPaymentRequest);
+            }
+            return Success(orderModel);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> PostProcessPaymentRequest(ProcessPaymentRequest model)
+        {
+            var order = await _orderService.GetByIdAsync(model.OrderId);
+            if (order == null)
+            {
+                throw new NopException("Order not found");
+            }
+            var paymentMethod = PaymentServiceManager.GetPaymentMethod((PaymentTypeEnum)order.PaymentTypeId);
+            if (paymentMethod == null)
+            {
+                throw new NopException("in valid");
+            }
+            if (model == null)
+            {
+                model = new ProcessPaymentRequest();
+            }
+
+            await _orderService.UpdateOrderStatus(order, OrderStatusEnum.PaymentInitiate);
+            await _paymentService.GenerateOrderGuidAsync(model);
+
+            var placeOrderResult = await _orderProcessingService.PlaceOrderAsync(model);
+            if (placeOrderResult.Success)
+            {
+                await _orderService.UpdateOrderStatus(order, OrderStatusEnum.PaymentInitiate);
+                await _orderService.UpdatePaymentStatus(order, PaymentStatus.Paid);
+
                 #region Clear Shopping Cart
 
-                await ClearShoppingCart(userId);
+                await ClearShoppingCart(model.UserId);
 
                 #endregion
 
@@ -271,24 +306,18 @@ namespace G20.API.Controllers
                 var isSend = await _orderService.SendOrderNotifications(order.Id);
 
                 #endregion
+
+                placeOrderResult.OrderId = order.Id;
+
+                return Success(placeOrderResult);
             }
-
-            return Success(orderModel);
-        }
-
-        [HttpPost]
-        public virtual async Task<IActionResult> PostProcessPaymentRequest(PostProcessPaymentRequest model)
-        {
-            var order = await _orderService.GetByIdAsync(model.OrderId);
-            if (order == null)
+            else
             {
-                throw new NopException("Order not found");
-            }
-            if (order.PaymentStatusId == (int)PaymentStatus.Paid)
-            {
+                await _orderService.UpdateOrderStatus(order, OrderStatusEnum.PaymentFailed);
+                await _orderService.UpdatePaymentStatus(order, PaymentStatus.Pending);
             }
 
-            return Success(model);
+            return Error(placeOrderResult.Errors);
         }
     }
 }

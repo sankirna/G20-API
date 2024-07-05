@@ -18,6 +18,7 @@ namespace G20.Service.Orders
         Task InsertAsync(Order entity);
         Task UpdateAsync(Order entity);
         Task UpdateOrderStatus(Order entity, OrderStatusEnum orderStatusEnum);
+        Task UpdatePaymentStatus(Order entity, PaymentStatus paymentStatus);
         Task DeleteAsync(Order entity);
         Task<bool> SendOrderNotifications(int orderId);
     }
