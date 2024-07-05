@@ -12,5 +12,6 @@ namespace G20.Core.Enums
         PaymentFailed = 33,
         Completed = 40,
         Error = 50,
+        Cancelled=0
     }
 }

@@ -1,4 +1,5 @@
 ﻿using G20.Core.Domain;
+using G20.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace G20.Service.Payments
         /// </summary>
         public Order Order { get; set; }
 
-        public int OrderId { get;set; }
+        public PaymentTypeEnum paymentType { get { return (PaymentTypeEnum)Order.PaymentTypeId; } }
+
+        public int OrderId { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace G20.Core.Enums
 {
     public enum PaymentTypeEnum : int
     {
-        Offline = 1,
+        Cash = 1,
         Strip=11
     }
 }

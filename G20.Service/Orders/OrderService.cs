@@ -83,6 +83,12 @@ namespace G20.Service.Orders
             await _entityRepository.UpdateAsync(entity);
         }
 
+        public virtual async Task UpdatePaymentStatus(Order entity, PaymentStatus paymentStatus)
+        {
+            entity.PaymentStatusId = (int)paymentStatus;
+            await _entityRepository.UpdateAsync(entity);
+        }
+
         public virtual async Task DeleteAsync(Order entity)
         {
             ArgumentNullException.ThrowIfNull(entity);

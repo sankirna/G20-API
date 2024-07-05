@@ -1,4 +1,5 @@
 ﻿using G20.Core.Domain;
+using G20.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,13 @@ namespace G20.Service.Payments
             CustomValues = new Dictionary<string, object>();
         }
 
-        /// <summary>
-        /// Gets or sets a store identifier
-        /// </summary>
-        public int StoreId { get; set; }
 
         /// <summary>
         /// Gets or sets a customer identifier
         /// </summary>
-        public int CustomerId { get; set; }
+        public int UserId { get; set; }
+
+        public int OrderId { get; set; }
 
         /// <summary>
         /// Gets or sets an order unique identifier. Used when order is not saved yet (payment gateways that do not redirect a customer to a third-party URL)
@@ -46,6 +45,7 @@ namespace G20.Service.Payments
         /// </summary>
         /// </summary>
         public string PaymentMethodSystemName { get; set; }
+        public PaymentTypeEnum PaymentType { get; set; }
 
         #region Payment method specific properties 
 
