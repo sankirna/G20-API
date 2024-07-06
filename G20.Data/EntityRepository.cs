@@ -302,7 +302,7 @@ namespace G20.Data
 
             query = func != null ? func(query) : query;
 
-            return await query.ToPagedListAsync(pageIndex, pageSize, getOnlyTotalCount);
+            return await query.OrderByDescending(c=> c.Id).ToPagedListAsync(pageIndex, pageSize, getOnlyTotalCount);
         }
 
         /// <summary>
