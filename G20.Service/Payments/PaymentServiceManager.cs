@@ -1,5 +1,6 @@
 ﻿using G20.Core.Enums;
 using G20.Service.Payments.ManualPayment;
+using G20.Service.Payments.POSPayment;
 using G20.Service.Venues;
 using Nop.Core.Infrastructure;
 using System;
@@ -20,6 +21,9 @@ namespace G20.Service.Payments
             {
                 case PaymentTypeEnum.Cash:
                     return EngineContext.Current.Resolve<CashPaymentProcessor>();
+                    break;
+                case PaymentTypeEnum.POS:
+                    return EngineContext.Current.Resolve<POSPaymentProcessor>();
                     break;
                 case PaymentTypeEnum.Strip:
                     break;

@@ -277,6 +277,20 @@ namespace G20.API.Controllers
             await _orderService.UpdateOrderStatus(order, OrderStatusEnum.PaymentInitiate);
             await _paymentService.GenerateOrderGuidAsync(model);
 
+            PaymentInfoModel paymentInfoModel = new PaymentInfoModel()
+            {
+                POSTransactionId= model.POSTransactionId
+            };
+
+            var warnings = await paymentMethod.ValidatePaymentFormAsync(paymentInfoModel);
+            if(warnings.Any())
+            {
+                return Error(warnings);
+            }
+
+            foreach (var warning in warnings)
+                ModelState.AddModelError("", warning);
+
             var placeOrderResult = await _orderProcessingService.PlaceOrderAsync(model);
             if (placeOrderResult.Success)
             {

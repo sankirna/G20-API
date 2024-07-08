@@ -117,7 +117,7 @@ namespace G20.Service.Payments
         /// A task that represents the asynchronous operation
         /// The task result contains the list of validating errors
         /// </returns>
-        Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form);
+        Task<IList<string>> ValidatePaymentFormAsync(PaymentInfoModel paymentInfoModel);
 
         /// <summary>
         /// Get payment information

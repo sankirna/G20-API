@@ -46,8 +46,6 @@ namespace G20.Service.Orders
             return processPaymentResult;
         }
 
-
-
         #endregion
         public virtual async Task<PlaceOrderResult> PlaceOrderAsync(ProcessPaymentRequest processPaymentRequest)
         {

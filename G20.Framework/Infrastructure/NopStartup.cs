@@ -43,6 +43,7 @@ using G20.Service.Orders;
 using G20.Service.Payments;
 using G20.Service.BoardingDetails;
 using G20.Service.Payments.ManualPayment;
+using G20.Service.Payments.POSPayment;
 
 namespace Nop.Web.Framework.Infrastructure;
 
@@ -131,6 +132,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IPaymentMethod, CashPaymentProcessor>();
         services.AddScoped<IOrderProcessingService, OrderProcessingService>();
         services.AddScoped<CashPaymentProcessor>();
+        services.AddScoped<POSPaymentProcessor>();
         //BoardingDetails
         services.AddScoped<IBoardingDetailService, BoardingDetailService>();
 

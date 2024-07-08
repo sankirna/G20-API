@@ -1,6 +1,6 @@
 ﻿using G20.Core.Domain;
 using G20.Core.Enums;
-using G20.Service.Configuration;
+using G20.Service.Payments.ManualPayment;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace G20.Service.Payments.ManualPayment
+namespace G20.Service.Payments.POSPayment
 {
-    public class CashPaymentProcessor : IPaymentMethod
+    public class POSPaymentProcessor : IPaymentMethod
     {
         #region Fields
 
@@ -19,7 +19,7 @@ namespace G20.Service.Payments.ManualPayment
 
         #region Ctor
 
-        public CashPaymentProcessor()
+        public POSPaymentProcessor()
         {
 
         }
@@ -214,7 +214,7 @@ namespace G20.Service.Payments.ManualPayment
         {
             var warnings = new List<string>();
             //validate
-            var validator = new CashPaymentInfoValidator();
+            var validator = new POSPaymentInfoValidator();
             var validationResult = validator.Validate(paymentInfoModel);
             if (validationResult.Any())
                 warnings.AddRange(validationResult);

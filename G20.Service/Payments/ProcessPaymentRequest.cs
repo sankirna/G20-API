@@ -24,6 +24,8 @@ namespace G20.Service.Payments
 
         public int OrderId { get; set; }
 
+        public string POSTransactionId { get; set; }
+
         /// <summary>
         /// Gets or sets an order unique identifier. Used when order is not saved yet (payment gateways that do not redirect a customer to a third-party URL)
         /// </summary>

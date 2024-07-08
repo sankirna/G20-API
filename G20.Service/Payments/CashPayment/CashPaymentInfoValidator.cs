@@ -43,13 +43,13 @@ namespace G20.Service.Payments.ManualPayment
 
     //}
 
-    public class PaymentInfoValidator
+    public class CashPaymentInfoValidator
     {
-        public PaymentInfoValidator() { }
+        public CashPaymentInfoValidator() { }
 
-        public bool Validate(PaymentInfoModel paymentInfoModel)
+        public List<string> Validate(PaymentInfoModel paymentInfoModel)
         {
-            return true;
+            return new List<string>();
         }
     }
 }

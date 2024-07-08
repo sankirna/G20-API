@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace G20.Service.Payments.ManualPayment
+namespace G20.Service.Payments
 {
     public record PaymentInfoModel /*: BaseNopModel*/
     {
@@ -15,6 +15,7 @@ namespace G20.Service.Payments.ManualPayment
             //ExpireYears = new List<SelectListItem>();
         }
 
+        public string POSTransactionId { get; set; }
         public string CreditCardType { get; set; }
 
         //public IList<SelectListItem> CreditCardTypes { get; set; }
