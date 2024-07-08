@@ -210,7 +210,7 @@ namespace G20.API.Controllers
                 {
 
                     await _orderProductItemDetailService.InsertAsync(orderProductItemDetail);
-                    Random random = new Random();   
+                    Random random = new Random();
                     string qrCode = string.Format("{0}-{1}-{2}", random.Next(1000, 9999), item.ProductId, random.Next(1000, 9999)); ;
                     //Create QR code
                     BoardingCheckDetailModel boardingCheckDetailModel = new BoardingCheckDetailModel();
@@ -247,7 +247,7 @@ namespace G20.API.Controllers
 
             if (paymentMethod.SkipPaymentInfo)
             {
-                ProcessPaymentRequest processPaymentRequest = new ProcessPaymentRequest();
+                ProcessPaymentRequest processPaymentRequest = model.ProcessPaymentRequest ?? new ProcessPaymentRequest();
                 processPaymentRequest.UserId = userId;
                 processPaymentRequest.OrderId = order.Id;
                 processPaymentRequest.PaymentType = (PaymentTypeEnum)order.PaymentTypeId;
@@ -279,11 +279,11 @@ namespace G20.API.Controllers
 
             PaymentInfoModel paymentInfoModel = new PaymentInfoModel()
             {
-                POSTransactionId= model.POSTransactionId
+                POSTransactionId = model.POSTransactionId
             };
 
             var warnings = await paymentMethod.ValidatePaymentFormAsync(paymentInfoModel);
-            if(warnings.Any())
+            if (warnings.Any())
             {
                 return Error(warnings);
             }

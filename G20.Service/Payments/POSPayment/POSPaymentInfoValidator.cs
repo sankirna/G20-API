@@ -17,7 +17,7 @@ namespace G20.Service.Payments.POSPayment
             {
                 errors.Add("POS transactionId is required");
             }
-            return new List<string>();
+            return errors;
         }
     }
 }

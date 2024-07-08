@@ -9,7 +9,7 @@ namespace G20.Core.Enums
     public enum PaymentTypeEnum : int
     {
         Cash = 1,
-        POS = 11,
-        Strip = 12
+        POS = 2,
+        Strip = 3
     }
 }
