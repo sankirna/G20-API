@@ -38,7 +38,7 @@ namespace G20.API.Controllers
             , IProductComboService productComboService
             , ITicketService ticketService
             , ITicketCategoryService ticketCategoryService
-            ,IVenueService venueService
+            , IVenueService venueService
             , IProductTicketCategoryMapService productTicketCategoryMapService)
         {
             _workContext = workContext;

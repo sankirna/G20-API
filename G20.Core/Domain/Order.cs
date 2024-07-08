@@ -16,6 +16,7 @@ namespace G20.Core.Domain
         public int PaymentTypeId { get; set; }
         public int OrderStatusId { get; set; }
         public int PaymentStatusId { get; set; }
+        public string POSTransactionId { get; set; }
 
         // Navigation Properties
         public User User { get; set; }

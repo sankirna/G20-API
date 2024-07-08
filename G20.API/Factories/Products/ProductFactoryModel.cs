@@ -332,9 +332,9 @@ namespace G20.API.Factories.Products
                                                                              isVenueDetail: true,
                                                                              isTeam1Detail: true,
                                                                              isTeam2Detail: true,
-                                                                             isProductCombos: true,
+                                                                             isProductCombos: false,
                                                                              isProductTicketCategoryMap: true,
-                                                                             isProductComboListDetail: true);
+                                                                             isProductComboListDetail: false);
                     return productModel;
                 });
             });

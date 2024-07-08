@@ -12,6 +12,7 @@
     [PaymentTypeId] INT NOT NULL,
     [OrderStatusId] INT NOT NULL,
     [PaymentStatusId] INT NOT NULL,
+    [POSTransactionId] VARCHAR(1000) NULL,
     [CreatedBy]       INT            NULL,
     [CreatedDateTime] DATETIME       NULL,
     [UpdatedBy]       INT            NULL,

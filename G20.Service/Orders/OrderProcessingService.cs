@@ -6,6 +6,11 @@ namespace G20.Service.Orders
 {
     public class OrderProcessingService : IOrderProcessingService
     {
+        private readonly IOrderService _orderService;
+        public OrderProcessingService(IOrderService orderService)
+        {
+            _orderService=orderService;
+        }
 
         #region Utilities
 
@@ -46,6 +51,16 @@ namespace G20.Service.Orders
             return processPaymentResult;
         }
 
+
+        protected virtual async Task<Order> UpdateOrderDetailsAsync(ProcessPaymentRequest processPaymentRequest,
+    ProcessPaymentResult processPaymentResult, PlaceOrderContainer details)
+        {
+            var order = await _orderService.GetByIdAsync(processPaymentRequest.OrderId);
+            order.POSTransactionId = processPaymentRequest.POSTransactionId;
+            await _orderService.UpdateAsync(order);
+            return order;
+        }
+
         #endregion
         public virtual async Task<PlaceOrderResult> PlaceOrderAsync(ProcessPaymentRequest processPaymentRequest)
         {
@@ -65,8 +80,8 @@ namespace G20.Service.Orders
 
                 if (processPaymentResult.Success)
                 {
-                    //var order = await SaveOrderDetailsAsync(processPaymentRequest, processPaymentResult, details);
-                    //result.PlacedOrder = order;
+                    var order = await UpdateOrderDetailsAsync(processPaymentRequest, processPaymentResult, details);
+                    result.PlacedOrder = order;
 
                     //move shopping cart items to order items
                     //await MoveShoppingCartItemsToOrderItemsAsync(details, order);
