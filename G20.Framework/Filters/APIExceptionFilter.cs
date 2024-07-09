@@ -44,15 +44,12 @@ namespace G20.Framework.Filters
                         }
                     }
                 }
+                errors.AddRange(innerErrors);
                 if (errors.Any() || innerErrors.Any())
                 {
-                    context.Result = new JsonResult(code.ToErrorApiResponse(errors.ToAppErrorResponse(innerErrors))) { StatusCode = (int)code };
+                    context.Result = new JsonResult(code.ToErrorApiResponse(errors));
                 }
             }
-
-
-
-            //context.Result = new JsonResult(error);
         }
     }
 }

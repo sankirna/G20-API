@@ -156,7 +156,7 @@ namespace G20.API.Controllers
             {
                 model.ProductCombos = (await _productComboService.GetProductCombosByProductIdAsync(id))
                                      .ToList().Select(c => c.ToModel<ProductComboModel>()).ToList();
-                var productIds= model.ProductCombos.Select(x=>x.ProductMapId).ToList();
+                var productIds = model.ProductCombos.Select(x => x.ProductMapId).ToList();
 
 
                 var productComboDetails = await _productService.GetByProductIdsAsync(productIds);
@@ -177,7 +177,7 @@ namespace G20.API.Controllers
             }
             //model.CategoryName = (await _ticketCategoryService.GetByIdAsync(model.CategoryId)).Name;
             //model.VenueName = ((await _venueService.GetByIdAsync(model.CategoryId)) ?? new Venue()).StadiumName;
-            
+
             return Success(model);
         }
 
@@ -192,7 +192,7 @@ namespace G20.API.Controllers
         public virtual async Task<IActionResult> GetTicketCategoriesByProduct(int productId)
         {
             var product = await _productService.GetByIdAsync(productId);
-            var productTicketCategories   = await _productFactoryModel.PrepareSingalProductTicketCategoryMapListModelAsync(productId, product.VenueId.Value);
+            var productTicketCategories = await _productFactoryModel.PrepareSingalProductTicketCategoryMapListModelAsync(productId, product.VenueId.Value);
 
             return Success(productTicketCategories);
         }
@@ -247,7 +247,7 @@ namespace G20.API.Controllers
 
         [HttpPost]
         public virtual async Task<IActionResult> ProductListForSite(ProductForSiteSearchModel searchModel)
-        {   
+        {
             var model = await _productFactoryModel.PrepareProductListForSiteModelAsync(searchModel);
             return Success(model);
         }

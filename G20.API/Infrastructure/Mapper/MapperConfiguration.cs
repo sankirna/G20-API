@@ -183,8 +183,8 @@ namespace G20.API.Infrastructure.Mapper
         {
             CreateMap<OrderModel, Order>().ReverseMap();
             CreateMap<OrderProductItemModel, OrderProductItem>().ReverseMap();
-
             CreateMap<Order, OrderDetailModel>().ReverseMap();
+            CreateMap<OrderProductItemDetailModel, OrderProductItemDetail>().ReverseMap();
         }
 
         public virtual void CreateShoppingOrderMap()

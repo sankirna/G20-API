@@ -13,6 +13,7 @@ namespace G20.API.Models.Orders
         public decimal Total { get { return Quantity * Price; } }
         public bool IsOutofStock { get; set; }
         public ProductModel ProductDetail { get; set; }
+        public OrderProductItemDetailModel OrderProductItemDetail { get; set; }
         public ProductTicketCategoryMapModel ProductTicketCategoryMapDetail { get; set; }
     }
 }

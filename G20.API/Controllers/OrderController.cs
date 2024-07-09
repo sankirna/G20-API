@@ -81,6 +81,7 @@ namespace G20.API.Controllers
                                                                     , isUserDetail: true
                                                                     , isCouponDetail: true
                                                                     , isOrderProductItem: true
+                                                                    , isOrderProductItemDetail: true
                                                                     , isProductTicketCategoryMapDetail: true);
             return Success(model);
         }

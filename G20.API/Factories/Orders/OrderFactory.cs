@@ -1,4 +1,5 @@
 ﻿using G20.API.Factories.Coupons;
+using G20.API.Factories.Media;
 using G20.API.Factories.Products;
 using G20.API.Factories.Users;
 using G20.API.Infrastructure.Mapper.Extensions;
@@ -25,11 +26,13 @@ namespace G20.API.Factories.Orders
         protected readonly IOrderService _orderService;
         protected readonly IUserService _userservice;
         protected readonly IUserFactoryModel _userFactoryModel;
+        protected readonly IMediaFactoryModel _mediaFactoryModel;
         protected readonly ICouponService _couponService;
         protected readonly ICouponFactoryModel _couponFactoryModel;
         protected readonly IProductService _productService;
         protected readonly IProductFactoryModel _productFactoryModel;
         protected readonly IOrderProductItemService _orderProductItemService;
+        protected readonly IOrderProductItemDetailService _orderProductItemDetailService;
         protected readonly IProductTicketCategoryMapService _productTicketCategoryMapService;
         protected readonly ITicketCategoryService _ticketCategoryService;
         protected readonly IBoardingDetailService _boardingDetailService;
@@ -38,11 +41,13 @@ namespace G20.API.Factories.Orders
               IOrderService orderService
             , IUserService userService
             , IUserFactoryModel userFactoryModel
+            , IMediaFactoryModel mediaFactoryModel
             , ICouponService couponService
             , ICouponFactoryModel couponFactoryModel
             , IProductService productService
             , IProductFactoryModel productFactoryModel
             , IOrderProductItemService orderProductItemService
+            , IOrderProductItemDetailService orderProductItemDetailService
             , IProductTicketCategoryMapService productTicketCategoryMapService
             , ITicketCategoryService ticketCategoryService
             , IBoardingDetailService boardingDetailService)
@@ -50,11 +55,13 @@ namespace G20.API.Factories.Orders
             _orderService = orderService;
             _userservice = userService;
             _userFactoryModel = userFactoryModel;
+            _mediaFactoryModel = mediaFactoryModel;
             _couponService = couponService;
             _couponFactoryModel = couponFactoryModel;
             _productService = productService;
             _productFactoryModel = productFactoryModel;
             _orderProductItemService = orderProductItemService;
+            _orderProductItemDetailService = orderProductItemDetailService;
             _productTicketCategoryMapService = productTicketCategoryMapService;
             _ticketCategoryService = ticketCategoryService;
             _boardingDetailService = boardingDetailService;
@@ -114,6 +121,7 @@ namespace G20.API.Factories.Orders
              , bool isUserDetail = false
              , bool isCouponDetail = false
              , bool isOrderProductItem = false
+             , bool isOrderProductItemDetail = false
              , bool isProductTicketCategoryMapDetail = false)
         {
             var orderDetailModel = order.ToModel<OrderDetailModel>();
@@ -140,16 +148,20 @@ namespace G20.API.Factories.Orders
                 {
                     foreach (var item in orderProductItems)
                     {
-                        var orderProductItemModel = await GetOrderProductItemModelAsync(item, isProductDetail: true);
+                        var orderProductItemModel = await GetOrderProductItemModelAsync(item
+                                                                  , isProductDetail: true
+                                                                  , isOrderProductItemDetail:true);
                         orderDetailModel.Items.Add(orderProductItemModel);
                     }
                 }
             }
+
             return orderDetailModel;
         }
 
         public virtual async Task<OrderProductItemModel> GetOrderProductItemModelAsync(OrderProductItem orderProductItem
-            , bool isProductDetail = false)
+            , bool isProductDetail = false
+            , bool isOrderProductItemDetail = false)
         {
             var orderProductItemModel = orderProductItem.ToModel<OrderProductItemModel>();
             if (isProductDetail)
@@ -161,8 +173,25 @@ namespace G20.API.Factories.Orders
                                                                 , isTeam1Detail: true
                                                                 , isTeam2Detail: true);
             }
+            if (isOrderProductItemDetail)
+            {
+                var orderProductItemDetails = await _orderProductItemDetailService.GetDetailsByOrderProductItemIdAsync(orderProductItem.Id);
+                orderProductItemModel.OrderProductItemDetail = await GetOrderProductItemDetailModelAsync(orderProductItemDetails, isQRCodeFile: true);
+            }
             return orderProductItemModel;
         }
+
+        public virtual async Task<OrderProductItemDetailModel> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail
+            , bool isQRCodeFile = false)
+        {
+            var orderProductItemModel = orderProductItemDetail.ToModel<OrderProductItemDetailModel>();
+            if (isQRCodeFile)
+            {
+                orderProductItemModel.QRCodeFile = await _mediaFactoryModel.GetRequestModelAsync(orderProductItemModel.QRCodeFileId);
+            }
+            return orderProductItemModel;
+        }
+
 
         public virtual OrderModel MapOrderModelFromShoppingModel(ShoppingCartModel model)
         {
@@ -259,7 +288,7 @@ namespace G20.API.Factories.Orders
             var orderProductItem = await _orderProductItemService.GetByIdAsync(orderProductItemDetail.OrderProductItemId);
             UserProductItemDetail userProductDetail = new UserProductItemDetail();
             userProductDetail.OrderProductItemDetailId = orderProductItemDetail.OrderProductItemId;
-            userProductDetail.TotalQuantity = orderProductItem.Quantity; 
+            userProductDetail.TotalQuantity = orderProductItem.Quantity;
             userProductDetail.RemainingQuantity = _boardingDetailService.GetBoardingQuanity(orderProductItemDetail.Id, orderProductItem.Quantity);
 
             userProductDetail.UserId = orderProductItemDetail.UserId;
@@ -274,5 +303,6 @@ namespace G20.API.Factories.Orders
             userProductDetail.StandName = _ticketCategoryService.GetByIdAsync(orderProductItem.ProductTicketCategoryMap.TicketCategoryId).Result.Name;
             return userProductDetail;
         }
+
     }
 }

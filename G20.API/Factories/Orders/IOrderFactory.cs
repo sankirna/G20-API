@@ -12,13 +12,17 @@ namespace G20.API.Factories.Orders
                                                         , bool isUserDetail = false
                                                         , bool isCouponDetail = false
                                                         , bool isOrderProductItem = false
+                                                        , bool isOrderProductItemDetail = false
                                                         , bool isProductTicketCategoryMapDetail = false);
         Task<OrderProductItemModel>  GetOrderProductItemModelAsync(OrderProductItem orderProductItem
-                                                                  , bool isProductDetail = false);
+                                                                  , bool isProductDetail = false
+                                                                  , bool isOrderProductItemDetail=false);
         OrderModel MapOrderModelFromShoppingModel(ShoppingCartModel model);
         List<OrderProductItemModel> MapOrderProductItemModelFromShoppingItemModel(List<ShoppingCartItemModel> shoppingCartItems);
         Task<OrderCouponInfoModel> GetAndValidateCouponInfoByCode(OrderModel orderModel);
         Task<IList<Product>> GetAndValidateProductDetails(List<OrderProductItemModel> items);
+        Task<OrderProductItemDetailModel> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail
+            , bool isQRCodeFile = false);
 
         Task<bool> CheckProductTicketAvaibility(IList<Product> productDetails, List<OrderProductItemModel> orderProductRequestItems);
         Task<UserProductItemDetail> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail);
