@@ -60,20 +60,27 @@ namespace G20.Service.Products
             await _entityRepository.DeleteAsync(entity);
         }
 
-        public virtual async Task<IPagedList<Product>> GetProductsForSiteAsync(string name, int? productTypeId, int? teamId, int? categoryId,decimal? minimumPrice, decimal? maximumPrice, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
+        public virtual async Task<IPagedList<Product>> GetProductsForSiteAsync(string name, int? productTypeId, int? teamId, int? categoryId, decimal? minimumPrice, decimal? maximumPrice, int pageIndex = 0, int pageSize = int.MaxValue, bool getOnlyTotalCount = false)
         {
             var products = await _entityRepository.GetAllPagedAsync(query =>
             {
                 if (!string.IsNullOrWhiteSpace(name))
                     query = query.Where(p => p.Team1.Name.ToString().Contains(name) || p.Team2.Name.ToString().Contains(name));
-                if (teamId.HasValue && teamId!=0)
+                if (teamId.HasValue && teamId != 0)
                     query = query.Where(c => c.Team1Id == teamId || c.Team2Id == teamId);
                 if (categoryId.HasValue && categoryId != 0)
                     query = query.Where(c => c.CategoryId == categoryId);
                 //if (productTypeId.HasValue && productTypeId != 0)
                 //    query = query.Where(p => p.ProductTypeId == productTypeId);
-                query.Where(c=> c.ProductTicketCategoryMaps.Any(p=> p.Price>= minimumPrice && p.Price<= maximumPrice));
-                return query.Where(c=> c.ScheduleDateTime<=DateTime.Now).OrderByDescending(c => c.Id);
+                if (minimumPrice > 0)
+                {
+                    query = query.Where(c => c.ProductTicketCategoryMaps.Any(p => p.Price >= minimumPrice));
+                }
+                if (maximumPrice > 0)
+                {
+                    query.Where(c => c.ProductTicketCategoryMaps.Any(p => p.Price <= maximumPrice));
+                }
+                return query.Where(c => c.ScheduleDateTime <= DateTime.Now).OrderByDescending(c => c.Id);
 
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);
 
@@ -83,8 +90,8 @@ namespace G20.Service.Products
         {
             var products = await _entityRepository.GetAllPagedAsync(query =>
             {
-                
-                if (venueId!= null)
+
+                if (venueId != null)
                 {
                     query = query.Where(p => p.VenueId == venueId && p.StartDateTime.Value.Date == DateTime.Now.Date);
                 }

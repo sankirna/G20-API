@@ -94,11 +94,6 @@ namespace G20.API.Factories.Products
             {
                 var productTicketCategoryMaps = (await _productTicketCategoryMapService.GetProductTicketCategoryMapsByProductIdAsync(model.Id))
                          .ToList();
-                //TODO: should search data in database
-                if (productForSiteSearchModel != null && (productForSiteSearchModel.MinimumPrice > 0 || productForSiteSearchModel.MaximumPrice > 0))
-                {
-                    productTicketCategoryMaps = productTicketCategoryMaps.Where(p => p.Price >= productForSiteSearchModel.MinimumPrice && p.Price <= productForSiteSearchModel.MaximumPrice).ToList();
-                }
                 if (productTicketCategoryMaps.Any())
                 {
                     model.ProductTicketCategories = new List<ProductTicketCategoryMapModel>();

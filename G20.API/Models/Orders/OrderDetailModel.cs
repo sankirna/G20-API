@@ -42,6 +42,5 @@ namespace G20.API.Models.Orders
                 return EnumHelper.GetDescription((PaymentTypeEnum)PaymentTypeId);
             }
         }
-        public string POSTransactionId { get; set; } 
     }
 }
