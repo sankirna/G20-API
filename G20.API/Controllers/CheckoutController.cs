@@ -165,7 +165,7 @@ namespace G20.API.Controllers
             order.PhoneNumber = model.PhoneNumber;
             order.OrderStatusId = (int)OrderStatusEnum.New;
             order.PaymentTypeId = (int)model.PaymentTypeId;
-            order.PaymentStatusId = (int)PaymentStatus.Authorized;
+            order.PaymentStatusId = (int)PaymentStatus.Authorized; 
             await _orderService.InsertAsync(order);
 
             #endregion
@@ -251,6 +251,7 @@ namespace G20.API.Controllers
                 processPaymentRequest.UserId = userId;
                 processPaymentRequest.OrderId = order.Id;
                 processPaymentRequest.PaymentType = (PaymentTypeEnum)order.PaymentTypeId;
+                processPaymentRequest.POSTransactionId = model.ProcessPaymentRequest.POSTransactionId;
                 return await PostProcessPaymentRequest(processPaymentRequest);
             }
             return Success(orderModel);
@@ -259,7 +260,7 @@ namespace G20.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> PostProcessPaymentRequest(ProcessPaymentRequest model)
         {
-            var order = await _orderService.GetByIdAsync(model.OrderId);
+            var order = await _orderService.GetByIdAsync(model.OrderId); 
             if (order == null)
             {
                 throw new NopException("Order not found");
@@ -294,6 +295,7 @@ namespace G20.API.Controllers
             var placeOrderResult = await _orderProcessingService.PlaceOrderAsync(model);
             if (placeOrderResult.Success)
             {
+                order.POSTransactionId = model.POSTransactionId;
                 await _orderService.UpdateOrderStatus(order, OrderStatusEnum.PaymentInitiate);
                 await _orderService.UpdatePaymentStatus(order, PaymentStatus.Paid);
 

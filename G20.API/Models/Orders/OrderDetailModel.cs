@@ -34,5 +34,14 @@ namespace G20.API.Models.Orders
         public UserModel UserDetail { get; set; }
         public CouponModel CouponDetail { get; set; }
         public List<OrderProductItemModel> Items { get; set; }
+        public int PaymentTypeId { get; set; }
+        public string PaymnetType
+        {
+            get
+            {
+                return EnumHelper.GetDescription((PaymentTypeEnum)PaymentTypeId);
+            }
+        }
+        public string POSTransactionId { get; set; } 
     }
 }
