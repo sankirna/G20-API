@@ -47,7 +47,9 @@ namespace G20.Framework.Filters
                 errors.AddRange(innerErrors);
                 if (errors.Any() || innerErrors.Any())
                 {
-                    context.Result = new JsonResult(code.ToErrorApiResponse(errors));
+                    var jsonResult = new JsonResult(code.ToErrorApiResponse(errors));
+                    jsonResult.StatusCode = (int)code;
+                    context.Result = jsonResult;
                 }
             }
         }
