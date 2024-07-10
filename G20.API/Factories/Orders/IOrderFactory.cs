@@ -22,6 +22,7 @@ namespace G20.API.Factories.Orders
         Task<OrderCouponInfoModel> GetAndValidateCouponInfoByCode(OrderModel orderModel);
         Task<IList<Product>> GetAndValidateProductDetails(List<OrderProductItemModel> items);
         Task<OrderProductItemDetailModel> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail
+            , bool isProductDetail = false
             , bool isQRCodeFile = false);
 
         Task<bool> CheckProductTicketAvaibility(IList<Product> productDetails, List<OrderProductItemModel> orderProductRequestItems);

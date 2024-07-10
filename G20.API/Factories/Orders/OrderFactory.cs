@@ -175,16 +175,32 @@ namespace G20.API.Factories.Orders
             }
             if (isOrderProductItemDetail)
             {
-                var orderProductItemDetails = await _orderProductItemDetailService.GetDetailsByOrderProductItemIdAsync(orderProductItem.Id);
-                orderProductItemModel.OrderProductItemDetail = await GetOrderProductItemDetailModelAsync(orderProductItemDetails, isQRCodeFile: true);
+                var orderProductItemDetails = await _orderProductItemDetailService.GetOrderProductItemDetailsByOrderProductItemIdAsync(orderProductItem.Id);
+                foreach (var orderProductItemDetail in orderProductItemDetails)
+                {
+                    orderProductItemModel.OrderProductItemDetails.Add(await GetOrderProductItemDetailModelAsync(orderProductItemDetail
+                                                                                , isProductDetail: true
+                                                                                , isQRCodeFile: true));
+                }
             }
             return orderProductItemModel;
         }
 
         public virtual async Task<OrderProductItemDetailModel> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail
+            , bool isProductDetail = false
             , bool isQRCodeFile = false)
         {
             var orderProductItemModel = orderProductItemDetail.ToModel<OrderProductItemDetailModel>();
+            if (isProductDetail)
+            {
+                var product = await _productService.GetByIdAsync(orderProductItemModel.ProductId);
+                orderProductItemModel.ProductDetail = await _productFactoryModel.PrepareProductDetailModelAsync(product
+                                                                , isCategoryDetail: false
+                                                                , isVenueDetail: true
+                                                                , isTeam1Detail: true
+                                                                , isTeam2Detail: true);
+            }
+
             if (isQRCodeFile)
             {
                 orderProductItemModel.QRCodeFile = await _mediaFactoryModel.GetRequestModelAsync(orderProductItemModel.QRCodeFileId);

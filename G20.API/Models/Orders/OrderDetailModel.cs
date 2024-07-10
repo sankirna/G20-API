@@ -20,6 +20,7 @@ namespace G20.API.Models.Orders
         public string PhoneNumber { get; set; }
         public int? PaymentId { get; set; }
         public int OrderStatusId { get; set; }
+        public string POSTransactionId { get; set; }
         public string OrderStatus
         {
             get
