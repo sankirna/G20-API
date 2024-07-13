@@ -72,14 +72,14 @@ namespace G20.Service.Products
                     query = query.Where(c => c.CategoryId == categoryId);
                 //if (productTypeId.HasValue && productTypeId != 0)
                 //    query = query.Where(p => p.ProductTypeId == productTypeId);
-                if (minimumPrice > 0)
-                {
-                    query = query.Where(c => c.ProductTicketCategoryMaps.Any(p => p.Price >= minimumPrice));
-                }
-                if (maximumPrice > 0)
-                {
-                    query.Where(c => c.ProductTicketCategoryMaps.Any(p => p.Price <= maximumPrice));
-                }
+                //if (minimumPrice > 0)
+                //{
+                //    query = query.Where(c => c.ProductTicketCategoryMaps.Any(p => p.Price >= minimumPrice));
+                //}
+                //if (maximumPrice > 0)
+                //{
+                //    query.Where(c => c.ProductTicketCategoryMaps.Any(p => p.Price <= maximumPrice));
+                //}
                 return query.Where(c => c.ScheduleDateTime <= DateTime.Now).OrderByDescending(c => c.Id);
 
             }, pageIndex, pageSize, getOnlyTotalCount, includeDeleted: false);

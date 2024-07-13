@@ -183,14 +183,14 @@ namespace G20.API.Factories.Products
             return model;
         }
 
-        public virtual async Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(int productTicketCategoryMapId)
+        public virtual async Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(int productTicketCategoryMapId, int quantity = 1)
         {
             var productTicketCategoryMap = await _productTicketCategoryMapService.GetByIdAsync(productTicketCategoryMapId);
-            ProductTicketCategoryMapModel model = await PrepareProductTicketCategoryMapModelAsync(productTicketCategoryMap);
+            ProductTicketCategoryMapModel model = await PrepareProductTicketCategoryMapModelAsync(productTicketCategoryMap, quantity);
             return model;
         }
 
-        public virtual async Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(ProductTicketCategoryMap enity)
+        public virtual async Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(ProductTicketCategoryMap enity, int quantity = 1)
         {
             ProductTicketCategoryMapModel model = new ProductTicketCategoryMapModel();
             if (enity != null)
@@ -202,7 +202,8 @@ namespace G20.API.Factories.Products
                 model.Block = enity.Block;
                 model.Sold = enity.Sold;
                 model.Price = enity.Price;
-                var ticketCategory = await _ticketCategoryService.GetByIdAsync(enity.Id);
+                model.IsOutOfStock = enity.IsOutOfStock(quantity);
+                var ticketCategory = await _ticketCategoryService.GetByIdAsync(enity.TicketCategoryId);
                 if (ticketCategory != null)
                 {
                     model.TicketCategoryId = ticketCategory.Id;
@@ -210,7 +211,7 @@ namespace G20.API.Factories.Products
                     model.File = await _mediaFactoryModel.GetRequestModelAsync(ticketCategory.FileId);
                 }
             }
-            
+
             return model;
         }
 

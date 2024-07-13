@@ -23,6 +23,13 @@ namespace G20.API.Models.Products
         public DateTime? ScheduleDateTime { get; set; }
         public string Description { get; set; }
         public int? FileId { get; set; }
+        public bool IsOutOfStock
+        {
+            get
+            {
+                return ProductTicketCategories != null && ProductTicketCategories.All(x => x.IsOutOfStock);
+            }
+        }
         public FileUploadRequestModel? File { get; set; }
         public TeamModel Team1Detail { get; set; }
         public TeamModel Team2Detail { get; set; }

@@ -19,8 +19,8 @@ namespace G20.API.Factories.Products
         Task<ProductModel> PrepareProductModelAsync(int productId);
         Task<ProductListModel> PrepareProductListModelAsync(ProductSearchModel searchModel);
         Task<List<ProductTicketCategoryMapModel>> PrepareSingalProductTicketCategoryMapListModelAsync(int productId, int venueId);
-        Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(int productTicketCategoryMapId);
-        Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(ProductTicketCategoryMap enity);
+        Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(int productTicketCategoryMapId, int quantity = 1);
+        Task<ProductTicketCategoryMapModel> PrepareProductTicketCategoryMapModelAsync(ProductTicketCategoryMap enity, int quantity = 1);
         Task<List<ProductTicketCategoryMapModel>> PrepareComboProductTicketCategoryMapListModelAsync(int? productId, List<int> productMapIds);
         Task<ProductListForSiteModel> PrepareProductListForSiteModelAsync(ProductForSiteSearchModel searchModel);
         Task<ProductListModel> PrepareProductListByVenueModelAsync(ProductSearchByVenueModel searchModel);

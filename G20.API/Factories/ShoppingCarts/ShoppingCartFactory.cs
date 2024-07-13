@@ -63,7 +63,7 @@ namespace G20.API.Factories.ShoppingCarts
             {
                 ShoppingCartItemModel shoppingCartItemModel = shoppingCartItem.ToModel<ShoppingCartItemModel>();
                 shoppingCartItemModel.ProductDetail = await _productFactoryModel.PrepareProductModelAsync(shoppingCartItemModel.ProductId);
-                shoppingCartItemModel.ProductTicketCategoryMapDetail = await _productFactoryModel.PrepareProductTicketCategoryMapModelAsync(shoppingCartItemModel.ProductTicketCategoryMapId);
+                shoppingCartItemModel.ProductTicketCategoryMapDetail = await _productFactoryModel.PrepareProductTicketCategoryMapModelAsync(shoppingCartItemModel.ProductTicketCategoryMapId, shoppingCartItemModel.Quantity);
                 shoppingCartItemModels.Add(shoppingCartItemModel);
             }
             return shoppingCartItemModels;

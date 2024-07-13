@@ -144,37 +144,46 @@ namespace G20.API.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Get(int id)
         {
-            var model = await _productFactoryModel.PrepareProductModelAsync(id);
-            if (model == null)
+            var product = await _productService.GetByIdAsync(id);
+            if (product == null)
                 return Error("not found");
 
-            if (model.ProductTypeEnum == ProductTypeEnum.Regular && model.VenueId.HasValue)
-            {
-                model.ProductTicketCategories = await _productFactoryModel.PrepareSingalProductTicketCategoryMapListModelAsync(id, model.VenueId.Value);
-            }
-            if (model.ProductTypeEnum == ProductTypeEnum.Combo)
-            {
-                model.ProductCombos = (await _productComboService.GetProductCombosByProductIdAsync(id))
-                                     .ToList().Select(c => c.ToModel<ProductComboModel>()).ToList();
-                var productIds = model.ProductCombos.Select(x => x.ProductMapId).ToList();
+            var model = await _productFactoryModel.PrepareProductDetailModelAsync(product,
+                                                         isCategoryDetail: true,
+                                                         isVenueDetail: true,
+                                                         isTeam1Detail: true,
+                                                         isTeam2Detail: true,
+                                                         isProductCombos: true,
+                                                         isProductTicketCategoryMap: true,
+                                                         isProductComboListDetail: true);
+
+            //if (model.ProductTypeEnum == ProductTypeEnum.Regular && model.VenueId.HasValue)
+            //{
+            //    model.ProductTicketCategories = await _productFactoryModel.PrepareSingalProductTicketCategoryMapListModelAsync(id, model.VenueId.Value);
+            //}
+            //if (model.ProductTypeEnum == ProductTypeEnum.Combo)
+            //{
+            //    model.ProductCombos = (await _productComboService.GetProductCombosByProductIdAsync(id))
+            //                         .ToList().Select(c => c.ToModel<ProductComboModel>()).ToList();
+            //    var productIds = model.ProductCombos.Select(x => x.ProductMapId).ToList();
 
 
-                var productComboDetails = await _productService.GetByProductIdsAsync(productIds);
-                model.ProductComboDetails = new List<ProductModel>();
-                model.StartDateTime = productComboDetails.Min(x => x.StartDateTime);
-                model.EndDateTime = productComboDetails.Max(x => x.EndDateTime);
-                foreach (var productComboDetail in productComboDetails)
-                {
-                    var productComboModelDetail = await _productFactoryModel.PrepareProductDetailModelAsync(productComboDetail,
-                                                                                  isVenueDetail: true,
-                                                                                  isTeam1Detail: true,
-                                                                                  isTeam2Detail: true);
+            //    var productComboDetails = await _productService.GetByProductIdsAsync(productIds);
+            //    model.ProductComboDetails = new List<ProductModel>();
+            //    model.StartDateTime = productComboDetails.Min(x => x.StartDateTime);
+            //    model.EndDateTime = productComboDetails.Max(x => x.EndDateTime);
+            //    foreach (var productComboDetail in productComboDetails)
+            //    {
+            //        var productComboModelDetail = await _productFactoryModel.PrepareProductDetailModelAsync(productComboDetail,
+            //                                                                      isVenueDetail: true,
+            //                                                                      isTeam1Detail: true,
+            //                                                                      isTeam2Detail: true);
 
-                    model.ProductComboDetails.Add(productComboModelDetail);
-                }
+            //        model.ProductComboDetails.Add(productComboModelDetail);
+            //    }
 
-                model.ProductTicketCategories = await _productFactoryModel.PrepareComboProductTicketCategoryMapListModelAsync(id, productIds);
-            }
+            //    model.ProductTicketCategories = await _productFactoryModel.PrepareComboProductTicketCategoryMapListModelAsync(id, productIds);
+            //}
             //model.CategoryName = (await _ticketCategoryService.GetByIdAsync(model.CategoryId)).Name;
             //model.VenueName = ((await _venueService.GetByIdAsync(model.CategoryId)) ?? new Venue()).StadiumName;
 

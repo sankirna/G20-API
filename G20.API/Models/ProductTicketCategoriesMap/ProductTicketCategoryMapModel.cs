@@ -13,6 +13,7 @@ namespace G20.API.Models.ProductTicketCategoriesMap
         public int Block { get; set; }
         public int Sold { get; set; }
         public decimal Price { get; set; }
+        public bool IsOutOfStock { get; set; }
         public FileUploadRequestModel? File { get; set; }
     }
 }

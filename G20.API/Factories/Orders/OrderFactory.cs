@@ -296,7 +296,7 @@ namespace G20.API.Factories.Orders
                 orderProductRequestItem.Price = productTicketCategoryMap.Price;
                 orderProductRequestItem.IsOutofStock = productTicketCategoryMap.IsOutOfStock(orderProductRequestItem.Quantity);
             }
-            return orderProductRequestItems.Any(x => !x.IsOutofStock);
+            return !orderProductRequestItems.Any(x => x.IsOutofStock);
         }
 
         public virtual async Task<UserProductItemDetail> GetOrderProductItemDetailModelAsync(OrderProductItemDetail orderProductItemDetail)
