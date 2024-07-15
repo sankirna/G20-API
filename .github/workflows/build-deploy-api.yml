@@ -3,7 +3,7 @@ name: Build and Deploy ASP.NET Core App
 on:
   push:
     branches:
-      - main  # Change this to your default branch
+      - staging  # Change this to your default branch
 
 jobs:
   build:
