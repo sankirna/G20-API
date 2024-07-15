@@ -1,0 +1,58 @@
+name: Build and Deploy ASP.NET Core App
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.x'  # Adjust to your target .NET version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the project
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal
+
+      - name: Publish the project
+        run: dotnet publish --configuration Release --output ./publish
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: publish
+          path: ./publish
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: publish
+          path: ./publish
+
+      - name: Deploy to FTP server
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: 13.60.47.237
+          username: gt20_ftp
+          password: Rinku@661988
+          local-dir: ./publish/  # Adjust the path if necessary
+          server-dir: /API_PUBLISH/  # Adjust the path if necessary
+          dangerous-clean-slate: true  # Delete all files in the server-dir before uploading
