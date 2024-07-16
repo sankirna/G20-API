@@ -22,7 +22,25 @@ jobs:
         run: dotnet restore ./G20.API/G20.API.csproj
 
       - name: Build the project
-        run: dotnet build --configuration Release --no-restore ./G20.API/G20.API.csproj
+        run: dotnet build --configuration Release --no-restore ./G20.API/G20.API.
+        
+      - name: Create runtimeconfig.json
+        run: |
+            echo '{
+              "runtimeOptions": {
+                "configProperties": {
+                  "System.GC.Server": true
+                },
+                "framework": {
+                  "name": "Microsoft.AspNetCore.App",
+                  "version": "8.0.0"
+                },
+                "environmentVariables": {
+                  "ASPNETCORE_ENVIRONMENT": "Staging"
+                }
+              }
+           }' > ./G20.API/bin/Release/net8.0/G20.API.runtimeconfig.json
+
 
       - name: Publish the project
         run: dotnet publish -p:PublishProfile=./G20.API/Properties/Staging --output ./publish ./G20.API/G20.API.csproj /p:ASPNETCORE_ENVIRONMENT=Staging --runtime win-x64 --self-contained false
