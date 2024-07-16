@@ -25,7 +25,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore ./G20.API/G20.API.csproj
 
       - name: Publish the project
-        run: dotnet publish -p:PublishProfile=./G20.API/Properties/Staging --output ./publish ./G20.API/G20.API.csproj ASPNETCORE_ENVIRONMENT=Staging --runtime win-x64 --self-contained false
+        run: dotnet publish -p:PublishProfile=./G20.API/Properties/Staging --output ./publish ./G20.API/G20.API.csproj /p:ASPNETCORE_ENVIRONMENT=Staging --runtime win-x64 --self-contained false
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
