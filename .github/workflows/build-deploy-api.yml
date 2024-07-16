@@ -57,4 +57,4 @@ jobs:
           password: Rinku@661988
           local-dir: ./publish/  # Adjust the path if necessary
           server-dir: /API_PUBLISH/  # Adjust the path if necessary
-          git-ftp-args: --insecure --all 
+          git-ftp-args: --insecure --all  
