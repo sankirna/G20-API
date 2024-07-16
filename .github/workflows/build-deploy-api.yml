@@ -39,7 +39,7 @@ jobs:
                   "ASPNETCORE_ENVIRONMENT": "Staging"
                 }
               }
-           }' > ./G20.API/bin/Release/net8.0/G20.API.runtimeconfig.json
+             }' > ./G20.API/bin/Release/net8.0/G20.API.runtimeconfig.json
 
 
       - name: Publish the project
