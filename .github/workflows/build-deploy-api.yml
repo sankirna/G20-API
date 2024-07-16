@@ -52,4 +52,4 @@ jobs:
           password: Rinku@661988
           local-dir: ./publish/  # Adjust the path if necessary
           server-dir: /API_PUBLISH/  # Adjust the path if necessary
-          dangerous-clean-slate: true  # Delete all files in the server-dir before uploading
+          git-ftp-args: --insecure
