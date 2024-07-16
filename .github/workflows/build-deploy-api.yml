@@ -24,7 +24,9 @@ jobs:
       - name: Build the project
         run: dotnet build --configuration Release --no-restore ./G20.API/G20.API.csproj
 
-      - name: Publish the project
+      - name: Set environment to Staging and run the application
+        env:
+          ASPNETCORE_ENVIRONMENT: Staging
         run: dotnet publish -p:PublishProfile=./G20.API/Properties/Staging --output ./publish ./G20.API/G20.API.csproj /p:ASPNETCORE_ENVIRONMENT=Staging --runtime win-x64 --self-contained false
 
       - name: Upload build artifacts
