@@ -3,7 +3,7 @@ name: Build and Deploy ASP.NET Core App
 on:
   push:
     branches:
-      - main  # Change this to your default branch
+      - staging  # Change this to your default branch
 
 jobs:
   build:
@@ -25,7 +25,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore ./G20.API/G20.API.csproj
 
       - name: Publish the project
-        run: dotnet publish --configuration Release --output ./publish ./G20.API/G20.API.csproj /p:EnvironmentName=Staging
+        run: dotnet publish -p:PublishProfile=./G20.API/Properties/Staging --output ./publish ./G20.API/G20.API.csproj /p:EnvironmentName=Staging
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3

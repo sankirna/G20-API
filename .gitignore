@@ -101,3 +101,4 @@ aio/content/examples/.DS_Store
 *.jfm
 Web/G20/G20.API/StaticFiles/
 G20.API/StaticFiles/
+G20.API/publish/
