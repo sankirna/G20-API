@@ -1018,5 +1018,11 @@ public partial class MessageTokenProvider : IMessageTokenProvider
         };
     }
 
+    public virtual async Task AddUserTokensAsync(IList<Token> tokens, User user)
+    {
+        tokens.Add(new Token("User.Name", user.UserName));
+        tokens.Add(new Token("User.Email", user.Email));
+        tokens.Add(new Token("User.Password", user.Password));
+    }
     #endregion
 }

@@ -13,5 +13,7 @@ namespace G20.Service.Users
         Task InsertAsync(User entity);
         Task UpdateAsync(User entity);
         Task DeleteAsync(User entity);
+        Task<User> GetByEmailAsync(string email);
+        Task<bool> SendResetPAsswordNotifications(User user);
     }
 }

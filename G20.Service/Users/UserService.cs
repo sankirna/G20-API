@@ -1,6 +1,9 @@
 ﻿using G20.Core;
 using G20.Core.Domain;
 using G20.Data;
+using G20.Service.Messages;
+using Nop.Core.Infrastructure;
+using StackExchange.Redis;
 using System.Threading.Tasks;
 
 namespace G20.Service.Users
@@ -44,7 +47,7 @@ namespace G20.Service.Users
 
         public virtual async Task<User> GetByEmailAndPasswordAsync(string email, string password)
         {
-            return await _entityRepository.Table.FirstOrDefaultAsync(x=>x.Email== email && x.Password==password);
+            return await _entityRepository.Table.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
         }
 
         public virtual async Task InsertAsync(User entity)
@@ -62,6 +65,19 @@ namespace G20.Service.Users
             ArgumentNullException.ThrowIfNull(entity);
 
             await _entityRepository.DeleteAsync(entity);
+        }
+
+        public virtual async Task<User> GetByEmailAsync(string email)
+        {
+            return await _entityRepository.Table.FirstOrDefaultAsync(x => x.Email == email);
+
+        }
+
+        public virtual async Task<bool> SendResetPAsswordNotifications(User user)
+        {
+            var _workflowMessageService = EngineContext.Current.Resolve<IWorkflowMessageService>();
+            await _workflowMessageService.SendResetPasswordNotificationMessageAsync(user);
+            return false;
         }
     }
 }

@@ -26,4 +26,7 @@ public partial interface IWorkflowMessageService
         OrderProductItemDetail orderProductItemDetail,
         Core.Domain.File orderProductItemDetailORCodeFile
         );
+
+    Task<IList<int>> SendResetPasswordNotificationMessageAsync(User user);
+    Task<IList<int>> SendUserRegistrationNotificationMessageAsync(User user);
 }

@@ -301,5 +301,63 @@ public partial class WorkflowMessageService : IWorkflowMessageService
         }).ToListAsync();
     }
 
+
+    public virtual async Task<IList<int>> SendResetPasswordNotificationMessageAsync(User user)
+    {
+        var messageTemplates = await GetActiveMessageTemplatesAsync(MessageTemplateSystemNames.USER_RESET_PASSWORD);
+        if (!messageTemplates.Any())
+            return new List<int>();
+
+        //tokens
+        var commonTokens = new List<Token>();
+        //await _messageTokenProvider.AddSampleTokensAsync(commonTokens);
+        
+        return await messageTemplates.SelectAwait(async messageTemplate =>
+        {
+            //email account
+            var emailAccount = await GetEmailAccountOfMessageTemplateAsync(messageTemplate);
+
+            var tokens = new List<Token>(commonTokens);
+            await _messageTokenProvider.AddUserTokensAsync(tokens, user);
+            //event notification
+
+            //var (toEmail, toName) = await GetStoreOwnerNameAndEmailAsync(emailAccount);
+            var toEmail = user.Email;
+            var toName = user.UserName;
+            var (replyToEmail, replyToName) = await GetCustomerReplyToNameAndEmailAsync(messageTemplate);
+
+            return await SendNotificationAsync(messageTemplate, emailAccount, tokens, toEmail, toName,
+                replyToEmailAddress: replyToEmail, replyToName: replyToName);
+        }).ToListAsync();
+    }
+
+    public virtual async Task<IList<int>> SendUserRegistrationNotificationMessageAsync(User user)
+    {
+        var messageTemplates = await GetActiveMessageTemplatesAsync(MessageTemplateSystemNames.USER_REGISTER);
+        if (!messageTemplates.Any())
+            return new List<int>();
+
+        //tokens
+        var commonTokens = new List<Token>();
+        //await _messageTokenProvider.AddSampleTokensAsync(commonTokens);
+
+        return await messageTemplates.SelectAwait(async messageTemplate =>
+        {
+            //email account
+            var emailAccount = await GetEmailAccountOfMessageTemplateAsync(messageTemplate);
+
+            var tokens = new List<Token>(commonTokens);
+            await _messageTokenProvider.AddUserTokensAsync(tokens, user);
+            //event notification
+
+            //var (toEmail, toName) = await GetStoreOwnerNameAndEmailAsync(emailAccount);
+            var toEmail = user.Email;
+            var toName = user.UserName;
+            var (replyToEmail, replyToName) = await GetCustomerReplyToNameAndEmailAsync(messageTemplate);
+
+            return await SendNotificationAsync(messageTemplate, emailAccount, tokens, toEmail, toName,
+                replyToEmailAddress: replyToEmail, replyToName: replyToName);
+        }).ToListAsync();
+    }
     #endregion
 }

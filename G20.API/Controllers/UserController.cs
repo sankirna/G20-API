@@ -11,6 +11,7 @@ using G20.Service.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Nop.Core;
+using StackExchange.Redis;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace G20.API.Controllers
@@ -98,7 +99,7 @@ namespace G20.API.Controllers
             var user = model.ToEntity<User>();
             await _userService.InsertAsync(user);
             await AddOrUpdateUserRoles(user.Id, model.RoleIds);
-            await _workflowMessageService.SendTestNotificationMessageAsync();
+            await _workflowMessageService.SendUserRegistrationNotificationMessageAsync(user);
             return Success(user.ToModel<UserModel>());
         }
 
@@ -134,6 +135,19 @@ namespace G20.API.Controllers
                 return Error("not found");
             await _userService.DeleteAsync(user);
             return Success(id);
+        }
+        [HttpPost]
+        public virtual async Task<IActionResult> ResetPassword(string email)
+        {
+            UserModel model = new UserModel();
+            var user =  await _userService.GetByEmailAsync(email);
+            if (user == null)
+                return Error("not found");
+            //user = model.ToEntity(user);
+            user.Password = new Random().Next().ToString();
+             await _userService.UpdateAsync(user);
+            var isSend = await _userService.SendResetPAsswordNotifications(user);
+            return Success(user.ToModel<UserModel>());
         }
     }
 }

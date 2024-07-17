@@ -23,6 +23,7 @@ public partial interface IMessageTokenProvider
     Task AddOrderProductItemDetailTokensAsync(IList<Token> tokens, OrderProductItemDetail orderProductItemDetail);
     Task AddOrderProductItemDetailQRCodeTokensAsync(IList<Token> tokens, G20.Core.Domain.File file);
 
+    Task AddUserTokensAsync(IList<Token> tokens, User user);
     /// <summary>
     /// Get token groups of message template
     /// </summary>

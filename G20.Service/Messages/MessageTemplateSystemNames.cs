@@ -12,6 +12,9 @@ namespace G20.Service.Messages
 
         #endregion
 
-       
+
+        public const string USER_RESET_PASSWORD = "User.ResetPassword";
+        public const string USER_REGISTER = "User.Register";
+
     }
 }
