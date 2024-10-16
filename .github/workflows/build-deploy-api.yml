@@ -24,8 +24,10 @@ jobs:
       - name: Build the project
         run: dotnet build --configuration Release --no-restore ./G20.API/G20.API.csproj
 
-      - name: Publish the project
-        run: dotnet publish -p:PublishProfile=./G20.API/Properties/Staging --output ./publish ./G20.API/G20.API.csproj /p:EnvironmentName=Staging --self-contained false
+      - name: Set environment to Staging and run the application
+        env:
+          ASPNETCORE_ENVIRONMENT: Staging
+        run: dotnet publish -p:PublishProfile=./G20.API/Properties/Staging --output ./publish ./G20.API/G20.API.csproj /p:ASPNETCORE_ENVIRONMENT=Staging --runtime win-x64 --self-contained false
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
@@ -43,6 +45,9 @@ jobs:
         with:
           name: publish
           path: ./publish
+          
+      - name: List published files
+        run: ls -R ./publish  # This will list all files in the publish directory for debugging purposes
 
       - name: Deploy to FTP server
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
@@ -52,4 +57,4 @@ jobs:
           password: Rinku@661988
           local-dir: ./publish/  # Adjust the path if necessary
           server-dir: /API_PUBLISH/  # Adjust the path if necessary
-          dangerous-clean-slate: true  # Delete all files in the server-dir before uploading
+          git-ftp-args: --insecure --all  
