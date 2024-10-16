@@ -136,7 +136,7 @@ namespace G20.API.Controllers
             await _userService.DeleteAsync(user);
             return Success(id);
         }
-        [HttpPost]
+        [HttpGet]
         public virtual async Task<IActionResult> ResetPassword(string email)
         {
             UserModel model = new UserModel();
@@ -147,6 +147,18 @@ namespace G20.API.Controllers
             user.Password = new Random().Next().ToString();
              await _userService.UpdateAsync(user);
             var isSend = await _userService.SendResetPAsswordNotifications(user);
+            return Success(user.ToModel<UserModel>());
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            var user = await _userService.GetByEmailAndPasswordAsync(model.Email,model.CurrentPassword);
+            if (user == null)
+                return Error("not found");
+            
+            user.Password=model.NewPassword;
+            await _userService.UpdateAsync(user);            
             return Success(user.ToModel<UserModel>());
         }
     }
