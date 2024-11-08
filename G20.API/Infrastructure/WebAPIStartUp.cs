@@ -26,6 +26,7 @@ using Matrimony.API.Factories.BoardingDetails;
 using G20.API.Factories.Venues;
 using G20.API.Factories.EmailAccounts;
 using G20.API.Factories.MessageTemplates;
+using G20.API.Factories.Sponsors;
 
 namespace G20.API.Infrastructure
 {
@@ -139,7 +140,7 @@ namespace G20.API.Infrastructure
             services.AddScoped<IOrderFactory, OrderFactory>();
 
             services.AddScoped<IBoardingDetailFactoryModel, BoardingDetailFactoryModel>();
-
+            services.AddScoped<ISponsorsFactoryModel, SponsorFactoryModel>();
         }
 
         public void Configure(IApplicationBuilder application)

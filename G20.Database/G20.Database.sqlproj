@@ -103,6 +103,7 @@
     <Build Include="dbo\Tables\OrderProductItem.sql" />
     <Build Include="dbo\Tables\OrderProductItemDetail.sql" />
     <Build Include="dbo\Tables\BoardingDetail.sql" />
+    <Build Include="dbo\Tables\SponsorTickets.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeploymentScripts\PostDeploymentScript.sql">

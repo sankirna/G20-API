@@ -26,6 +26,7 @@ using G20.API.Models.ShoppingCarts;
 using G20.API.Models.BoardingDetails;
 using G20.API.Models.EmailAccounts;
 using G20.API.Models.MessageTemplates;
+using G20.API.Models.Sponsors;
 
 namespace G20.API.Infrastructure.Mapper
 {
@@ -55,6 +56,7 @@ namespace G20.API.Infrastructure.Mapper
             CreateBoardingDetailMap();
             CreatEmailAccountMap();
             CreatMessageTemplatetMap();
+            CreateSponsorMap();
         }
 
         public virtual void CreateCommonMap()
@@ -209,7 +211,12 @@ namespace G20.API.Infrastructure.Mapper
             CreateMap<MessageTemplate, MessageTemplateModel>().ReverseMap();
             CreateMap<MessageTemplate, MessageTemplateRequestModel>().ReverseMap();
         }
-
+        public virtual void CreateSponsorMap()
+        {
+            CreateMap<Sponsor, SponsorModel>().ReverseMap();
+            CreateMap<SponsorModel, Sponsor>();
+        }
+        
         public int Order => 0;
     }
 }
